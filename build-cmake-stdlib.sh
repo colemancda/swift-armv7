@@ -2,9 +2,8 @@ STAGING_DIR_TARGET=/home/$USER/bullseye-armv7
 SWIFT_NATIVE_PATH=/home/$USER/Downloads/swift-5.4.1-RELEASE-ubuntu20.04
 HOST_LLVM_PATH=$STAGING_DIR_TARGET/usr/lib/llvm-11
 EXTRA_INCLUDE_FLAGS="-I${STAGING_DIR_TARGET}/usr/include/c++/10 -I${STAGING_DIR_TARGET}/usr/include"
-RUNTIME_FLAGS="-B${STAGING_DIR_TARGET}/usr/lib/c++/10 -B${STAGING_DIR_TARGET}/usr/lib -B${STAGING_DIR_TARGET}/lib"
-LINK_FLAGS=""
-TARGET_LDFLAGS="-latomic"
+RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR_TARGET} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -B${STAGING_DIR_TARGET}/usr/lib/c++/10 -B${STAGING_DIR_TARGET}/usr/lib -B${STAGING_DIR_TARGET}/lib"
+LINK_FLAGS="--sysroot=${STAGING_DIR_TARGET} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -latomic"
 BUILD_DIR=./build/swift-stdlib-armv7
 
 echo "Create Swift StdLib build folder"
