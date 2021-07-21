@@ -5,9 +5,7 @@
     "target":"armv7-unknown-linux-gnueabihf",
     "dynamic-library-extension":"so",
     "extra-cc-flags":[
-        "-fPIC",
-        "-I/home/coleman/bullseye-armv7/usr/include/c++/10",
-        "-I/home/coleman/bullseye-armv7/usr/lib/clang/11/include"
+        "-fPIC"
     ],
     "extra-swiftc-flags":[
         "-target",
@@ -34,7 +32,6 @@
         "--build-id=sha1",
 
         "-I/home/coleman/bullseye-armv7/usr/include",
-        "-I/home/coleman/bullseye-armv7/usr/lib/clang/11/include",
 
         "-resource-dir", "/home/coleman/bullseye-armv7/usr/lib/swift",
         
