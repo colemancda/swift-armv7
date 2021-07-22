@@ -1,9 +1,14 @@
+INSTALL_PREFIX=/home/$USER/Developer/swift-armv7/swift-armv7-release
 STAGING_DIR_TARGET=/home/$USER/bullseye-armv7
 SWIFT_NATIVE_PATH=/home/$USER/Downloads/swift-5.4.1-RELEASE-ubuntu20.04
 HOST_LLVM_PATH=$STAGING_DIR_TARGET/usr/lib/llvm-11
-EXTRA_INCLUDE_FLAGS="-I${STAGING_DIR_TARGET}/usr/include/c++/10 -I${STAGING_DIR_TARGET}/usr/include"
-RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR_TARGET} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -B${STAGING_DIR_TARGET}/usr/lib/c++/10 -B${STAGING_DIR_TARGET}/usr/lib -B${STAGING_DIR_TARGET}/lib"
-LINK_FLAGS="--sysroot=${STAGING_DIR_TARGET} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -latomic"
+LLVM_MAIN_SRC_DIR=/home/$USER/Developer/swift-armv7/llvm-project/llvm
+
+TARGET_FLAGS="--sysroot=${STAGING_DIR_TARGET} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard"
+SWIFT_CXX_VERSION=10
+EXTRA_INCLUDE_FLAGS="-I${STAGING_DIR_TARGET}/usr/include/c++/${SWIFT_CXX_VERSION} -I${STAGING_DIR_TARGET}/usr/include"
+RUNTIME_FLAGS="-w -fuse-ld=lld ${TARGET_FLAGS} -B${STAGING_DIR_TARGET}/usr/lib/c++/${SWIFT_CXX_VERSION} -B${STAGING_DIR_TARGET}/usr/lib -B${STAGING_DIR_TARGET}/lib"
+LINK_FLAGS="${TARGET_FLAGS} -latomic"
 BUILD_DIR=./build/swift-stdlib-armv7
 
 echo "Create Swift StdLib build folder"
@@ -20,16 +25,13 @@ cmake -S ./swift -B $BUILD_DIR -G Ninja  \
     -DCMAKE_CXX_FLAGS="${RUNTIME_FLAGS} ${EXTRA_INCLUDE_FLAGS}" \
     -DCMAKE_C_LINK_FLAGS="${LINK_FLAGS}" \
     -DCMAKE_CXX_LINK_FLAGS="${LINK_FLAGS}" \
-    -DCMAKE_LINKER=/usr/bin/ld.lld \
-    -DCMAKE_C_LINK_EXECUTABLE=/usr/bin/ld.lld \
-    -DCMAKE_CXX_LINK_EXECUTABLE=/usr/bin/ld.lld \
     -DLLVM_USE_LINKER=lld \
     -DCMAKE_SYSTEM_PROCESSOR=armv7-a \
     -DCMAKE_BUILD_TYPE=Release \
     -DLLVM_DIR=${HOST_LLVM_PATH}/cmake \
     -DLLVM_BUILD_LIBRARY_DIR=${HOST_LLVM_PATH}/lib \
-    -DLLVM_MAIN_INCLUDE_DIR=/home/$USER/Developer/swift-source/llvm-project/llvm/include \
-    -DLLVM_MAIN_SRC_DIR=/home/$USER/Developer/swift-source/llvm-project/llvm \
+    -DLLVM_MAIN_INCLUDE_DIR=/home/$USER/Developer/swift-armv7/llvm-project/llvm/include \
+    -DLLVM_MAIN_SRC_DIR=/home/$USER/Developer/swift-armv7/llvm-project/llvm \
     -DSWIFT_BUILD_RUNTIME_WITH_HOST_COMPILER=ON \
     -DSWIFT_NATIVE_CLANG_TOOLS_PATH=$SWIFT_NATIVE_PATH/usr/bin \
     -DSWIFT_NATIVE_SWIFT_TOOLS_PATH=$SWIFT_NATIVE_PATH/usr/bin \
@@ -54,8 +56,25 @@ cmake -S ./swift -B $BUILD_DIR -G Ninja  \
     -DSWIFT_LINUX_armv7_ICU_UC=${STAGING_DIR_TARGET}/usr/lib/arm-linux-gnueabihf/libicuuc.so \
     -DICU_I18N_LIBRARIES=${STAGING_DIR_TARGET}/usr/lib/arm-linux-gnueabihf/libicui18n.so \
     -DICU_UC_LIBRARIES=${STAGING_DIR_TARGET}/usr/lib/arm-linux-gnueabihf/libicuuc.so \
-    
+
 echo "Build Swift StdLib"
 cd $BUILD_DIR
 ninja
 
+echo "Copy Swift StdLib"
+rm -rf $INSTALL_PREFIX/usr/lib/swift
+mkdir $INSTALL_PREFIX/usr/lib/swift
+mkdir $INSTALL_PREFIX/usr/lib/swift/linux
+
+cp -rf ./lib/swift/shims $INSTALL_PREFIX/usr/lib/swift/
+
+cp ./lib/swift/linux/libswiftCore.so $INSTALL_PREFIX/usr/lib/swift/linux/
+cp ./lib/swift/linux/libswiftRemoteMirror.so $INSTALL_PREFIX/usr/lib/swift/linux/
+cp ./lib/swift/linux/libswiftSwiftOnoneSupport.so $INSTALL_PREFIX/usr/lib/swift/linux/
+cp -rf ./lib/swift/linux/Glibc.swiftmodule $INSTALL_PREFIX/usr/lib/swift/linux/
+cp -rf ./lib/swift/linux/Swift.swiftmodule $INSTALL_PREFIX/usr/lib/swift/linux/
+cp -rf ./lib/swift/linux/SwiftOnoneSupport.swiftmodule $INSTALL_PREFIX/usr/lib/swift/linux/
+
+mkdir $INSTALL_PREFIX/usr/lib/swift/linux/armv7
+cp ./lib/swift/linux/armv7/glibc.modulemap $INSTALL_PREFIX/usr/lib/swift/linux/armv7/
+cp ./lib/swift/linux/armv7/swiftrt.o $INSTALL_PREFIX/usr/lib/swift/linux/armv7/
