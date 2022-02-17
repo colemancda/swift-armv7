@@ -17,7 +17,6 @@ SWIFT_BUILDDIR=$SRC_ROOT/build/swift-armv7
 SWIFTPM_DESTINATION_FILE=$SRC_ROOT/build/$SWIFT_TARGET_NAME-toolchain.json
 SWIFT_CMAKE_TOOLCHAIN_FILE=$SRC_ROOT/build/linux-$SWIFT_TARGET_ARCH-toolchain.cmake
 
-
 echo "Create Swift build folder"
 rm -rf $SWIFT_BUILDDIR
 mkdir -p $SWIFT_BUILDDIR
@@ -25,88 +24,88 @@ mkdir -p $SWIFT_BUILDDIR
 echo "Generate SwiftPM cross compilation toolchain file"
 rm -f ${SWIFTPM_DESTINATION_FILE}
 touch ${SWIFTPM_DESTINATION_FILE}
-	printf '{' >> ${SWIFTPM_DESTINATION_FILE}
-	printf '   "version":1,' >> ${SWIFTPM_DESTINATION_FILE}
-	printf '   "sdk":"${STAGING_DIR}",' >> ${SWIFTPM_DESTINATION_FILE}
-	printf '   "toolchain-bin-dir":"${SWIFT_NATIVE_PATH}",' >> ${SWIFTPM_DESTINATION_FILE}
-	printf '   "target":"$(SWIFT_TARGET_NAME)",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '   "dynamic-library-extension":"so",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '   "extra-cc-flags":[' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-fPIC"' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '   ],' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '   "extra-swiftc-flags":[' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-target", "$(SWIFT_TARGET_NAME)",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-use-ld=lld",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-tools-directory", "/usr/bin",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-Xlinker", "-rpath", "-Xlinker", "/usr/lib/swift/linux",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-Xlinker", "-L$(STAGING_DIR)",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-Xlinker", "-L$(STAGING_DIR)/lib",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-Xlinker", "-L$(STAGING_DIR)/usr/lib",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-Xlinker", "-L$(STAGING_DIR)/usr/lib/swift/linux",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-Xlinker", "-L$(STAGING_DIR)/usr/lib/swift/linux/$(SWIFT_TARGET_ARCH)",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-Xlinker", "-L$(HOST_DIR)/lib/gcc/$(GNU_TARGET_NAME)/$(call qstrip,$(BR2_GCC_VERSION))",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-Xlinker", "--build-id=sha1",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-I$(STAGING_DIR)/usr/include",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-I$(STAGING_DIR)/usr/lib/swift",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-resource-dir", "$(STAGING_DIR)/usr/lib/swift",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-Xclang-linker", "-B$(STAGING_DIR)/usr/lib",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-Xclang-linker", "-B$(HOST_DIR)/lib/gcc/$(GNU_TARGET_NAME)/$(call qstrip,$(BR2_GCC_VERSION))",' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-sdk", "$(STAGING_DIR)"' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '   ],' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '   "extra-cpp-flags":[' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '      "-lstdc++"' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '   ]' >> ${SWIFTPM_DESTINATION_FILE}
-	echo '}' >> ${SWIFTPM_DESTINATION_FILE}
+#printf "{\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "   "version":1,\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "   "sdk":"${STAGING_DIR}",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "   "toolchain-bin-dir":"${SWIFT_NATIVE_PATH}",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "   "target":"${SWIFT_TARGET_NAME}",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "   "dynamic-library-extension":"so",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "   "extra-cc-flags":[\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-fPIC"\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "   ],\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "   "extra-swiftc-flags":[\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-target", "${SWIFT_TARGET_NAME}",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-use-ld=lld",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-tools-directory", "/usr/bin",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-Xlinker", "-rpath", "-Xlinker", "/usr/lib/swift/linux",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-Xlinker", "-L${STAGING_DIR}",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-Xlinker", "-L${STAGING_DIR}/lib",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-Xlinker", "-L${STAGING_DIR}/usr/lib",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-Xlinker", "-L${STAGING_DIR}/usr/lib/swift/linux",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-Xlinker", "-L${STAGING_DIR}/usr/lib/swift/linux/$(SWIFT_TARGET_ARCH)",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-Xlinker", "-L$(HOST_DIR)/lib/gcc/$(SWIFT_TARGET_NAME)/$(call qstrip,$(BR2_GCC_VERSION))",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-Xlinker", "--build-id=sha1",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-I${STAGING_DIR}/usr/include",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-I${STAGING_DIR}/usr/lib/swift",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-resource-dir", "${STAGING_DIR}/usr/lib/swift",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-Xclang-linker", "-B${STAGING_DIR}/usr/lib",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-Xclang-linker", "-B$(HOST_DIR)/lib/gcc/$(SWIFT_TARGET_NAME)/$(call qstrip,$(BR2_GCC_VERSION))",\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-sdk", "${STAGING_DIR}"\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "   ],\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "   "extra-cpp-flags":[\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "      "-lstdc++"\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "   ]\n" >> ${SWIFTPM_DESTINATION_FILE}
+#printf "}\n" >> ${SWIFTPM_DESTINATION_FILE}
 
 
 echo "Generate cmake toolchain"
 rm -f ${SWIFT_CMAKE_TOOLCHAIN_FILE}
 touch ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-	echo 'set(CMAKE_SYSTEM_NAME Linux)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-	echo 'set(CMAKE_C_COMPILER $(SWIFT_NATIVE_PATH)/clang)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(CMAKE_CXX_COMPILER $(SWIFT_NATIVE_PATH)/clang++)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(CMAKE_C_FLAGS "-w -fuse-ld=lld -target $(GNU_TARGET_NAME) --sysroot $(STAGING_DIR) -I$(STAGING_DIR)/usr/include -B$(STAGING_DIR)/usr/lib -B$(HOST_DIR)/lib/gcc/$(GNU_TARGET_NAME)/$(call qstrip,$(BR2_GCC_VERSION)) -L$(HOST_DIR)/lib/gcc/$(GNU_TARGET_NAME)/$(call qstrip,$(BR2_GCC_VERSION))")' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-	echo 'set(CMAKE_C_LINK_FLAGS "-target $(GNU_TARGET_NAME) --sysroot $(STAGING_DIR)")' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(CMAKE_CXX_FLAGS "-w -fuse-ld=lld -target $(GNU_TARGET_NAME) --sysroot $(STAGING_DIR) -I$(STAGING_DIR)/usr/include -I$(HOST_DIR)/$(GNU_TARGET_NAME)/include/c++/$(call qstrip,$(BR2_GCC_VERSION))/ -I$(HOST_DIR)/$(GNU_TARGET_NAME)/include/c++/$(call qstrip,$(BR2_GCC_VERSION))/$(GNU_TARGET_NAME) -B$(STAGING_DIR)/usr/lib -B$(HOST_DIR)/lib/gcc/$(GNU_TARGET_NAME)/$(call qstrip,$(BR2_GCC_VERSION)) -L$(HOST_DIR)/lib/gcc/$(GNU_TARGET_NAME)/$(call qstrip,$(BR2_GCC_VERSION))")' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(CMAKE_CXX_LINK_FLAGS "-target $(GNU_TARGET_NAME) --sysroot $(STAGING_DIR)")' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-	echo 'set(SWIFT_USE_LINKER lld)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(LLVM_USE_LINKER lld)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(LLVM_DIR $(SWIFT_LLVM_DIR)/lib/cmake/llvm)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(LLVM_BUILD_LIBRARY_DIR $(SWIFT_LLVM_DIR))' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(LLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN ON)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-	echo 'set(SWIFT_INCLUDE_TOOLS OFF)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_BUILD_RUNTIME_WITH_HOST_COMPILER ON)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-	echo 'set(SWIFT_PREBUILT_CLANG ON)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_NATIVE_CLANG_TOOLS_PATH $(SWIFT_NATIVE_PATH))' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-	echo 'set(SWIFT_NATIVE_LLVM_TOOLS_PATH $(SWIFT_NATIVE_PATH))' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_NATIVE_SWIFT_TOOLS_PATH $(SWIFT_NATIVE_PATH))' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_BUILD_AST_ANALYZER OFF)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_BUILD_DYNAMIC_SDK_OVERLAY ON)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_BUILD_DYNAMIC_STDLIB ON)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_BUILD_REMOTE_MIRROR OFF)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_BUILD_SOURCEKIT OFF)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_BUILD_STDLIB_EXTRA_TOOLCHAIN_CONTENT OFF)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_BUILD_SYNTAXPARSERLIB OFF)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_BUILD_REMOTE_MIRROR OFF)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_ENABLE_SOURCEKIT_TESTS OFF)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_INCLUDE_DOCS OFF)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_INCLUDE_TOOLS OFF)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_INCLUDE_TESTS OFF)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_LIBRARY_EVOLUTION 0)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_RUNTIME_OS_VERSIONING OFF)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_HOST_VARIANT_ARCH $(SWIFT_TARGET_ARCH))' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_SDKS LINUX)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_SDK_LINUX_ARCH_$(SWIFT_TARGET_ARCH)_PATH ${STAGING_DIR} )' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_SDK_LINUX_ARCH_$(SWIFT_TARGET_ARCH)_LIBC_INCLUDE_DIRECTORY ${STAGING_DIR}/usr/include )' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_SDK_LINUX_ARCH_$(SWIFT_TARGET_ARCH)_LIBC_ARCHITECTURE_INCLUDE_DIRECTORY ${STAGING_DIR}/usr/include)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_LINUX_$(SWIFT_TARGET_ARCH)_ICU_I18N ${STAGING_DIR}/usr/lib/libicui18n.so)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(SWIFT_LINUX_$(SWIFT_TARGET_ARCH)_ICU_UC ${STAGING_DIR}/usr/lib/libicuuc.so)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(ICU_I18N_LIBRARIES ${STAGING_DIR}/usr/lib/libicui18n.so)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    echo 'set(ICU_UC_LIBRARIES ${STAGING_DIR}/usr/lib/libicuuc.so)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-	echo 'set(LibRT_LIBRARIES ${STAGING_DIR}/usr/lib/librt.a)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-	echo 'set(ZLIB_LIBRARY $(STAGING_DIR)/usr/lib/libz.so)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-	echo 'set(SWIFT_PATH_TO_LIBDISPATCH_SOURCE $(LIBDISPATCH_SRCDIR))' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-	echo 'set(SWIFT_ENABLE_EXPERIMENTAL_CONCURRENCY ON)' >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+	printf "set(CMAKE_SYSTEM_NAME Linux)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+	printf "set(CMAKE_C_COMPILER $SWIFT_NATIVE_PATH/clang)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(CMAKE_CXX_COMPILER ${SWIFT_NATIVE_PATH}/clang++)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    #printf "set(CMAKE_C_FLAGS "-w -fuse-ld=lld -target $(SWIFT_TARGET_NAME) --sysroot ${STAGING_DIR} -I${STAGING_DIR}/usr/include -B${STAGING_DIR}/usr/lib")\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+	#printf "set(CMAKE_C_LINK_FLAGS "-target $(SWIFT_TARGET_NAME) --sysroot ${STAGING_DIR}")\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    #printf "set(CMAKE_CXX_FLAGS "-w -fuse-ld=lld -target $(SWIFT_TARGET_NAME) --sysroot ${STAGING_DIR} -I${STAGING_DIR}/usr/include -B${STAGING_DIR}/usr/lib")\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    #printf "set(CMAKE_CXX_LINK_FLAGS "-target $(SWIFT_TARGET_NAME) --sysroot ${STAGING_DIR}")\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+	printf "set(SWIFT_USE_LINKER lld)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(LLVM_USE_LINKER lld)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(LLVM_DIR ${SWIFT_LLVM_DIR}/lib/cmake/llvm)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(LLVM_BUILD_LIBRARY_DIR ${SWIFT_LLVM_DIR})\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(LLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN ON)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+	printf "set(SWIFT_INCLUDE_TOOLS OFF)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_BUILD_RUNTIME_WITH_HOST_COMPILER ON)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+	printf "set(SWIFT_PREBUILT_CLANG ON)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_NATIVE_CLANG_TOOLS_PATH ${SWIFT_NATIVE_PATH})\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+	printf "set(SWIFT_NATIVE_LLVM_TOOLS_PATH ${SWIFT_NATIVE_PATH})\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_NATIVE_SWIFT_TOOLS_PATH ${SWIFT_NATIVE_PATH})\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_BUILD_AST_ANALYZER OFF)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_BUILD_DYNAMIC_SDK_OVERLAY ON)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_BUILD_DYNAMIC_STDLIB ON)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_BUILD_REMOTE_MIRROR OFF)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_BUILD_SOURCEKIT OFF)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_BUILD_STDLIB_EXTRA_TOOLCHAIN_CONTENT OFF)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_BUILD_SYNTAXPARSERLIB OFF)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_BUILD_REMOTE_MIRROR OFF)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_ENABLE_SOURCEKIT_TESTS OFF)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_INCLUDE_DOCS OFF)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_INCLUDE_TOOLS OFF)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_INCLUDE_TESTS OFF)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_LIBRARY_EVOLUTION 0)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_RUNTIME_OS_VERSIONING OFF)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_HOST_VARIANT_ARCH $(SWIFT_TARGET_ARCH))\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_SDKS LINUX)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_SDK_LINUX_ARCH_$(SWIFT_TARGET_ARCH)_PATH ${STAGING_DIR} )\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_SDK_LINUX_ARCH_$(SWIFT_TARGET_ARCH)_LIBC_INCLUDE_DIRECTORY ${STAGING_DIR}/usr/include )\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_SDK_LINUX_ARCH_$(SWIFT_TARGET_ARCH)_LIBC_ARCHITECTURE_INCLUDE_DIRECTORY ${STAGING_DIR}/usr/include)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_LINUX_$(SWIFT_TARGET_ARCH)_ICU_I18N ${STAGING_DIR}/usr/lib/libicui18n.so)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(SWIFT_LINUX_$(SWIFT_TARGET_ARCH)_ICU_UC ${STAGING_DIR}/usr/lib/libicuuc.so)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(ICU_I18N_LIBRARIES ${STAGING_DIR}/usr/lib/libicui18n.so)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(ICU_UC_LIBRARIES ${STAGING_DIR}/usr/lib/libicuuc.so)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+	printf "set(LibRT_LIBRARIES ${STAGING_DIR}/usr/lib/librt.a)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+	printf "set(ZLIB_LIBRARY ${STAGING_DIR}/usr/lib/libz.so)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+	printf "set(SWIFT_PATH_TO_LIBDISPATCH_SOURCE ${LIBDISPATCH_SRCDIR})\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+	printf "set(SWIFT_ENABLE_EXPERIMENTAL_CONCURRENCY ON)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
 
 echo "Configure Swift"
 rm -rf $SWIFT_BUILDDIR/CMakeCache.txt
