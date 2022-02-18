@@ -48,7 +48,7 @@ if test -f "$DOWNLOAD_FILE"; then
     echo "$DOWNLOAD_FILE exists"
 else
     echo "Download Foundation ${SWIFT_VERSION}"
-    wget $SRCURL -O ./build
+    wget $SRCURL -O $DOWNLOAD_FILE
 fi
 rm -rf $SRCDIR
 mkdir -p $SRCDIR
