@@ -1,14 +1,8 @@
-SWIFT_VERSION=5.5.3
-
 # Configurable
-SWIFT_NATIVE_PATH=/usr/bin
-SWIFT_LLVM_DIR=/usr/lib/llvm-12
-STAGING_DIR=/home/coleman/bullseye-armv7
-SRC_ROOT=/home/coleman/Developer/swift-armv7
+source .config
+source swift-define
 
-# Arch defines
-SWIFT_TARGET_ARCH=armv7
-SWIFT_TARGET_NAME=armv7-unknown-linux-gnueabihf
+set -e
 
 # Build paths
 SWIFT_SRCDIR=$SRC_ROOT/build/swift-swift-${SWIFT_VERSION}-RELEASE
@@ -64,9 +58,9 @@ touch ${SWIFT_CMAKE_TOOLCHAIN_FILE}
 	printf "set(CMAKE_SYSTEM_NAME Linux)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
 	printf "set(CMAKE_C_COMPILER $SWIFT_NATIVE_PATH/clang)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
     printf "set(CMAKE_CXX_COMPILER ${SWIFT_NATIVE_PATH}/clang++)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    printf "set(CMAKE_C_FLAGS \"-w -fuse-ld=lld -target ${SWIFT_TARGET_NAME} --sysroot ${STAGING_DIR} -I${STAGING_DIR}/usr/include -B${STAGING_DIR}/usr/lib\")\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(CMAKE_C_FLAGS \"-w -fuse-ld=lld -target ${SWIFT_TARGET_NAME} --sysroot ${STAGING_DIR} -I${STAGING_DIR}/usr/include -I${STAGING_DIR}/usr/include/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/lib -B${STAGING_DIR}/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10 -L${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10 \")\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
 	printf "set(CMAKE_C_LINK_FLAGS \"-target ${SWIFT_TARGET_NAME} --sysroot ${STAGING_DIR}\")\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-    printf "set(CMAKE_CXX_FLAGS \"-w -fuse-ld=lld -target ${SWIFT_TARGET_NAME} --sysroot ${STAGING_DIR} -I${STAGING_DIR}/usr/include -B${STAGING_DIR}/usr/lib\")\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+    printf "set(CMAKE_CXX_FLAGS \"-w -fuse-ld=lld -target ${SWIFT_TARGET_NAME} --sysroot ${STAGING_DIR} -I${STAGING_DIR}/usr/include -I${STAGING_DIR}/usr/include/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10 -L${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10 \")\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
     printf "set(CMAKE_CXX_LINK_FLAGS \"-target ${SWIFT_TARGET_NAME} --sysroot ${STAGING_DIR}\")\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
 	printf "set(SWIFT_USE_LINKER lld)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
     printf "set(LLVM_USE_LINKER lld)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
@@ -148,17 +142,15 @@ LIBS="-latomic" cmake -S $SWIFT_SRCDIR -B $SWIFT_BUILDDIR -G Ninja \
         -DSWIFT_SDKS=LINUX \
         -DSWIFT_SDK_LINUX_ARCH_${SWIFT_TARGET_ARCH}_PATH=${STAGING_DIR}  \
         -DSWIFT_SDK_LINUX_ARCH_${SWIFT_TARGET_ARCH}_LIBC_INCLUDE_DIRECTORY=${STAGING_DIR}/usr/include  \
-        -DSWIFT_SDK_LINUX_ARCH_${SWIFT_TARGET_ARCH}_LIBC_ARCHITECTURE_INCLUDE_DIRECTORY=${STAGING_DIR}/usr/include \
-        -DSWIFT_LINUX_${SWIFT_TARGET_ARCH}_ICU_I18N=${STAGING_DIR}/usr/lib/libicui18n.so \
-        -DSWIFT_LINUX_${SWIFT_TARGET_ARCH}_ICU_UC=${STAGING_DIR}/usr/lib/libicuuc.so \
-        -DICU_I18N_LIBRARIES=${STAGING_DIR}/usr/lib/libicui18n.so \
-        -DICU_UC_LIBRARIES=${STAGING_DIR}/usr/lib/libicuuc.so \
+        -DSWIFT_SDK_LINUX_ARCH_${SWIFT_TARGET_ARCH}_LIBC_ARCHITECTURE_INCLUDE_DIRECTORY=${STAGING_DIR}/usr/include/arm-linux-gnueabihf/ \
+        -DSWIFT_LINUX_${SWIFT_TARGET_ARCH}_ICU_I18N=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libicui18n.so \
+        -DSWIFT_LINUX_${SWIFT_TARGET_ARCH}_ICU_UC=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libicuuc.so \
+        -DICU_I18N_LIBRARIES=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libicui18n.so \
+        -DICU_UC_LIBRARIES=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libicuuc.so \
 
 echo "Build Swift StdLib"
 (cd $SWIFT_BUILDDIR && ninja)
 
 echo "Copy Swift StdLib"
 # Copy runtime libraries and swift interfaces
-cp -rf ${SWIFT_BUILDDIR}/lib/swift ${STAGING_DIR}/usr/local/lib/
-
-
+sudo cp -rf ${SWIFT_BUILDDIR}/lib/swift ${STAGING_DIR}/usr/local/lib/
