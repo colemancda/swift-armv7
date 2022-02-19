@@ -15,7 +15,6 @@ SWIFT_CMAKE_TOOLCHAIN_FILE=$SRC_ROOT/build/linux-$SWIFT_TARGET_ARCH-toolchain.cm
 EXTRA_INCLUDE_FLAGS="-I${STAGING_DIR}/usr/include/c++/10 -I${STAGING_DIR}/usr/include"
 RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -B${STAGING_DIR}/usr/lib/c++/10 -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10"
 LINK_FLAGS="--sysroot=${STAGING_DIR} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -latomic"
-SWIFT_BUILD_CONFIGURATION=Debug
 
 echo "Create Swift build folder ${SWIFT_BUILDDIR}"
 rm -rf $SWIFT_BUILDDIR
