@@ -7,6 +7,7 @@ set -e
 # Build paths
 LIBDISPATCH_SRCDIR=$SRC_ROOT/downloads/swift-corelibs-libdispatch-swift-${SWIFT_VERSION}-RELEASE
 LIBDISPATCH_BUILDDIR=$SRC_ROOT/build/libdispatch-armv7
+SWIFT_CMAKE_TOOLCHAIN_FILE=$SRC_ROOT/build/linux-$SWIFT_TARGET_ARCH-toolchain.cmake
 
 echo "Dispatch build folder ${LIBDISPATCH_BUILDDIR}"
 rm -rf $LIBDISPATCH_BUILDDIR
@@ -26,12 +27,9 @@ cmake -S $LIBDISPATCH_SRCDIR -B $LIBDISPATCH_BUILDDIR -G Ninja \
 	-DBUILD_TESTING=OFF \
 	-DBUILD_SHARED_LIBS=ON \
 	-DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_C_COMPILER=/usr/bin/clang \
-    -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \
-	-DCMAKE_C_FLAGS="-fuse-ld=lld -target ${SWIFT_TARGET_NAME} --sysroot ${STAGING_DIR} -I${STAGING_DIR}/usr/include -I${STAGING_DIR}/usr/include/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/lib -B${STAGING_DIR}/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10 -L${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10 " \
-    -DCMAKE_C_LINK_FLAGS="-target ${SWIFT_TARGET_NAME} --sysroot ${STAGING_DIR} " \
-    -DCMAKE_CXX_FLAGS="-w -fuse-ld=lld -target ${SWIFT_TARGET_NAME} --sysroot ${STAGING_DIR} -I${STAGING_DIR}/usr/include -I${STAGING_DIR}/usr/include/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10 -L${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10" \
-	-DCMAKE_CXX_LINK_FLAGS="-target ${SWIFT_TARGET_NAME} --sysroot ${STAGING_DIR} " \
+	-DCMAKE_INSTALL_PREFIX=${STAGING_DIR} \
+	-DCMAKE_CROSSCOMPILING=ON \
+	-DCMAKE_TOOLCHAIN_FILE=$SWIFT_CMAKE_TOOLCHAIN_FILE \
 
 echo "Build Dispatch"
-(cd $SWIFT_BUILDDIR && ninja)
+(cd $LIBDISPATCH_SRCDIR && ninja)
