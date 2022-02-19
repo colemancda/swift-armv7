@@ -5,8 +5,8 @@ source swift-define
 set -e
 
 # Build paths
-SWIFT_SRCDIR=$SRC_ROOT/build/swift-swift-${SWIFT_VERSION}-RELEASE
-LIBDISPATCH_SRCDIR=$SRC_ROOT/build/swift-corelibs-libdispatch-swift-${SWIFT_VERSION}-RELEASE
+SWIFT_SRCDIR=$SRC_ROOT/downloads/swift-swift-${SWIFT_VERSION}-RELEASE
+LIBDISPATCH_SRCDIR=$SRC_ROOT/downloads/swift-corelibs-libdispatch-swift-${SWIFT_VERSION}-RELEASE
 SWIFT_BUILDDIR=$SRC_ROOT/build/swift-armv7
 SWIFTPM_DESTINATION_FILE=$SRC_ROOT/build/$SWIFT_TARGET_NAME-toolchain.json
 SWIFT_CMAKE_TOOLCHAIN_FILE=$SRC_ROOT/build/linux-$SWIFT_TARGET_ARCH-toolchain.cmake

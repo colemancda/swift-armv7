@@ -4,7 +4,7 @@ mkdir -p ./downloads
 mkdir -p ./build
 
 DOWNLOAD_FILE=./downloads/swift-${SWIFT_VERSION}.tar.gz
-SRCDIR=./build/swift-swift-${SWIFT_VERSION}-RELEASE
+SRCDIR=./downloads/swift-swift-${SWIFT_VERSION}-RELEASE
 SRCURL=https://github.com/apple/swift/archive/refs/tags/swift-${SWIFT_VERSION}-RELEASE.tar.gz
 if test -f "$DOWNLOAD_FILE"; then
     echo "$DOWNLOAD_FILE exists"
@@ -14,7 +14,7 @@ else
 fi
 rm -rf $SRCDIR
 mkdir -p $SRCDIR
-tar -xf $DOWNLOAD_FILE -C ./build
+tar -xf $DOWNLOAD_FILE -C ./downloads
 
 # Apply patches
 echo "Apply Swift patches"
@@ -26,10 +26,10 @@ else
     echo "Download ${DOWNLOAD_FILE}"
     wget $SRCURL -O $DOWNLOAD_FILE
 fi
-patch ./build/swift-swift-${SWIFT_VERSION}-RELEASE/stdlib/public/SwiftShims/RefCount.h $DOWNLOAD_FILE 
+patch ./downloads/swift-swift-${SWIFT_VERSION}-RELEASE/stdlib/public/SwiftShims/RefCount.h $DOWNLOAD_FILE 
 
 DOWNLOAD_FILE=./downloads/libdispatch-${SWIFT_VERSION}.tar.gz
-SRCDIR=./build/swift-corelibs-libdispatch-swift-${SWIFT_VERSION}-RELEASE
+SRCDIR=./downloads/swift-corelibs-libdispatch-swift-${SWIFT_VERSION}-RELEASE
 SRCURL=https://github.com/apple/swift-corelibs-libdispatch/archive/refs/tags/swift-${SWIFT_VERSION}-RELEASE.tar.gz
 if test -f "$DOWNLOAD_FILE"; then
     echo "$DOWNLOAD_FILE exists"
@@ -39,10 +39,10 @@ else
 fi
 rm -rf $SRCDIR
 mkdir -p $SRCDIR
-tar -xf $DOWNLOAD_FILE -C ./build
+tar -xf $DOWNLOAD_FILE -C ./downloads
 
 DOWNLOAD_FILE=./downloads/foundation-${SWIFT_VERSION}.tar.gz
-SRCDIR=./build/swift-corelibs-foundation-swift-${SWIFT_VERSION}-RELEASE
+SRCDIR=./downloads/swift-corelibs-foundation-swift-${SWIFT_VERSION}-RELEASE
 SRCURL=https://github.com/apple/swift-corelibs-foundation/archive/refs/tags/swift-${SWIFT_VERSION}-RELEASE.tar.gz
 if test -f "$DOWNLOAD_FILE"; then
     echo "$DOWNLOAD_FILE exists"
@@ -52,5 +52,5 @@ else
 fi
 rm -rf $SRCDIR
 mkdir -p $SRCDIR
-tar -xf $DOWNLOAD_FILE -C ./build
+tar -xf $DOWNLOAD_FILE -C ./downloads
 
