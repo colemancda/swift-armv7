@@ -13,8 +13,9 @@ SWIFT_CMAKE_TOOLCHAIN_FILE=$SRC_ROOT/build/linux-$SWIFT_TARGET_ARCH-toolchain.cm
 
 # Compilation flags
 EXTRA_INCLUDE_FLAGS="-I${STAGING_DIR}/usr/include/c++/10 -I${STAGING_DIR}/usr/include"
-RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -B${STAGING_DIR}/usr/lib/c++/10 -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/lib"
+RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -B${STAGING_DIR}/usr/lib/c++/10 -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10"
 LINK_FLAGS="--sysroot=${STAGING_DIR} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -latomic"
+SWIFT_BUILD_CONFIGURATION=Debug
 
 echo "Create Swift build folder ${SWIFT_BUILDDIR}"
 rm -rf $SWIFT_BUILDDIR
@@ -65,7 +66,7 @@ printf "set(SWIFT_LINUX_${SWIFT_TARGET_ARCH}_ICU_I18N ${STAGING_DIR}/usr/lib/arm
 printf "set(SWIFT_LINUX_${SWIFT_TARGET_ARCH}_ICU_UC ${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libicuuc.so)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
 printf "set(ICU_I18N_LIBRARIES ${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libicui18n.so)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
 printf "set(ICU_UC_LIBRARIES ${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libicuuc.so)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
-printf "set(LibRT_LIBRARIES ${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/librt.a)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
+printf "set(LibRT_LIBRARIES ${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/librt.so)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
 printf "set(ZLIB_LIBRARY ${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libz.so)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
 printf "set(SWIFT_PATH_TO_LIBDISPATCH_SOURCE ${LIBDISPATCH_SRCDIR})\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
 printf "set(SWIFT_ENABLE_EXPERIMENTAL_CONCURRENCY ON)\n" >> ${SWIFT_CMAKE_TOOLCHAIN_FILE}
@@ -83,7 +84,7 @@ LIBS="-latomic" cmake -S $SWIFT_SRCDIR -B $SWIFT_BUILDDIR -G Ninja \
 		-DBUILD_TESTS=OFF \
 		-DBUILD_TESTING=OFF \
 		-DBUILD_SHARED_LIBS=ON \
-		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_BUILD_TYPE=${SWIFT_BUILD_CONFIGURATION} \
         -DCMAKE_C_COMPILER=$SWIFT_NATIVE_PATH/clang \
         -DCMAKE_CXX_COMPILER=$SWIFT_NATIVE_PATH/clang++ \
         -DCMAKE_C_FLAGS="${RUNTIME_FLAGS} ${EXTRA_INCLUDE_FLAGS}" \

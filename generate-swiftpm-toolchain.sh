@@ -24,6 +24,7 @@ printf "   \"extra-swiftc-flags\":[\n" >> ${SWIFTPM_DESTINATION_FILE}
 printf "      \"-target\", \"${SWIFT_TARGET_NAME}\",\n" >> ${SWIFTPM_DESTINATION_FILE}
 printf "      \"-use-ld=lld\",\n" >> ${SWIFTPM_DESTINATION_FILE}
 printf "      \"-tools-directory\", \"${SWIFT_NATIVE_PATH}\",\n" >> ${SWIFTPM_DESTINATION_FILE}
+printf "      \"-Xlinker\", \"-rpath\", \"-Xlinker\", \"/usr/lib/local/swift/linux\",\n" >> ${SWIFTPM_DESTINATION_FILE}
 printf "      \"-Xlinker\", \"-rpath\", \"-Xlinker\", \"/usr/lib/local/swift/linux/${SWIFT_TARGET_NAME}\",\n" >> ${SWIFTPM_DESTINATION_FILE}
 printf "      \"-Xlinker\", \"-L${STAGING_DIR}\",\n" >> ${SWIFTPM_DESTINATION_FILE}
 printf "      \"-Xlinker\", \"-L${STAGING_DIR}/lib\",\n" >> ${SWIFTPM_DESTINATION_FILE}
