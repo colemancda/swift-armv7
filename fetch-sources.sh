@@ -1,4 +1,5 @@
-SWIFT_VERSION=5.5.3
+source .config
+source swift-define
 
 mkdir -p ./downloads
 mkdir -p ./build
