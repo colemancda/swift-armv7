@@ -23,9 +23,9 @@ LIBS="-latomic" cmake -S $FOUNDATION_SRCDIR -B $FOUNDATION_BUILDDIR -G Ninja \
         -DCMAKE_ASM_FLAGS="${ASM_FLAGS}" \
     	-DCF_DEPLOYMENT_SWIFT=ON \
         -Ddispatch_DIR="${LIBDISPATCH_BUILDDIR}/cmake/modules" \
-        -DLIBXML2_LIBRARY=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libxml2.so.2.9.10 \
+        -DLIBXML2_LIBRARY=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libxml2.so \
         -DLIBXML2_INCLUDE_DIR=${STAGING_DIR}/usr/include/libxml2 \
-        -DCURL_LIBRARY_RELEASE=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libcurl.so.4.7.0 \
+        -DCURL_LIBRARY_RELEASE=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libcurl.so \
         -DCURL_INCLUDE_DIR="${STAGING_DIR}/usr/include" \
         -DICU_I18N_LIBRARY_RELEASE=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libicui18n.so \
         -DICU_UC_LIBRARY_RELEASE=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libicuuc.so \
@@ -37,14 +37,14 @@ LIBS="-latomic" cmake -S $FOUNDATION_SRCDIR -B $FOUNDATION_BUILDDIR -G Ninja \
 
 echo "Build Foundation"
 # Workaround Dispatch defined with cmake and module
-sudo rm -rf ${STAGING_DIR}/usr/lib/swift/dispatch
+rm -rf ${STAGING_DIR}/usr/lib/swift/dispatch
 (cd $FOUNDATION_BUILDDIR && ninja)
 # Restore Dispatch headers
-sudo cp -rf ${LIBDISPATCH_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
+cp -rf ${LIBDISPATCH_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
 
 echo "Install Foundation"
 (cd $FOUNDATION_BUILDDIR && ninja install)
 
 echo "Install to Debian sysroot"
 mv ${FOUNDATION_INSTALL_PREFIX}/lib/swift/linux/"$(uname -m)" ${FOUNDATION_INSTALL_PREFIX}/lib/swift/linux/armv7
-sudo cp -rf ${FOUNDATION_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
+cp -rf ${FOUNDATION_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/

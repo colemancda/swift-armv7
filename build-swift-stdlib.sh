@@ -72,4 +72,4 @@ echo "Install Swift StdLib"
 (cd $SWIFT_BUILDDIR && ninja install)
 
 echo "Install to Debian sysroot"
-sudo cp -rf ${SWIFT_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
+cp -rf ${SWIFT_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
