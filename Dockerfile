@@ -57,5 +57,8 @@ RUN set -e; \
 # Modify LLVM headers
 RUN cp /usr/lib/llvm-12/include/llvm/Config/llvm-config.h /usr/lib/llvm-12/include/llvm/Config/config.h
 
-# Build target environment
+# Copy files
+WORKDIR /usr/src/swift-armv7
+COPY . .
 
+# Build target environment
