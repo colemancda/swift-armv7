@@ -8,8 +8,8 @@ SWIFT_NATIVE_PATH="${SWIFT_NATIVE_PATH:=/usr/bin}"
 SWIFT_LLVM_DIR="${SWIFT_LLVM_DIR:=/usr/lib/llvm-12}"
 SWIFT_BUILD_CONFIGURATION="${SWIFT_BUILD_CONFIGURATION:=Release}"
 SWIFTPM_CONFIGURATION="${SWIFTPM_CONFIGURATION:=release}"
-STAGING_DIR="${STAGING_DIR:=/usr/src/swift-armv7/bullseye-armv7}"
 SRC_ROOT="${SRC_ROOT:=/usr/src/swift-armv7}"
+STAGING_DIR="${STAGING_DIR:=$SRC_ROOT/bullseye-armv7}"
 
 # Build Paths
 SWIFT_SRCDIR=$SRC_ROOT/downloads/swift-swift-${SWIFT_VERSION}-RELEASE
