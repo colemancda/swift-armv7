@@ -58,4 +58,5 @@ echo "Install Dispatch"
 (cd $LIBDISPATCH_BUILDDIR && ninja install)
 
 echo "Install to Debian sysroot"
+mv ${LIBDISPATCH_INSTALL_PREFIX}/lib/swift/linux/"$(uname -m)" ${LIBDISPATCH_INSTALL_PREFIX}/lib/swift/linux/armv7
 sudo cp -rf ${LIBDISPATCH_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
