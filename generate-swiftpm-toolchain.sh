@@ -1,11 +1,6 @@
 # Configurable
-source .config
 source swift-define
-
 set -e
-
-# Build paths
-SWIFTPM_DESTINATION_FILE=$SRC_ROOT/build/$SWIFT_TARGET_NAME-toolchain.json
 
 echo "Generate SwiftPM cross compilation toolchain file"
 rm -f ${SWIFTPM_DESTINATION_FILE}

@@ -1,3 +1,5 @@
+# Exit on failure
+set -e
 # Fetch and patch sources
 ./fetch-sources.sh
 # Build runtime
