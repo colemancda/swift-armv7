@@ -75,6 +75,9 @@ LIBS="-latomic" cmake -S $SWIFT_SRCDIR -B $SWIFT_BUILDDIR -G Ninja \
         -DZLIB_LIBRARY=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libz.so \
         -DSWIFT_PATH_TO_LIBDISPATCH_SOURCE=${LIBDISPATCH_SRCDIR} \
         -DSWIFT_ENABLE_EXPERIMENTAL_CONCURRENCY=ON \
+		-DCMAKE_Swift_FLAGS_DEBUG="" \
+		-DCMAKE_Swift_FLAGS_RELEASE="" \
+		-DCMAKE_Swift_FLAGS_RELWITHDEBINFO="" \
 
 echo "Build Swift StdLib"
 (cd $SWIFT_BUILDDIR && ninja)
