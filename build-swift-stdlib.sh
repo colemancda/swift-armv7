@@ -1,20 +1,7 @@
 # Configurable
-source .config
 source swift-define
 
 set -e
-
-# Build paths
-SWIFT_SRCDIR=$SRC_ROOT/downloads/swift-swift-${SWIFT_VERSION}-RELEASE
-LIBDISPATCH_SRCDIR=$SRC_ROOT/downloads/swift-corelibs-libdispatch-swift-${SWIFT_VERSION}-RELEASE
-SWIFT_BUILDDIR=$SRC_ROOT/build/swift-armv7
-SWIFTPM_DESTINATION_FILE=$SRC_ROOT/build/$SWIFT_TARGET_NAME-toolchain.json
-SWIFT_INSTALL_PREFIX=$SRC_ROOT/build/swift-armv7-install/usr
-
-# Compilation flags
-EXTRA_INCLUDE_FLAGS="-I${STAGING_DIR}/usr/include/c++/10 -I${STAGING_DIR}/usr/include"
-RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -B${STAGING_DIR}/usr/lib/c++/10 -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10"
-LINK_FLAGS="--sysroot=${STAGING_DIR} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -latomic"
 
 echo "Create Swift build folder ${SWIFT_BUILDDIR}"
 mkdir -p $SWIFT_BUILDDIR

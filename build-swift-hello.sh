@@ -1,16 +1,13 @@
 # Configurable
-source .config
 source swift-define
 
 set -e
 
 # Build paths
-SWIFTPM_DESTINATION_FILE=$SRC_ROOT/build/$SWIFT_TARGET_NAME-toolchain.json
 SWIFT_HELLO_SRCDIR=$SRC_ROOT/swift-hello
 SWIFT_HELLO_BUILDDIR=$SRC_ROOT/build/swift-hello
 
 echo "Cross compile swift-hello"
-SWIFTPM_CONFIGURATION=release
 rm -rf $SWIFT_HELLO_BUILDDIR
 mkdir -p $SWIFT_HELLO_BUILDDIR
 cd $SWIFT_HELLO_SRCDIR

@@ -1,32 +1,7 @@
 # Configurable
-source .config
 source swift-define
 
 set -e
-
-# Build paths
-LIBDISPATCH_SRCDIR=$SRC_ROOT/downloads/swift-corelibs-libdispatch-swift-${SWIFT_VERSION}-RELEASE
-LIBDISPATCH_BUILDDIR=$SRC_ROOT/build/libdispatch-armv7
-LIBDISPATCH_INSTALL_PREFIX=$SRC_ROOT/build/libdispatch-armv7-install/usr
-
-# Compilation flags
-EXTRA_INCLUDE_FLAGS="-I${STAGING_DIR}/usr/include/c++/10 -I${STAGING_DIR}/usr/include"
-RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10"
-LINK_FLAGS="--sysroot=${STAGING_DIR} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -latomic"
-
-SWIFTC_FLAGS="-target armv7-unknown-linux-gnueabihf -use-ld=lld \
--resource-dir ${STAGING_DIR}/usr/lib/swift \
--Xclang-linker -B${STAGING_DIR}/usr/lib \
--Xclang-linker -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10 \
--Xcc -I${STAGING_DIR}/usr/include \
--Xcc -I${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10/include \
--L${STAGING_DIR}/lib \
--L${STAGING_DIR}/usr/lib \
--L${STAGING_DIR}/usr/lib/swift \
--L${STAGING_DIR}/usr/lib/swift/linux \
--L${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10 \
--sdk ${STAGING_DIR} \
-"
 
 echo "Create Dispatch build folder ${SWIFT_BUILDDIR}"
 mkdir -p $LIBDISPATCH_BUILDDIR
