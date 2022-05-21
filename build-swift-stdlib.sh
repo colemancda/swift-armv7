@@ -9,7 +9,6 @@ SWIFT_SRCDIR=$SRC_ROOT/downloads/swift-swift-${SWIFT_VERSION}-RELEASE
 LIBDISPATCH_SRCDIR=$SRC_ROOT/downloads/swift-corelibs-libdispatch-swift-${SWIFT_VERSION}-RELEASE
 SWIFT_BUILDDIR=$SRC_ROOT/build/swift-armv7
 SWIFTPM_DESTINATION_FILE=$SRC_ROOT/build/$SWIFT_TARGET_NAME-toolchain.json
-SWIFT_CMAKE_TOOLCHAIN_FILE=$SRC_ROOT/build/linux-$SWIFT_TARGET_ARCH-toolchain.cmake
 SWIFT_INSTALL_PREFIX=$SRC_ROOT/build/swift-armv7-install/usr
 
 # Compilation flags
@@ -86,4 +85,4 @@ echo "Install Swift StdLib"
 (cd $SWIFT_BUILDDIR && ninja install)
 
 echo "Install to Debian sysroot"
-sudo cp -rf ${SWIFT_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/local/
+sudo cp -rf ${SWIFT_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
