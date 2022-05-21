@@ -6,12 +6,7 @@ set -e
 # Build paths
 SWIFT_HELLO_SRCDIR=$SRC_ROOT/swift-hello
 SWIFT_HELLO_BUILDDIR=$SRC_ROOT/build/swift-hello
-
-echo "Cross compile swift-hello"
-rm -rf $SWIFT_HELLO_BUILDDIR
-mkdir -p $SWIFT_HELLO_BUILDDIR
-cd $SWIFT_HELLO_SRCDIR
-$SWIFT_NATIVE_PATH/swift build -c ${SWIFTPM_CONFIGURATION} --build-path ${SWIFT_HELLO_BUILDDIR} --destination ${SWIFTPM_DESTINATION_FILE}
+./build-swift-package.sh
 
 echo "Copy swift-hello"
-cp $SWIFT_HELLO_BUILDDIR/${SWIFTPM_CONFIGURATION}/swift-hello ${STAGING_DIR}/usr/bin
+cp $SWIFT_HELLO_BUILDDIR/${SWIFTPM_CONFIGURATION}/swift-hello ${STAGING_DIR}/usr/bin/swift-hello

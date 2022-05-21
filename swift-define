@@ -4,12 +4,14 @@ SWIFT_TARGET_ARCH=armv7
 SWIFT_TARGET_NAME=armv7-unknown-linux-gnueabihf
 
 # Configurable
+SRC_ROOT="${SRC_ROOT:=/usr/src/swift-armv7}"
+STAGING_DIR="${STAGING_DIR:=$SRC_ROOT/bullseye-armv7}"
 SWIFT_NATIVE_PATH="${SWIFT_NATIVE_PATH:=/usr/bin}"
 SWIFT_LLVM_DIR="${SWIFT_LLVM_DIR:=/usr/lib/llvm-12}"
 SWIFT_BUILD_CONFIGURATION="${SWIFT_BUILD_CONFIGURATION:=Release}"
 SWIFTPM_CONFIGURATION="${SWIFTPM_CONFIGURATION:=release}"
-SRC_ROOT="${SRC_ROOT:=/usr/src/swift-armv7}"
-STAGING_DIR="${STAGING_DIR:=$SRC_ROOT/bullseye-armv7}"
+SWIFT_PACKAGE_SRCDIR=$SRC_ROOT/swift-hello
+SWIFT_PACKAGE_BUILDDIR=$SRC_ROOT/build/swift-hello
 
 # Build Paths
 SWIFT_SRCDIR=$SRC_ROOT/downloads/swift-swift-${SWIFT_VERSION}-RELEASE
@@ -23,7 +25,7 @@ FOUNDATION_BUILDDIR=$SRC_ROOT/build/foundation-armv7
 FOUNDATION_INSTALL_PREFIX=$SRC_ROOT/build/foundation-armv7-install/usr
 SWIFTPM_DESTINATION_FILE=$SRC_ROOT/build/$SWIFT_TARGET_NAME-toolchain.json
 INSTALL_PREFIX=$SRC_ROOT/build/swift-install/usr
-INSTALL_TAR=$SRC_ROOT/build/swift-armv7.tar.gz
+INSTALL_TAR=$SRC_ROOT/build/swift-$SWIFT_TARGET_ARCH.tar.gz
 
 # Compilation flags
 EXTRA_INCLUDE_FLAGS="-I${STAGING_DIR}/usr/include"
