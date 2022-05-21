@@ -2,3 +2,4 @@ build
 downloads
 .config
 .build
+*-armv7
