@@ -6,6 +6,7 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && ap
     llvm-12-dev \
     ninja-build \
     qemu-user-static \
+    debootstrap \
     wget \
     build-essential \
     bash \
@@ -71,7 +72,10 @@ RUN set -e; \
     export STAGING_DIR=/usr/src/swift-armv7/bullseye-armv7; \
     mkdir -p $STAGING_DIR; \
     sudo debootstrap --foreign --arch armhf bullseye $STAGING_DIR http://ftp.us.debian.org/debian; \
-    sudo cp /usr/bin/qemu-arm-static $STAGING_DIR/usr/bin/; \
-    sudo chroot $STAGING_DIR /debootstrap/debootstrap --second-stage \
-    sudo chroot $STAGING_DIR /usr/bin/bash apt update; \
-    sudo chroot $STAGING_DIR /usr/bin/bash apt install gcc libstdc++-10-dev libgcc-10-dev libxml2-dev libcurl4-openssl-dev; \
+    cp /usr/bin/qemu-arm-static $STAGING_DIR/usr/bin/;
+
+RUN set -e; \
+    export STAGING_DIR=/usr/src/swift-armv7/bullseye-armv7; \
+    chroot $STAGING_DIR /usr/bin/qemu-arm-static /debootstrap/debootstrap --second-stage \
+    chroot $STAGING_DIR /usr/bin/qemu-arm-static /usr/bin/bash apt update; \
+    chroot $STAGING_DIR /usr/bin/qemu-arm-static /usr/bin/bash apt install gcc libstdc++-10-dev libgcc-10-dev libxml2-dev libcurl4-openssl-dev;
