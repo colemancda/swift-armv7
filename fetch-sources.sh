@@ -1,4 +1,3 @@
-source .config
 source swift-define
 
 mkdir -p ./downloads
