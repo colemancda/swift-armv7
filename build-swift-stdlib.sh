@@ -79,5 +79,8 @@ LIBS="-latomic" cmake -S $SWIFT_SRCDIR -B $SWIFT_BUILDDIR -G Ninja \
 echo "Build Swift StdLib"
 (cd $SWIFT_BUILDDIR && ninja)
 
-echo "Copy Swift StdLib"
+echo "Install Swift StdLib"
 (cd $SWIFT_BUILDDIR && ninja install)
+
+echo "Install to Debian sysroot"
+sudo cp -rf ${SWIFT_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/local/
