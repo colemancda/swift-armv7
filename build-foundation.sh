@@ -9,11 +9,13 @@ FOUNDATION_SRCDIR=$SRC_ROOT/downloads/swift-corelibs-foundation-swift-${SWIFT_VE
 FOUNDATION_BUILDDIR=$SRC_ROOT/build/foundation-armv7
 FOUNDATION_INSTALL_PREFIX=$SRC_ROOT/build/foundation-armv7-install/usr
 LIBDISPATCH_BUILDDIR=$SRC_ROOT/build/libdispatch-armv7
+LIBDISPATCH_INSTALL_PREFIX=$SRC_ROOT/build/libdispatch-armv7-install/usr
 
 # Compilation flags
-EXTRA_INCLUDE_FLAGS="-I${STAGING_DIR}/usr/include/c++/10 -I${STAGING_DIR}/usr/include"
+EXTRA_INCLUDE_FLAGS="-I${STAGING_DIR}/usr/include"
 RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10"
 LINK_FLAGS="--sysroot=${STAGING_DIR} -target armv7-unknown-linux-gnueabihf -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -latomic"
+ASM_FLAGS="--sysroot=${STAGING_DIR} -target armv7-unknown-linux-gnueabihf"
 
 SWIFTC_FLAGS="-target armv7-unknown-linux-gnueabihf -use-ld=lld \
 -resource-dir ${STAGING_DIR}/usr/lib/swift \
@@ -62,7 +64,11 @@ LIBS="-latomic" cmake -S $FOUNDATION_SRCDIR -B $FOUNDATION_BUILDDIR -G Ninja \
 		-DCMAKE_Swift_FLAGS_RELWITHDEBINFO="" \
 
 echo "Build Foundation"
+# Workaround Dispatch defined with cmake and module
+sudo rm -rf ${STAGING_DIR}/usr/lib/swift/dispatch
 (cd $FOUNDATION_BUILDDIR && ninja)
+# Restore Dispatch headers
+sudo cp -rf ${LIBDISPATCH_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
 
 echo "Install Foundation"
 (cd $FOUNDATION_BUILDDIR && ninja install)
@@ -70,4 +76,3 @@ echo "Install Foundation"
 echo "Install to Debian sysroot"
 mv ${FOUNDATION_INSTALL_PREFIX}/lib/swift/linux/"$(uname -m)" ${FOUNDATION_INSTALL_PREFIX}/lib/swift/linux/armv7
 sudo cp -rf ${FOUNDATION_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
-
