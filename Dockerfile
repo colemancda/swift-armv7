@@ -5,8 +5,7 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && ap
     apt-get -q install -y \
     llvm-12-dev \
     ninja-build \
-    qemu-user-static \
-    debootstrap \
+    proot \
     wget \
     build-essential \
     bash \
@@ -30,10 +29,7 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && ap
     sed \
     tar \
     unzip \
-    sudo \
     && rm -r /var/lib/apt/lists/*
-
-WORKDIR /usr/src/buildroot-external
 
 # Install latest Cmake
 RUN set -e; \
@@ -66,16 +62,3 @@ COPY . .
 # Set environment
 ENV SRC_ROOT=/usr/src/swift-armv7
 ENV STAGING_DIR=/usr/src/swift-armv7/bullseye-armv7
-
-# Build target environment
-RUN set -e; \
-    export STAGING_DIR=/usr/src/swift-armv7/bullseye-armv7; \
-    mkdir -p $STAGING_DIR; \
-    sudo debootstrap --foreign --arch armhf bullseye $STAGING_DIR http://ftp.us.debian.org/debian; \
-    cp /usr/bin/qemu-arm-static $STAGING_DIR/usr/bin/;
-
-RUN set -e; \
-    export STAGING_DIR=/usr/src/swift-armv7/bullseye-armv7; \
-    chroot $STAGING_DIR /usr/bin/qemu-arm-static /debootstrap/debootstrap --second-stage \
-    chroot $STAGING_DIR /usr/bin/qemu-arm-static /usr/bin/bash apt update; \
-    chroot $STAGING_DIR /usr/bin/qemu-arm-static /usr/bin/bash apt install gcc libstdc++-10-dev libgcc-10-dev libxml2-dev libcurl4-openssl-dev;
