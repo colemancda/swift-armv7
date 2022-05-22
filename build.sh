@@ -6,6 +6,7 @@ set -e
 ./build-swift-stdlib.sh
 ./build-dispatch.sh
 ./build-foundation.sh
+./build-xctest.sh
 # Cross compile test package
 ./generate-swiftpm-toolchain.sh
 ./build-swift-hello.sh

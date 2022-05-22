@@ -81,3 +81,16 @@ rm -rf $SRCDIR
 mkdir -p $SRCDIR
 tar -xf $DOWNLOAD_FILE -C ./downloads
 
+# Download XCTest
+DOWNLOAD_FILE=./downloads/xctest-${SWIFT_VERSION}.tar.gz
+SRCDIR=./downloads/swift-corelibs-xctest-swift-${SWIFT_VERSION}-RELEASE
+SRCURL=https://github.com/apple/swift-corelibs-xctest/archive/refs/tags/swift-${SWIFT_VERSION}-RELEASE.tar.gz
+if test -f "$DOWNLOAD_FILE"; then
+    echo "$DOWNLOAD_FILE exists"
+else
+    echo "Download XCTest ${SWIFT_VERSION}"
+    wget $SRCURL -O $DOWNLOAD_FILE
+fi
+rm -rf $SRCDIR
+mkdir -p $SRCDIR
+tar -xf $DOWNLOAD_FILE -C ./downloads
