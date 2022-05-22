@@ -1,0 +1,24 @@
+name: Build
+
+on: [push]
+
+jobs:
+
+    build:
+        name: Build
+        runs-on: ubuntu-20.04
+        container: colemancda/swift-armv7
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Swift Version
+          run: swift --version
+        - name: Build
+          run: |
+            export SRC_ROOT=$GITHUB_WORKSPACE
+            ./build.sh
+        - name: Archive Build artifacts
+          uses: actions/upload-artifact@v3
+          with:
+            name: swift-armv7
+            path: ./build/swift-armv7.tar.gz
