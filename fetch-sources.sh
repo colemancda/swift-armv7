@@ -1,5 +1,8 @@
 source swift-define
 
+# Exit on failure
+set -e
+
 mkdir -p ./downloads
 mkdir -p ./build
 
