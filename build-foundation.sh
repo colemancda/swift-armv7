@@ -2,11 +2,11 @@
 set -e
 source swift-define
 
-echo "Create Dispatch build folder ${FOUNDATION_BUILDDIR}"
+echo "Create Foundation build folder ${FOUNDATION_BUILDDIR}"
 mkdir -p $FOUNDATION_BUILDDIR
 mkdir -p $FOUNDATION_INSTALL_PREFIX
 
-echo "Configure Dispatch"
+echo "Configure Foundation"
 rm -rf $FOUNDATION_BUILDDIR/CMakeCache.txt
 LIBS="-latomic" cmake -S $FOUNDATION_SRCDIR -B $FOUNDATION_BUILDDIR -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=${FOUNDATION_INSTALL_PREFIX} \
