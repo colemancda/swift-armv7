@@ -62,3 +62,6 @@ COPY . .
 # Set environment
 ENV SRC_ROOT=/usr/src/swift-armv7
 ENV STAGING_DIR=/usr/src/swift-armv7/bullseye-armv7
+
+# Build Swift
+# RUN ./build.sh && rm -rf ./build && rm -rf ./downloads
