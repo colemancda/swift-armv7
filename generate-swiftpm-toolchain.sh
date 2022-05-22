@@ -1,6 +1,6 @@
-# Configurable
-source swift-define
+#!/bin/bash
 set -e
+source swift-define
 
 echo "Generate SwiftPM cross compilation toolchain file"
 rm -f ${SWIFTPM_DESTINATION_FILE}

@@ -1,4 +1,4 @@
-# Exit on failure
+#!/bin/bash
 set -e
 # Fetch and patch sources
 ./fetch-sources.sh

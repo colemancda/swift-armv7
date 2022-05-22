@@ -1,7 +1,6 @@
-source swift-define
-
-# Exit on failure
+#!/bin/bash
 set -e
+source swift-define
 
 mkdir -p ./downloads
 mkdir -p ./build

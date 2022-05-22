@@ -1,7 +1,6 @@
-# Configurable
-source swift-define
-
+#!/bin/bash
 set -e
+source swift-define
 
 echo "Cross compile Swift package"
 rm -rf $SWIFT_PACKAGE_BUILDDIR

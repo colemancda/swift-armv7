@@ -1,7 +1,6 @@
-# Configurable
-source swift-define
-
+#!/bin/bash
 set -e
+source swift-define
 
 # Build paths
 SWIFT_HELLO_SRCDIR=$SRC_ROOT/swift-hello

@@ -1,7 +1,6 @@
-# Configurable
-source swift-define
-
+#!/bin/bash
 set -e
+source swift-define
 
 echo "Create Dispatch build folder ${SWIFT_BUILDDIR}"
 mkdir -p $LIBDISPATCH_BUILDDIR

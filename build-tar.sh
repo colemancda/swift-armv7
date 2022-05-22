@@ -1,7 +1,6 @@
-# Configurable
-source swift-define
-
+#!/bin/bash
 set -e
+source swift-define
 
 # Combine build output
 rm -rf $INSTALL_TAR
