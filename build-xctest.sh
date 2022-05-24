@@ -6,6 +6,9 @@ echo "Create XCTest build folder ${XCTEST_BUILDDIR}"
 mkdir -p $XCTEST_BUILDDIR
 mkdir -p $XCTEST_INSTALL_PREFIX
 
+# Workaround Dispatch defined with cmake and module
+rm -rf ${STAGING_DIR}/usr/lib/swift/dispatch
+
 echo "Configure XCTest"
 rm -rf $XCTEST_BUILDDIR/CMakeCache.txt
 LIBS="-latomic" cmake -S $XCTEST_SRCDIR -B $XCTEST_BUILDDIR -G Ninja \
@@ -28,14 +31,13 @@ LIBS="-latomic" cmake -S $XCTEST_SRCDIR -B $XCTEST_BUILDDIR -G Ninja \
 		-DCMAKE_Swift_FLAGS_RELWITHDEBINFO="" \
 
 echo "Build XCTest"
-# Workaround Dispatch defined with cmake and module
-rm -rf ${STAGING_DIR}/usr/lib/swift/dispatch
 (cd $XCTEST_BUILDDIR && ninja)
-# Restore Dispatch headers
-cp -rf ${LIBDISPATCH_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
 
 echo "Install XCTest"
 (cd $XCTEST_BUILDDIR && ninja install)
+
+# Restore Dispatch headers
+cp -rf ${LIBDISPATCH_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
 
 echo "Install to Debian sysroot"
 mv ${XCTEST_INSTALL_PREFIX}/lib/swift/linux/"$(uname -m)" ${XCTEST_INSTALL_PREFIX}/lib/swift/linux/armv7
