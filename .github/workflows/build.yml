@@ -7,7 +7,7 @@ jobs:
     build:
         name: Build
         runs-on: ubuntu-20.04
-        container: colemancda/swift-armv7
+        container: colemancda/swift-armv7:5.5.3
         steps:
         - name: Checkout
           uses: actions/checkout@v3
