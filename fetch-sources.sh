@@ -39,7 +39,27 @@ else
     echo "Download ${DOWNLOAD_FILE}"
     wget $SRCURL -O $DOWNLOAD_FILE
 fi
-patch ./downloads/swift-$SWIFT_VERSION/stdlib/public/runtime/Float16Support.cpp $DOWNLOAD_FILE 
+patch ./downloads/swift-$SWIFT_VERSION/stdlib/public/runtime/Float16Support.cpp $DOWNLOAD_FILE
+
+DOWNLOAD_FILE=./downloads/swift-stdlib-AtomicWaitQueue.patch
+SRCURL=https://gist.githubusercontent.com/colemancda/d88a775f2bf3e234f4fa705c46b66b37/raw/1d8d54f23f5564f847ab39c65b59d287bba4f333/swift-5.6-AtomicWaitQueue.patch
+if test -f "$DOWNLOAD_FILE"; then
+    echo "$DOWNLOAD_FILE exists"
+else
+    echo "Download ${DOWNLOAD_FILE}"
+    wget $SRCURL -O $DOWNLOAD_FILE
+fi
+patch ./downloads/swift-$SWIFT_VERSION/include/swift/Runtime/AtomicWaitQueue.h $DOWNLOAD_FILE
+
+DOWNLOAD_FILE=./downloads/swift-stdlib-HeapObject.patch
+SRCURL=https://gist.github.com/colemancda/d88a775f2bf3e234f4fa705c46b66b37/raw/1d8d54f23f5564f847ab39c65b59d287bba4f333/swift-5.6-HeapObject-cxx-newObject.patch
+if test -f "$DOWNLOAD_FILE"; then
+    echo "$DOWNLOAD_FILE exists"
+else
+    echo "Download ${DOWNLOAD_FILE}"
+    wget $SRCURL -O $DOWNLOAD_FILE
+fi
+patch ./downloads/swift-$SWIFT_VERSION/include/swift/Runtime/HeapObject.h $DOWNLOAD_FILE
 
 # Download Dispatch
 DOWNLOAD_FILE=./downloads/libdispatch-${SWIFT_VERSION}.tar.gz
