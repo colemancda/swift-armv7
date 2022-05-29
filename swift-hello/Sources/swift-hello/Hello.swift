@@ -12,11 +12,7 @@ struct Hello {
             catch { fatalError() }
             print("Task ran")
         }
-        await withCheckedContinuation { continuation in
-            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1.0) {
-                continuation.resume()
-            }
-        }
+        try await Task.sleep(nanoseconds: 1_000_000_000)
         print("Bye")
     }
 }
