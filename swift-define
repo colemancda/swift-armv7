@@ -32,8 +32,9 @@ INSTALL_TAR=$SRC_ROOT/build/swift-$SWIFT_TARGET_ARCH.tar.gz
 
 # Compilation flags
 EXTRA_INCLUDE_FLAGS="-I${STAGING_DIR}/usr/include"
-RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME} -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10"
-LINK_FLAGS="--sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME} -march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard -latomic"
+EXTRA_FLAGS="-march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard"
+RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME} ${EXTRA_FLAGS} -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/10"
+LINK_FLAGS="--sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME} ${EXTRA_FLAGS} -latomic"
 ASM_FLAGS="--sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME}"
 
 SWIFTC_FLAGS="-target ${SWIFT_TARGET_NAME} -use-ld=lld \
