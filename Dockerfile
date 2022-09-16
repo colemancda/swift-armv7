@@ -3,7 +3,6 @@ FROM swift:5.7-jammy
 # Install dependencies
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && apt-get -q update && \
     apt-get -q install -y \
-    llvm-14-dev \
     ninja-build \
     proot \
     wget \
@@ -39,7 +38,6 @@ COPY . .
 # Set environment
 ENV SRC_ROOT=/usr/src/swift-armv7
 ENV STAGING_DIR=/usr/src/swift-armv7/bullseye-armv7
-ENV SWIFT_LLVM_DIR=/usr/lib/llvm-14
 
 # Build Swift
 # RUN ./build.sh && rm -rf ./build && rm -rf ./downloads
