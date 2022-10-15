@@ -6,7 +6,6 @@ Swift runtime for Linux Armv7
 Set the required environment variables for the scripts:
 
 ```
-export SRC_ROOT=/home/coleman/Developer/swift-armv7
 export STAGING_DIR="${STAGING_DIR:=$SRC_ROOT/bullseye-armv7}"
 export SWIFT_NATIVE_PATH="${SWIFT_NATIVE_PATH:=/usr/bin}"
 ```

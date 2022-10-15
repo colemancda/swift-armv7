@@ -13,7 +13,7 @@ if test -f "$DOWNLOAD_FILE"; then
     echo "$DOWNLOAD_FILE exists"
 else
     echo "Download Swift ${SWIFT_VERSION}"
-    wget $SRCURL -O $DOWNLOAD_FILE
+    wget -q $SRCURL -O $DOWNLOAD_FILE
 fi
 rm -rf $SRCDIR
 mkdir -p $SRCDIR
@@ -25,7 +25,7 @@ if test -f "$DOWNLOAD_FILE"; then
     echo "$DOWNLOAD_FILE exists"
 else
     echo "Download ${DOWNLOAD_FILE}"
-    wget $SRCURL -O $DOWNLOAD_FILE
+    wget -q $SRCURL -O $DOWNLOAD_FILE
 fi
 patch ./downloads/swift-$SWIFT_VERSION/stdlib/public/runtime/Float16Support.cpp $DOWNLOAD_FILE
 
@@ -37,7 +37,7 @@ if test -f "$DOWNLOAD_FILE"; then
     echo "$DOWNLOAD_FILE exists"
 else
     echo "Download Dispatch ${SWIFT_VERSION}"
-    wget $SRCURL -O $DOWNLOAD_FILE
+    wget -q $SRCURL -O $DOWNLOAD_FILE
 fi
 rm -rf $SRCDIR
 mkdir -p $SRCDIR
@@ -51,7 +51,7 @@ if test -f "$DOWNLOAD_FILE"; then
     echo "$DOWNLOAD_FILE exists"
 else
     echo "Download Foundation ${SWIFT_VERSION}"
-    wget $SRCURL -O $DOWNLOAD_FILE
+    wget -q $SRCURL -O $DOWNLOAD_FILE
 fi
 rm -rf $SRCDIR
 mkdir -p $SRCDIR
@@ -65,7 +65,7 @@ if test -f "$DOWNLOAD_FILE"; then
     echo "$DOWNLOAD_FILE exists"
 else
     echo "Download XCTest ${SWIFT_VERSION}"
-    wget $SRCURL -O $DOWNLOAD_FILE
+    wget -q $SRCURL -O $DOWNLOAD_FILE
 fi
 rm -rf $SRCDIR
 mkdir -p $SRCDIR
