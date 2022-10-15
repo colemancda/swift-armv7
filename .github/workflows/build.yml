@@ -17,8 +17,13 @@ jobs:
           run: |
             export SRC_ROOT=$GITHUB_WORKSPACE
             ./build.sh
-        - name: Archive Build artifacts
+        - name: Archive Swift Build artifacts
           uses: actions/upload-artifact@v3
           with:
             name: swift-armv7
             path: ./build/swift-armv7.tar.gz
+        - name: Archive LLVM Build artifacts
+          uses: actions/upload-artifact@v3
+          with:
+            name: llvm-swift
+            path: ./build/llvm-install
