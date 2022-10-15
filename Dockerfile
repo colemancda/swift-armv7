@@ -30,17 +30,6 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && ap
     gnupg \
     && rm -r /var/lib/apt/lists/*
 
-# Install LLVM
-RUN echo 'deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-15 main' >> /etc/apt/sources.list \
-    && echo 'deb-src http://apt.llvm.org/jammy/ llvm-toolchain-jammy-15 main' >> /etc/apt/sources.list \
-    && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
-
-RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && apt-get -q update && \
-    apt-get -q install -y \
-    llvm-15-dev \
-    bolt-15 \
-    && rm -r /var/lib/apt/lists/*
-
 # Copy files
 WORKDIR /usr/src/swift-armv7
 COPY . .

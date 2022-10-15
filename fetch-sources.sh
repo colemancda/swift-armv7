@@ -70,3 +70,17 @@ fi
 rm -rf $SRCDIR
 mkdir -p $SRCDIR
 tar -xf $DOWNLOAD_FILE -C ./downloads
+
+# Download LLVM
+DOWNLOAD_FILE=./downloads/llvm-${SWIFT_VERSION}.tar.gz
+SRCDIR=./downloads/llvm-project-$SWIFT_VERSION
+SRCURL=https://github.com/apple/llvm-project/archive/refs/tags/$SWIFT_VERSION.tar.gz
+if test -f "$DOWNLOAD_FILE"; then
+    echo "$DOWNLOAD_FILE exists"
+else
+    echo "Download LLVM ${SWIFT_VERSION}"
+    wget $SRCURL -O $DOWNLOAD_FILE
+fi
+rm -rf $SRCDIR
+mkdir -p $SRCDIR
+tar -xf $DOWNLOAD_FILE -C ./downloads
