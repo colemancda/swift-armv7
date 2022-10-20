@@ -33,3 +33,10 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
     libcurl4-openssl-dev \
     systemtap-sdt-dev \
     && rm -r /var/lib/apt/lists/*
+
+# Install Swift runtime
+COPY ./build/swift-armv7.tar.gz /tmp/swift-armv7.tar.gz
+RUN cd /tmp/ \
+    && tar -xf /tmp/swift-armv7.tar.gz \
+    && cp -rf /tmp/usr/* /usr/ \
+    && rm -rf /tmp/usr
