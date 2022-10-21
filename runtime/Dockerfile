@@ -1,0 +1,42 @@
+FROM debian:bullseye
+
+# Install runtime libraries and development headers
+RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
+    && apt-get -q update \
+    && apt-get -q install -y \
+    libc6-dev \
+    libcurl4 \
+    libedit2 \
+    libgcc-9-dev \
+    libpython3.9 \
+    libsqlite3-0 \
+    libstdc++-9-dev \
+    libxml2 \
+    libz3-dev \
+    pkg-config \
+    tzdata \
+    uuid-dev \
+    zlib1g-dev \
+    python3.9 \
+    uuid-dev \
+    libicu-dev \
+    icu-devtools \
+    libbsd-dev \
+    libedit-dev \
+    libxml2-dev \
+    libsqlite3-dev \
+    swig \
+    libpython3.9-dev \
+    libncurses5-dev \
+    pkg-config \
+    libblocksruntime-dev \
+    libcurl4-openssl-dev \
+    systemtap-sdt-dev \
+    && rm -r /var/lib/apt/lists/*
+
+# Install Swift runtime
+COPY ./build/swift-armv7.tar.gz /tmp/swift-armv7.tar.gz
+RUN cd /tmp/ \
+    && tar -xf /tmp/swift-armv7.tar.gz \
+    && cp -rf /tmp/usr/* /usr/ \
+    && rm -rf /tmp/usr
