@@ -19,3 +19,9 @@ fi
 ./build-swift-hello.sh
 # Archive
 ./build-tar.sh
+# Generate Xcode toolchain
+if [[ $OSTYPE == 'darwin'* ]]; then
+  echo "Generate Xcode toolchain for cross compiling"
+    curl -o ./downloads/${SWIFT_VERSION}-osx.pkg https://download.swift.org/swift-5.7-release/xcode/${SWIFT_VERSION}/${SWIFT_VERSION}-osx.pkg
+    ./generate-xcode-toolchain.sh /tmp/ ./downloads/${SWIFT_VERSION}-osx.pkg ./build/swift-armv7.tar.gz
+fi
