@@ -5,7 +5,7 @@ Swift runtime for Linux Armv7
 
 Set the required environment variables for the scripts:
 
-### Build Swift runtime cross compileed from Linux
+### Build Swift runtime cross compiled from Linux
 ```
 export SWIFT_NATIVE_PATH="/usr/bin"
 ./build.sh
@@ -21,9 +21,9 @@ export SWIFT_PACKAGE_SRCDIR=/home/user/Developer/MySwiftPackage
 
 ### Cross compile Swift package from macOS
 ```
+./generate-xcode-toolchain.sh
 export SWIFT_PACKAGE_SRCDIR=/home/user/Developer/MySwiftPackage
 export SWIFT_NATIVE_PATH=/tmp/cross-toolchain/debian-bullseye.sdk
-./generate-xcode-toolchain.sh
 ./build-swift-package.sh
 ```
 
