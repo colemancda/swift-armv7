@@ -8,6 +8,6 @@ mkdir -p $SWIFT_PACKAGE_BUILDDIR
 cd $SWIFT_PACKAGE_SRCDIR
 $SWIFT_NATIVE_PATH/swift build --build-tests \
     --configuration ${SWIFTPM_CONFIGURATION} \
-    --build-path ${SWIFT_PACKAGE_BUILDDIR} \
+    --scratch-path ${SWIFT_PACKAGE_BUILDDIR} \
     --destination ${SWIFTPM_DESTINATION_FILE} \
     -Xswiftc -enable-testing

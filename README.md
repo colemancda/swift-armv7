@@ -5,10 +5,26 @@ Swift runtime for Linux Armv7
 
 Set the required environment variables for the scripts:
 
+### Build Swift runtime cross compileed from Linux
 ```
-export STAGING_DIR="${STAGING_DIR:=$SRC_ROOT/bullseye-armv7}"
-export SWIFT_NATIVE_PATH="${SWIFT_NATIVE_PATH:=/usr/bin}"
+export SWIFT_NATIVE_PATH="/usr/bin"
+./build.sh
 ```
 
-Make sure the Debian Bullseye armhf sysroot is at `STAGING_DIR` and `SWIFT_NATIVE_PATH` points to your Swift compiler installation.
+### Cross compile Swift package from Linux
+```
+export SWIFT_NATIVE_PATH="/usr/bin"
+export SWIFT_PACKAGE_SRCDIR=/home/user/Developer/MySwiftPackage
+./build.sh # Or skip if using cached build
+./build-swift-package.sh
+```
+
+### Cross compile Swift package from macOS
+```
+export SWIFT_PACKAGE_SRCDIR=/home/user/Developer/MySwiftPackage
+export SWIFT_NATIVE_PATH=/tmp/cross-toolchain/debian-bullseye.sdk
+./generate-xcode-toolchain.sh
+./build-swift-package.sh
+```
+
 `SWIFT_PACKAGE_SRCDIR` can be set to the root of your own packages to cross compile them using `build-swift-package.sh`.

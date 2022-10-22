@@ -5,6 +5,7 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && ap
     apt-get -q install -y \
     ninja-build \
     wget \
+    curl \
     build-essential \
     bash \
     bc \
