@@ -31,7 +31,7 @@ function usage() {
     echo >&2 "Example: $0 /tmp/ ~/Downloads/swift-${VERSION}-osx.pkg ~/Downloads/swift-${VERSION}-armhf-debian11.04.tar.gz"
     echo >&2
     echo >&2 "Complete example:"
-    echo >&2 "  # Download the Swift binaries for Ubuntu and macOS"
+    echo >&2 "  # Download the Swift binaries for Debian and macOS"
     echo >&2 "  curl -o ~/Downloads/swift-${VERSION}-armhf-debian11.04.tar.gz https://github.com/colemancda/swift-armv7/releases/download/0.4.0/swift-armv7.tar.gz"
     echo >&2 "  curl -o ~/Downloads/swift-${VERSION}-osx.pkg https://swift.org/builds/${branch}/xcode/swift-${VERSION}/swift-${VERSION}-osx.pkg"
     echo >&2 "  # Build the SDK and toolchain from that"
@@ -112,7 +112,7 @@ cross_tc_basename="cross-toolchain"
 clang_package_url="https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/clang+llvm-13.0.1-x86_64-apple-darwin.tar.xz"
 debian_mirror="http://ftp.us.debian.org/debian"
 packages_file="$debian_mirror/dists/bullseye/main/binary-armhf/Packages.gz"
-pkg_names=( libc6-dev libcurl4 libedit2 libgcc-9-dev libpython3.9 libsqlite3-0 libstdc++-9-dev libxml2 libz3-dev pkg-config tzdata uuid-dev zlib1g-dev python3.9 uuid-dev libicu-dev icu-devtools libbsd-dev libedit-dev libxml2-dev libsqlite3-dev swig libpython3.9-dev libncurses5-dev pkg-config libblocksruntime-dev libcurl4-openssl-dev systemtap-sdt-dev )
+pkg_names=( libc6-dev libstdc++-9-dev libgcc-9-dev systemtap-sdt-dev )
 pkgs=()
 
 # url
