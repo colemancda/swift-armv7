@@ -13,7 +13,7 @@ if [[ -d "$SRCDIR" ]]; then
     echo "$SRCDIR exists"
 else
     echo "Download Swift ${SWIFT_VERSION}"
-    wget $SRCURL -O $DOWNLOAD_FILE
+    wget -q $SRCURL -O $DOWNLOAD_FILE
     rm -rf $SRCDIR
     mkdir -p $SRCDIR
     tar -xf $DOWNLOAD_FILE -C ./downloads
@@ -38,7 +38,7 @@ if [[ -d "$SRCDIR" ]]; then
     echo "$SRCDIR exists"
 else
     echo "Download Dispatch ${SWIFT_VERSION}"
-    wget $SRCURL -O $DOWNLOAD_FILE
+    wget -q $SRCURL -O $DOWNLOAD_FILE
     rm -rf $SRCDIR
     mkdir -p $SRCDIR
     tar -xf $DOWNLOAD_FILE -C ./downloads
@@ -52,7 +52,7 @@ if [[ -d "$SRCDIR" ]]; then
     echo "$SRCDIR exists"
 else
     echo "Download Foundation ${SWIFT_VERSION}"
-    wget $SRCURL -O $DOWNLOAD_FILE
+    wget -q $SRCURL -O $DOWNLOAD_FILE
     rm -rf $SRCDIR
     mkdir -p $SRCDIR
     tar -xf $DOWNLOAD_FILE -C ./downloads
@@ -66,7 +66,7 @@ if [[ -d "$SRCDIR" ]]; then
     echo "$SRCDIR exists"
 else
     echo "Download XCTest ${SWIFT_VERSION}"
-    wget $SRCURL -O $DOWNLOAD_FILE
+    wget -q $SRCURL -O $DOWNLOAD_FILE
     rm -rf $SRCDIR
     mkdir -p $SRCDIR
     tar -xf $DOWNLOAD_FILE -C ./downloads
@@ -80,7 +80,7 @@ if [[ -d "$SRCDIR" ]]; then
     echo "$SRCDIR exists"
 else
     echo "Download LLVM ${SWIFT_VERSION}"
-    wget $SRCURL -O $DOWNLOAD_FILE
+    wget -q $SRCURL -O $DOWNLOAD_FILE
     rm -rf $SRCDIR
     mkdir -p $SRCDIR
     tar -xf $DOWNLOAD_FILE -C ./downloads

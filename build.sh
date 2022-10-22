@@ -13,10 +13,9 @@ fi
 
 # Generate Xcode toolchain
 if [[ $OSTYPE == 'darwin'* && ! -d "$XCTOOLCHAIN" ]]; then
-    ./generate-xcode-toolchain.sh /tmp/ ./downloads/${SWIFT_VERSION}-osx.pkg ./downloads/swift-armv7.tar.gz
+    ./generate-xcode-toolchain.sh /tmp/ ./downloads/${SWIFT_VERSION}-osx.pkg ./build/swift-armv7.tar.gz
     mkdir -p $XCTOOLCHAIN
     mv /tmp/cross-toolchain/swift-armv7.xctoolchain/* $XCTOOLCHAIN/
-    #rm -rf $XCTOOLCHAIN/usr/lib/*
 fi
 
 # Cleanup previous build
@@ -37,14 +36,6 @@ fi
 
 # Archive
 ./build-tar.sh
-
-# Update Xcode toolchain
-if [[ $OSTYPE == 'darwin'* ]]; then
-    echo "Updated xctoolchain sysroot"
-    SYSROOT=$STAGING_DIR
-    export STAGING_DIR=$XCTOOLCHAIN
-
-fi
 
 # Cross compile test package
 ./generate-swiftpm-toolchain.sh

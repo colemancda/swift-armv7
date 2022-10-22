@@ -19,7 +19,7 @@ jobs:
             export LLVM_INSTALL_PREFIX=$SRC_ROOT/build/llvm-install
             mkdir -p $LLVM_INSTALL_PREFIX
             cd $LLVM_INSTALL_PREFIX
-            wget https://github.com/colemancda/swift-armv7/releases/download/0.4.0/llvm-swift.zip
+            wget -q https://github.com/colemancda/swift-armv7/releases/download/0.4.0/llvm-swift.zip
             unzip llvm-swift.zip
             rm -rf llvm-swift.zip
         - name: Build
@@ -31,3 +31,36 @@ jobs:
           with:
             name: swift-armv7
             path: ./build/swift-armv7.tar.gz
+    
+    build-xctoolchain-armv7:
+        name: Build Xcode toolchain
+        runs-on: macos-latest
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Swift Version
+          run: swift --version
+        - name: Download LLVM
+          run: |
+            export SRC_ROOT=$GITHUB_WORKSPACE
+            export LLVM_INSTALL_PREFIX=$SRC_ROOT/build/llvm-install
+            mkdir -p $LLVM_INSTALL_PREFIX
+            cd $LLVM_INSTALL_PREFIX
+            wget -q https://github.com/colemancda/swift-armv7/releases/download/0.4.0/llvm-swift.zip
+            unzip llvm-swift.zip
+            rm -rf llvm-swift.zip
+        - name: Generate Xcode toolchain
+          run: |
+            export SRC_ROOT=$GITHUB_WORKSPACE
+            export SWIFT_NATIVE_PATH=/tmp/cross-toolchain/swift-armv7.xctoolchain/usr/bin
+            ./generate-xcode-toolchain.sh
+        - name: Cross compile Swift package
+          run: |
+            export SRC_ROOT=$GITHUB_WORKSPACE
+            export SWIFT_NATIVE_PATH=/tmp/cross-toolchain/swift-armv7.xctoolchain/usr/bin
+            ./build-swift-hello.sh
+        - name: Archive swift-hello
+          uses: actions/upload-artifact@v3
+          with:
+            name: swift-hello
+            path: ./build/swift-hello/armv7-unknown-linux-gnueabihf/release/swift-hello
