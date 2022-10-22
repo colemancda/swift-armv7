@@ -13,9 +13,9 @@ fi
 
 # Generate Xcode toolchain
 if [[ $OSTYPE == 'darwin'* && ! -d "$XCTOOLCHAIN" ]]; then
-    ./generate-xcode-toolchain.sh /tmp/ ./downloads/${SWIFT_VERSION}-osx.pkg ./build/swift-armv7.tar.gz
     mkdir -p $XCTOOLCHAIN
-    mv /tmp/cross-toolchain/swift-armv7.xctoolchain/* $XCTOOLCHAIN/
+    ./generate-xcode-toolchain-impl.sh /tmp/ ./downloads/${SWIFT_VERSION}-osx.pkg $INSTALL_TAR
+    cp -rf /tmp/cross-toolchain/swift-armv7.xctoolchain/* $XCTOOLCHAIN/
 fi
 
 # Cleanup previous build
