@@ -58,11 +58,13 @@ LIBS="-latomic" cmake -S $SWIFT_SRCDIR -B $SWIFT_BUILDDIR -G Ninja \
         -DICU_I18N_LIBRARIES=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libicui18n.so \
         -DICU_UC_LIBRARIES=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libicuuc.so \
         -DZLIB_LIBRARY=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libz.so \
+        -DZLIB_INCLUDE_DIR=${STAGING_DIR}/usr/include \
         -DSWIFT_PATH_TO_LIBDISPATCH_SOURCE=${LIBDISPATCH_SRCDIR} \
         -DSWIFT_ENABLE_EXPERIMENTAL_CONCURRENCY=ON \
 		-DCMAKE_Swift_FLAGS_DEBUG="" \
 		-DCMAKE_Swift_FLAGS_RELEASE="" \
 		-DCMAKE_Swift_FLAGS_RELWITHDEBINFO="" \
+        -DCMAKE_OSX_SYSROOT="" \
 
 echo "Build Swift StdLib"
 (cd $SWIFT_BUILDDIR && ninja)
