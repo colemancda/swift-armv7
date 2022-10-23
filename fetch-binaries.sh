@@ -22,16 +22,6 @@ else
     rm -rf ./downloads/bullseye-armv7
 fi
 
-# Download prebuilt LLVM
-if [[ ! -d "$LLVM_INSTALL_PREFIX" ]]; then
-    mkdir -p $LLVM_INSTALL_PREFIX
-    cd $LLVM_INSTALL_PREFIX
-    echo "Download prebuilt LLVM"
-    wget -q https://github.com/colemancda/swift-armv7/releases/download/0.4.0/llvm-swift.zip
-    unzip llvm-swift.zip
-    rm -rf llvm-swift.zip
-fi
-
 if [[ $OSTYPE == 'darwin'* ]]; then
 
     # Download Swift Xcode toolchain
