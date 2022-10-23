@@ -13,15 +13,6 @@ jobs:
           uses: actions/checkout@v3
         - name: Swift Version
           run: swift --version
-        - name: Download LLVM
-          run: |
-            export SRC_ROOT=$GITHUB_WORKSPACE
-            export LLVM_INSTALL_PREFIX=$SRC_ROOT/build/llvm-install
-            mkdir -p $LLVM_INSTALL_PREFIX
-            cd $LLVM_INSTALL_PREFIX
-            wget -q https://github.com/colemancda/swift-armv7/releases/download/0.4.0/llvm-swift.zip
-            unzip llvm-swift.zip
-            rm -rf llvm-swift.zip
         - name: Build
           run: |
             export SRC_ROOT=$GITHUB_WORKSPACE
