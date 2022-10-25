@@ -22,11 +22,7 @@ fi
 rm -rf $STAGING_DIR/usr/lib/swift*
 
 # Build LLVM
-if [[ -d "$LLVM_INSTALL_PREFIX" ]]; then
-    echo "Using built LLVM"
-else
-    ./build-llvm.sh
-fi
+./build-llvm.sh
 
 # Build Swift
 ./build-swift-stdlib.sh
