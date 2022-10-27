@@ -6,7 +6,7 @@ jobs:
 
     build-swift-armv7:
         name: Build Swift
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-latest
         container: colemancda/swift-armv7
         steps:
         - name: Checkout
