@@ -16,7 +16,7 @@ set -eu
 source swift-define
 
 export PATH="/bin:/usr/bin:$(brew --prefix)/bin"
-VERSION=${VERSION:-5.7-RELEASE}
+VERSION=${VERSION:-5.7.1-RELEASE}
 if [[ -z "${VERSION##*RELEASE*}" ]]; then
   branch=swift-${VERSION%%RELEASE}release
 elif [[ -z "${VERSION##DEVELOPMENT-SNAPSHOT*}" ]]; then

@@ -1,4 +1,4 @@
-FROM swift:5.7-jammy
+FROM swift:5.7.1-jammy
 
 # Install dependencies
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && apt-get -q update && \
