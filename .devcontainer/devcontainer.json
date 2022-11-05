@@ -3,7 +3,14 @@
 {
 	"name": "Swift",
 	"build": {
-		"dockerfile": "Dockerfile"
+		"dockerfile": "Dockerfile",
+		"args": {
+			// Update the VARIANT arg to pick a Swift version 
+			"VARIANT": "5.7.1-jammy",
+			// Options
+			"NODE_VERSION": "lts/*",
+			"UPGRADE_PACKAGES": "true"
+		}
 	},
 	"runArgs": [
 		"--cap-add=SYS_PTRACE",

@@ -1,1 +1,1 @@
- docker build -t colemancda/swift-armv7:5.7-debian11 --file ./runtime/Dockerfile .
+ docker build -t colemancda/swift-armv7:latest-runtime --file ./runtime/Dockerfile .

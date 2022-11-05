@@ -1,1 +1,1 @@
-alias debian_env="sudo docker run -it --rm --privileged -v$HOME/Developer:$HOME/Developer -v$HOME/.aws:$HOME/.aws -v$HOME/.ssh:$HOME/.ssh -e HOME=$HOME -e USER_NAME=$(whoami) -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -w=\$(pwd) colemancda/swift-armv7:5.7-debian11"
+alias debian_env="sudo docker run -it --rm --privileged -v$HOME/Developer:$HOME/Developer -v$HOME/.aws:$HOME/.aws -v$HOME/.ssh:$HOME/.ssh -e HOME=$HOME -e USER_NAME=$(whoami) -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -w=\$(pwd) colemancda/swift-armv7:latest-runtime"

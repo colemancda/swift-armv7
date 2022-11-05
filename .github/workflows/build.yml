@@ -54,7 +54,7 @@ jobs:
     test-swift-hello-armv7:
         name: Test Swift runtime
         runs-on: [self-hosted, Linux, ARM]
-        container: colemancda/swift-armv7:5.7-debian11
+        container: colemancda/swift-armv7:latest-runtime
         needs: build-xctoolchain-armv7
         steps:
         - name: Download Swift runtime
@@ -73,7 +73,8 @@ jobs:
           uses: actions/download-artifact@v3
           with: 
             name: swift-hello
+            path: /tmp/
         - name: Test
           run: |
-            chmod +x ./swift-hello
-            ./swift-hello
+            chmod +x /tmp/swift-hello
+            /tmp/swift-hello
