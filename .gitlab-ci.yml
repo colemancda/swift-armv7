@@ -5,15 +5,6 @@ build-swift-armv7:
   image: colemancda/swift-armv7
   stage: build
   script:
-    - source swift-define
-    - ./fetch-sources.sh
-    - ./fetch-binaries.sh
-    - ./build-llvm.sh
-    - ./build-swift-stdlib.sh
-    - ./build-dispatch.sh
-    - ./build-foundation.sh
-    - ./build-xctest.sh
-    - ./build-tar.sh
-    - ./generate-swiftpm-toolchain.sh
+    - ./build.sh
   tags:
     - bastion-c5d.9xl

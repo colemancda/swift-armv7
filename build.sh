@@ -35,4 +35,3 @@ rm -rf $STAGING_DIR/usr/lib/swift*
 
 # Cross compile test package
 ./generate-swiftpm-toolchain.sh
-./build-swift-hello.sh
