@@ -6,5 +6,8 @@ build-swift-armv7:
   stage: build
   script:
     - ./build.sh
+  artifacts:
+    paths: 
+      - ./build/swift-armv7.tar.gz
   tags:
     - bastion-c5d.9xl
