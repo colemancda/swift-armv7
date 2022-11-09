@@ -94,3 +94,19 @@ else
     mv ./downloads/llvm-project-$SWIFT_VERSION/* $LLVM_SRCDIR
     rm -rf ./downloads/llvm-project-$SWIFT_VERSION/
 fi
+
+# Download cmark
+DOWNLOAD_FILE=./downloads/cmark-${SWIFT_VERSION}.tar.gz
+SRCDIR=$SRC_ROOT/downloads/cmark
+SRCURL=https://github.com/apple/cmark/archive/refs/tags/$SWIFT_VERSION.tar.gz
+if [[ -d "$SRCDIR" ]]; then
+    echo "$SRCDIR exists"
+else
+    echo "Download cmark"
+    wget -q $SRCURL -O $DOWNLOAD_FILE
+    rm -rf $SRCDIR
+    mkdir -p $SRCDIR
+    tar -xf $DOWNLOAD_FILE -C ./downloads
+    mv ./downloads/swift-cmark-$SWIFT_VERSION/* $SRCDIR
+    rm -rf ./downloads/swift-cmark-$SWIFT_VERSION/
+fi
