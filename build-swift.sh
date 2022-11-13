@@ -16,13 +16,6 @@ export CFLAGS="${RUNTIME_FLAGS} ${EXTRA_INCLUDE_FLAGS}"
 export CXXFLAGS="${RUNTIME_FLAGS} ${EXTRA_INCLUDE_FLAGS}"
 export LDFLAGS="${LINK_FLAGS}"
 
-# Create symbolic link
-mkdir -p ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/linux/${SWIFT_TARGET_ARCH}
-ln -s ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/linux/${SWIFT_TARGET_ARCH} ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/linux/"$(uname -m)"
-
-# Copy SwiftPM destination file
-cp -rf $SWIFTPM_DESTINATION_FILE $SWIFT_INSTALL_PREFIX/usr/swiftpm.json
-
 # Build Swift
 ./utils/build-script -RA \
     --skip-early-swift-driver \
