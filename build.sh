@@ -20,15 +20,10 @@ fi
 
 # Cleanup previous build
 rm -rf $STAGING_DIR/usr/lib/swift*
-
-# Build LLVM
-./build-llvm.sh
+rm -rf $SWIFT_INSTALL_PREFIX
 
 # Build Swift
-./build-swift-stdlib.sh
-./build-dispatch.sh
-./build-foundation.sh
-./build-xctest.sh
+./build-swift.sh
 
 # Archive
 ./build-tar.sh
