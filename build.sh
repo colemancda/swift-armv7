@@ -24,6 +24,7 @@ rm -rf $SWIFT_INSTALL_PREFIX
 
 # Build Swift
 ./generate-swiftpm-toolchain.sh
+./build-llvm.sh
 ./build-swift.sh
 
 # Archive
