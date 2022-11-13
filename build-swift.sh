@@ -36,12 +36,13 @@ cp -rf $SWIFTPM_DESTINATION_FILE $SWIFT_INSTALL_PREFIX/usr/swiftpm.json
     --cross-compile-deps-path=$STAGING_DIR \
     --cross-compile-append-host-target-to-destdir=False \
     --swift-install-components="${SWIFT_COMPONENTS}" \
+    --llvm-install-components=IndexStore --install-llvm \
     --install-swift \
     --install-cmark \
     --libdispatch --foundation --xctest \
     --install-foundation --install-libdispatch --install-xctest \
-    --llbuild --swiftpm \
-    --install-llbuild --install-swiftpm \
+    --llbuild --swiftpm --sourcekit-lsp --indexstore-db \
+    --install-llbuild --install-swiftpm --install-sourcekit-lsp \
     --install-destdir=$SWIFT_INSTALL_PREFIX \
     --build-dir=$SRC_ROOT/build \
     --workspace=$SRC_ROOT/downloads \
