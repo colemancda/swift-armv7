@@ -23,10 +23,8 @@ rm -rf $STAGING_DIR/usr/lib/swift*
 rm -rf $SWIFT_INSTALL_PREFIX
 
 # Build Swift
+./generate-swiftpm-toolchain.sh
 ./build-swift.sh
 
 # Archive
 ./build-tar.sh
-
-# Cross compile test package
-./generate-swiftpm-toolchain.sh
