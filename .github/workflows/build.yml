@@ -65,6 +65,7 @@ jobs:
         - name: Install Swift
           run: |
             rm -rf /usr/lib/swift*
+            rm -rf /usr/bin/swift*
             cd /tmp/
             tar -xf /tmp/swift-armv7.tar.gz
             cp -rf /tmp/usr/* /usr/
