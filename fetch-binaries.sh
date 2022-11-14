@@ -36,7 +36,7 @@ if [[ $OSTYPE == 'darwin'* ]]; then
 
     # Download prebuilt Swift for Armv7
     DOWNLOAD_FILE=$INSTALL_TAR
-    SRCURL=https://github.com/colemancda/swift-armv7/releases/download/0.4.3/swift-armv7.tar.gz
+    SRCURL=https://github.com/colemancda/swift-armv7/releases/download/0.5.0/swift-armv7.tar.gz
     if test -f "$DOWNLOAD_FILE"; then
         echo "swift-armv7.tar.gz exists"
     else
