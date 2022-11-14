@@ -1,0 +1,15 @@
+diff --git a/utils/swift_build_support/swift_build_support/targets.py b/utils/swift_build_support/swift_build_support/targets.py
+index 34ae000617d..93d0388f0ee 100644
+--- a/utils/swift_build_support/swift_build_support/targets.py
++++ b/utils/swift_build_support/swift_build_support/targets.py
+@@ -84,8 +84,8 @@ class Platform(object):
+         """
+         Generate a JSON file that SPM can use to cross-compile
+         """
+-        raise NotImplementedError('Generating a SwiftPM cross-compilation JSON file '
+-                                  'for %s is not supported yet' % self.name)
++        config_file = '%s/swiftpm.json' % (output_dir)
++        return config_file
+ 
+ 
+ class DarwinPlatform(Platform):

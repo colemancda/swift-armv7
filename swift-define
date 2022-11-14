@@ -20,21 +20,16 @@ SWIFT_PACKAGE_BUILDDIR="${SWIFT_PACKAGE_BUILDDIR:=$SWIFT_PACKAGE_SRCDIR/.build}"
 # Build Paths
 LLVM_SRCDIR=$SRC_ROOT/downloads/llvm-project
 LLVM_BUILDDIR=$SRC_ROOT/build/llvm-linux-$SWIFT_TARGET_ARCH
-LLVM_INSTALL_PREFIX=$SRC_ROOT/build/llvm-install
 SWIFT_SRCDIR=$SRC_ROOT/downloads/swift
 SWIFT_BUILDDIR=$SRC_ROOT/build/swift-linux-$SWIFT_TARGET_ARCH
-SWIFT_INSTALL_PREFIX=$SRC_ROOT/build/swift-$SWIFT_TARGET_ARCH-install/
+SWIFT_INSTALL_PREFIX=$SRC_ROOT/build/swift-linux-$SWIFT_TARGET_ARCH-install/
 LIBDISPATCH_SRCDIR=$SRC_ROOT/downloads/swift-corelibs-libdispatch
 LIBDISPATCH_BUILDDIR=$SRC_ROOT/build/libdispatch-linux-$SWIFT_TARGET_ARCH
-LIBDISPATCH_INSTALL_PREFIX=$SRC_ROOT/build/libdispatch-$SWIFT_TARGET_ARCH-install/usr
 FOUNDATION_SRCDIR=$SRC_ROOT/downloads/swift-corelibs-foundation
 FOUNDATION_BUILDDIR=$SRC_ROOT/build/foundation-linux-$SWIFT_TARGET_ARCH
-FOUNDATION_INSTALL_PREFIX=$SRC_ROOT/build/foundation-$SWIFT_TARGET_ARCH-install/usr
 XCTEST_SRCDIR=$SRC_ROOT/downloads/swift-corelibs-xctest
 XCTEST_BUILDDIR=$SRC_ROOT/build/xctest-linux-$SWIFT_TARGET_ARCH
-XCTEST_INSTALL_PREFIX=$SRC_ROOT/build/xctest-$SWIFT_TARGET_ARCH-install/usr
 SWIFTPM_DESTINATION_FILE=$SRC_ROOT/build/$SWIFT_TARGET_NAME-toolchain.json
-INSTALL_PREFIX=$SRC_ROOT/build/swift-install/usr
 INSTALL_TAR=$SRC_ROOT/build/swift-$SWIFT_TARGET_ARCH.tar.gz
 PREBUILT_XCTOOLCHAIN=$SRC_ROOT/downloads/${SWIFT_VERSION}-osx.pkg
 
@@ -44,17 +39,40 @@ EXTRA_FLAGS="-march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard"
 RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME} ${EXTRA_FLAGS} -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/9"
 LINK_FLAGS="--sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME} ${EXTRA_FLAGS} -latomic"
 ASM_FLAGS="--sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME}"
+SWIFT_COMPONENTS="autolink-driver;compiler;clang-resource-dir-symlink;swift-remote-mirror;parser-lib;license;sourcekit-inproc;stdlib;sdk-overlay"
+LLVM_COMPONENTS="IndexStore;clang;clang-resource-headers;compiler-rt;clangd;lld;LTO;clang-features-file"
 
 SWIFTC_FLAGS="-target ${SWIFT_TARGET_NAME} -use-ld=lld \
 -resource-dir ${STAGING_DIR}/usr/lib/swift \
+-resource-dir ${SWIFT_INSTALL_PREFIX}/usr/lib/swift \
 -Xclang-linker -B${STAGING_DIR}/usr/lib \
 -Xclang-linker -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/9 \
 -Xcc -I${STAGING_DIR}/usr/include \
 -Xcc -I${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/9/include \
 -L${STAGING_DIR}/lib \
 -L${STAGING_DIR}/usr/lib \
--L${STAGING_DIR}/usr/lib/swift \
 -L${STAGING_DIR}/usr/lib/swift/linux \
 -L${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/9 \
 -sdk ${STAGING_DIR} \
 "
+
+EXTRA_CMAKE_OPTIONS=" \
+        -DCMAKE_C_FLAGS=\"${RUNTIME_FLAGS} ${EXTRA_INCLUDE_FLAGS}\" \
+        -DCMAKE_CXX_FLAGS=\"${RUNTIME_FLAGS} ${EXTRA_INCLUDE_FLAGS}\" \
+        -DCMAKE_C_LINK_FLAGS=\"${LINK_FLAGS}\" \
+        -DCMAKE_CXX_LINK_FLAGS=\"${LINK_FLAGS}\" \
+        -DCMAKE_ASM_FLAGS=\"${ASM_FLAGS}\" \
+        -DCMAKE_SYSROOT=\"$STAGING_DIR\" \
+        -DCMAKE_LINKER=/usr/bin/ld.lld \
+        -DSWIFT_SDK_LINUX_ARCH_${SWIFT_TARGET_ARCH}_PATH=${STAGING_DIR} \
+        -DSWIFT_SDK_LINUX_ARCH_${SWIFT_TARGET_ARCH}_LIBC_INCLUDE_DIRECTORY=${STAGING_DIR}/usr/include \
+        -DSWIFT_USE_LINKER=lld \
+        -DLLVM_USE_LINKER=lld \
+        -DZLIB_LIBRARY=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libz.so \
+        -DZLIB_INCLUDE_DIR=${STAGING_DIR}/usr/include \
+        -DUUID_LIBRARY=${STAGING_DIR}/usr/lib/arm-linux-gnueabihf/libuuid.so \
+        -DSWIFT_PATH_TO_CMARK_BUILD=${SRC_ROOT}/downloads/build/Ninja-Release/cmark-linux-armv7 \
+		-DCMAKE_Swift_FLAGS_DEBUG="" \
+		-DCMAKE_Swift_FLAGS_RELEASE="" \
+		-DCMAKE_Swift_FLAGS_RELWITHDEBINFO="" \
+    "

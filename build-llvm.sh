@@ -4,7 +4,6 @@ source swift-define
 
 echo "Create LLVM build folder ${LLVM_BUILDDIR}"
 mkdir -p $LLVM_BUILDDIR
-mkdir -p $LLVM_INSTALL_PREFIX
 
 echo "Build LLVM"
 cd $SWIFT_SRCDIR
@@ -12,6 +11,7 @@ export SKIP_XCODE_VERSION_CHECK=1
 export SWIFT_NATIVE_SWIFT_TOOLS_PATH=$SWIFT_NATIVE_PATH
 export SWIFT_NATIVE_CLANG_TOOLS_PATH=$SWIFT_NATIVE_PATH
 export CC=$SWIFT_NATIVE_PATH/clang
+export CFLAGS="-fPIC"
 
 ./utils/build-script -RA --build-swift-tools=0 \
     --skip-early-swift-driver --skip-build-llvm --skip-build-cmark  \

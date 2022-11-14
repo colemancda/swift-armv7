@@ -4,6 +4,9 @@ set -e
 export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
     && apt-get -q update \
     && apt-get -q install -y \
+    binutils \
+    git \
+    swig \
     libc6-dev \
     libatomic1 \
     libcurl4 \
@@ -26,7 +29,6 @@ export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
     libedit-dev \
     libxml2-dev \
     libsqlite3-dev \
-    swig \
     libpython3.9-dev \
     libncurses5-dev \
     pkg-config \
