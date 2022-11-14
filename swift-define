@@ -40,6 +40,7 @@ RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_N
 LINK_FLAGS="--sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME} ${EXTRA_FLAGS} -latomic"
 ASM_FLAGS="--sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME}"
 SWIFT_COMPONENTS="autolink-driver;compiler;clang-resource-dir-symlink;swift-remote-mirror;parser-lib;license;sourcekit-inproc;stdlib;sdk-overlay"
+LLVM_COMPONENTS="IndexStore;clang;clang-resource-headers;compiler-rt;clangd;lld;LTO;clang-features-file"
 
 SWIFTC_FLAGS="-target ${SWIFT_TARGET_NAME} -use-ld=lld \
 -resource-dir ${STAGING_DIR}/usr/lib/swift \

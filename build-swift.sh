@@ -18,6 +18,7 @@ export LDFLAGS="${LINK_FLAGS}"
 
 # Build Swift
 ./utils/build-script -RA \
+    --reconfigure \
     --skip-early-swift-driver \
     --bootstrapping=off \
     --build-toolchain-only \
@@ -29,7 +30,7 @@ export LDFLAGS="${LINK_FLAGS}"
     --cross-compile-deps-path=$STAGING_DIR \
     --cross-compile-append-host-target-to-destdir=False \
     --swift-install-components="${SWIFT_COMPONENTS}" \
-    --llvm-install-components=IndexStore --install-llvm \
+    --llvm-install-components="${LLVM_COMPONENTS}" --install-llvm --install-lldb \
     --install-swift \
     --install-cmark \
     --libdispatch --foundation --xctest \
@@ -45,3 +46,4 @@ export LDFLAGS="${LINK_FLAGS}"
 echo "Fix Swift modules"
 rm -rf ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/linux/"$(uname -m)"
 rm -rf ${SWIFT_INSTALL_PREFIX}/usr/lib/swift_static
+rm -rf ${SWIFT_INSTALL_PREFIX}/usr/swiftpm.json
