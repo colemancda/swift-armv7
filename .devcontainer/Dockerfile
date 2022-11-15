@@ -124,7 +124,5 @@ WORKDIR /workspaces/swift-armv7
 ENV SRC_ROOT=/workspaces/swift-armv7
 
 # Create symbolic links
-RUN echo "/usr/bin/qemu-arm-static $SRC_ROOT/build/swift-linux-armv7/bin/swift-def-to-yaml-converter" >> /usr/bin/swift-def-to-yaml-converter && \
-    chmod +x /usr/bin/swift-def-to-yaml-converter && \
-    echo "/usr/bin/qemu-arm-static $SRC_ROOT/build/swift-linux-armv7/bin/swift-serialize-diagnostics" >> /usr/bin/swift-serialize-diagnostics && \
-    chmod +x /usr/bin/swift-serialize-diagnostics
+RUN ln -s /workspaces/swift-armv7/build/swift-linux-armv7/bin/swift-def-to-yaml-converter /usr/bin/swift-def-to-yaml-converter && \
+    ln -s /workspaces/swift-armv7/build/swift-linux-armv7/bin/swift-serialize-diagnostics /usr/bin/swift-serialize-diagnostics

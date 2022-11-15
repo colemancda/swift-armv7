@@ -6,6 +6,10 @@ build-swift-armv7:
   stage: build
   script:
     - export SRC_ROOT=$(pwd)
+    - rm -rf /usr/bin/swift-def-to-yaml-converter
+    - ln -s $SRC_ROOT/build/swift-linux-armv7/bin/swift-def-to-yaml-converter /usr/bin/swift-def-to-yaml-converter
+    - rm -rf /usr/bin/swift-serialize-diagnostics
+    - ln -s $SRC_ROOT/build/swift-linux-armv7/bin/swift-serialize-diagnostics /usr/bin/swift-serialize-diagnostics
     - ./build.sh
   artifacts:
     paths: 
