@@ -45,7 +45,9 @@ export LDFLAGS="${LINK_FLAGS}"
 
 echo "Fix Swift modules"
 rm -rf ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/linux/"$(uname -m)"
-rm -rf ${SWIFT_INSTALL_PREFIX}/usr/lib/swift_static
+mkdir -p ${SWIFT_INSTALL_PREFIX}/usr/lib/swift_static/linux/${SWIFT_TARGET_ARCH}
+cp -rf ${SWIFT_INSTALL_PREFIX}/usr/lib/swift_static/linux/"$(uname -m)"/* ${SWIFT_INSTALL_PREFIX}/usr/lib/swift_static/linux/${SWIFT_TARGET_ARCH}/
+rm -rf ${SWIFT_INSTALL_PREFIX}/usr/lib/swift_static/linux/"$(uname -m)"
 rm -rf ${SWIFT_INSTALL_PREFIX}/usr/swiftpm.json
 rm -rf ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/clang
 ln -s /usr/lib/clang/13.0.0 ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/clang
