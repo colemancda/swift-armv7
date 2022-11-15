@@ -6,8 +6,8 @@ jobs:
 
     build-swift-armv7:
         name: Build Swift
-        runs-on: ubuntu-latest
-        container: colemancda/swift-armv7
+        runs-on: [Linux, X64]
+        timeout-minutes: 480
         steps:
         - name: Checkout
           uses: actions/checkout@v3
