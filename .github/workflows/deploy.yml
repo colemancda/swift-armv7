@@ -19,6 +19,35 @@ jobs:
           context: .devcontainer
           push: true
           tags: colemancda/swift-armv7:latest
+  
+  push_prebuilt:
+    name: Push prebuilt Docker image
+    runs-on: ubuntu-latest
+    needs: push_to_registry
+    steps:
+      - name: Check out GitHub repo
+        uses: actions/checkout@v2
+      - name: Download Swift runtime
+        run: |
+            export SRC_ROOT=$GITHUB_WORKSPACE
+            export DOWNLOAD_FILE=$SRC_ROOT/build/swift-armv7.tar.gz
+            export TAR_URL=https://github.com/colemancda/swift-armv7/releases/download/0.5.1/swift-armv7.tar.gz
+            mkdir -p $SRC_ROOT/build
+            mkdir -p $SRC_ROOT/build/swift-linux-armv7-install
+            wget -q $TAR_URL -O $DOWNLOAD_FILE
+            cd $SRC_ROOT/build/swift-linux-armv7-install
+            tar -xvf $DOWNLOAD_FILE
+            rm -rf $DOWNLOAD_FILE
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Build image and push to Docker Hub
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: colemancda/swift-armv7:latest-prebuilt
 
   push_runtime:
     name: Push runtime Docker image
@@ -64,22 +93,12 @@ jobs:
     name: Crosscompile from Linux
     runs-on: ubuntu-latest
     container: colemancda/swift-armv7
-    needs: push_to_registry
+    needs: push_prebuilt
     steps:
       - name: Check out GitHub repo
         uses: actions/checkout@v2
       - name: Swift Version
         run: swift --version
-      - name: Download Swift runtime
-        run: |
-            export SRC_ROOT=$GITHUB_WORKSPACE
-            export DOWNLOAD_FILE=$SRC_ROOT/build/swift-armv7.tar.gz
-            export TAR_URL=https://github.com/colemancda/swift-armv7/releases/download/0.5.1/swift-armv7.tar.gz
-            mkdir -p $SRC_ROOT/build
-            mkdir -p $SRC_ROOT/build/swift-linux-armv7-install
-            wget -q $TAR_URL -O $DOWNLOAD_FILE
-            cd $SRC_ROOT/build/swift-linux-armv7-install
-            tar -xvf $DOWNLOAD_FILE
       - name: Cross compile Swift package
         run: |
             export SRC_ROOT=$GITHUB_WORKSPACE
@@ -109,3 +128,16 @@ jobs:
           run: |
             chmod +x /tmp/swift-hello
             /tmp/swift-hello
+  
+  build-armv7:
+    name: Build on Linux Armv7
+    runs-on: [self-hosted, Linux, ARM]
+    container: colemancda/swift-armv7:latest-runtime
+    needs: push_runtime
+    steps:
+      - name: Check out GitHub repo
+        uses: actions/checkout@v2
+      - name: Build and run
+        run: |
+          cd swift-hello
+          swift run
