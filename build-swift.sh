@@ -50,4 +50,4 @@ cp -rf ${SWIFT_INSTALL_PREFIX}/usr/lib/swift_static/linux/"$(uname -m)"/* ${SWIF
 rm -rf ${SWIFT_INSTALL_PREFIX}/usr/lib/swift_static/linux/"$(uname -m)"
 rm -rf ${SWIFT_INSTALL_PREFIX}/usr/swiftpm.json
 rm -rf ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/clang
-ln -s /usr/lib/clang/13.0.0 ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/clang
+ln -s ../clang/13.0.0 ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/clang
