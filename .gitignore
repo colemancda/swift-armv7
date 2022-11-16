@@ -4,4 +4,6 @@ downloads
 llvm*
 .config
 .build
+.swiftpm
+.vscode
 *-armv7
