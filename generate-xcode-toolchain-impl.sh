@@ -32,7 +32,7 @@ function usage() {
     echo >&2
     echo >&2 "Complete example:"
     echo >&2 "  # Download the Swift binaries for Debian and macOS"
-    echo >&2 "  curl -o ~/Downloads/swift-${VERSION}-armhf-debian11.04.tar.gz https://github.com/colemancda/swift-armv7/releases/download/0.4.0/swift-armv7.tar.gz"
+    echo >&2 "  curl -o ~/Downloads/swift-${VERSION}-armhf-debian11.04.tar.gz https://github.com/colemancda/swift-armv7/releases/download/0.5.1/swift-armv7.tar.gz"
     echo >&2 "  curl -o ~/Downloads/swift-${VERSION}-osx.pkg https://swift.org/builds/${branch}/xcode/swift-${VERSION}/swift-${VERSION}-osx.pkg"
     echo >&2 "  # Build the SDK and toolchain from that"
     echo >&2 "  $0 /tmp/ ~/Downloads/swift-${VERSION}-osx.pkg ~/Downloads/swift-${VERSION}-armhf-debian11.04.tar.gz"
