@@ -38,6 +38,10 @@ jobs:
             cd $SRC_ROOT/build/swift-linux-armv7-install
             tar -xvf $DOWNLOAD_FILE
             rm -rf $DOWNLOAD_FILE
+      - name: Download Debian 11 sysroot
+        run: |
+            export SRC_ROOT=$GITHUB_WORKSPACE
+            ./fetch-binaries.sh
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         with:
@@ -92,16 +96,14 @@ jobs:
   crosscompile-linux:
     name: Crosscompile from Linux
     runs-on: ubuntu-latest
-    container: colemancda/swift-armv7
+    container: colemancda/swift-armv7:latest-prebuilt
     needs: push_prebuilt
     steps:
-      - name: Check out GitHub repo
-        uses: actions/checkout@v2
       - name: Swift Version
         run: swift --version
       - name: Cross compile Swift package
         run: |
-            export SRC_ROOT=$GITHUB_WORKSPACE
+            cd $SRC_ROOT
             ./generate-swiftpm-toolchain.sh
             ./build-swift-hello.sh
       - name: Archive swift-hello
