@@ -34,14 +34,5 @@ else
     cd $SRC_ROOT
 fi
 
-# Build SDK
-echo "Build SDK $XCTOOLCHAIN_SDK"
-cp -rf $STAGING_DIR/lib $XCTOOLCHAIN_SDK/
-cp -rf $STAGING_DIR/usr/lib $XCTOOLCHAIN_SDK/usr/
-cp -rf $STAGING_DIR/usr/include $XCTOOLCHAIN_SDK/usr/
-cp -rf $SWIFT_INSTALL_PREFIX/usr/lib $XCTOOLCHAIN_SDK/usr/
-cp -rf /tmp/cross-toolchain/swift-armv7.xctoolchain/usr/lib/swift $XCTOOLCHAIN_SDK/usr/lib/
-
 # Generate destination.json
-export STAGING_DIR=$XCTOOLCHAIN_SDK
 ./generate-swiftpm-toolchain.sh

@@ -6,7 +6,7 @@ SWIFT_TARGET_NAME=armv7-unknown-linux-gnueabihf
 # Configurable
 SRC_ROOT="${SRC_ROOT:=$(pwd)}"
 XCTOOLCHAIN="${XCTOOLCHAIN:=$SRC_ROOT/build/$SWIFT_VERSION-armv7-debian11.xctoolchain}"
-XCTOOLCHAIN_SDK="${SDK:=/tmp/cross-toolchain/debian-bullseye.sdk}"
+XCTOOLCHAIN_SDK="${XCTOOLCHAIN_SDK:=/tmp/cross-toolchain/debian-bullseye.sdk}"
 STAGING_DIR="${STAGING_DIR:=$SRC_ROOT/bullseye-armv7}"
 if [[ $OSTYPE == 'darwin'* ]]; then
     SWIFT_NATIVE_PATH="${SWIFT_NATIVE_PATH:=$XCTOOLCHAIN/usr/bin}"
