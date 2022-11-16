@@ -4,6 +4,7 @@ source swift-define
 
 echo "Generate SwiftPM cross compilation toolchain file"
 rm -f ${SWIFTPM_DESTINATION_FILE}
+mkdir -p $SRC_ROOT/build
 touch ${SWIFTPM_DESTINATION_FILE}
 
 printf "{\n" >> ${SWIFTPM_DESTINATION_FILE}
