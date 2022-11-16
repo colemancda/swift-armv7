@@ -19,28 +19,93 @@ jobs:
           context: .devcontainer
           push: true
           tags: colemancda/swift-armv7:latest
-  
-  build-swift-armv7:
-        name: Build Swift runtime
-        runs-on: [Linux, X64]
-        container: colemancda/swift-armv7
-        timeout-minutes: 480
-        needs: push_to_registry
+
+  push_runtime:
+    name: Push runtime Docker image
+    runs-on: [self-hosted, Linux, ARM]
+    steps:
+      - name: Check out GitHub repo
+        uses: actions/checkout@v2
+      - name: Download Swift runtime
+        run: |
+            export SRC_ROOT=$GITHUB_WORKSPACE
+            export DOWNLOAD_FILE=$SRC_ROOT/build/swift-armv7.tar.gz
+            export TAR_URL=https://github.com/colemancda/swift-armv7/releases/download/0.5.1/swift-armv7.tar.gz
+            mkdir -p $SRC_ROOT/build
+            wget -q $TAR_URL -O $DOWNLOAD_FILE
+      - name: Build Docker image
+        run: ./build-runtime.sh
+      - name: Push to Docker Hub
+        run: docker push colemancda/swift-armv7:latest-runtime
+
+  crosscompile-macos:
+        name: Build Xcode toolchain
+        runs-on: macos-latest
         steps:
         - name: Checkout
           uses: actions/checkout@v3
         - name: Swift Version
           run: swift --version
-        - name: Build
+        - name: Generate Xcode toolchain
           run: |
             export SRC_ROOT=$GITHUB_WORKSPACE
-            rm -rf /usr/bin/swift-def-to-yaml-converter
-            ln -s $SRC_ROOT/build/swift-linux-armv7/bin/swift-def-to-yaml-converter /usr/bin/swift-def-to-yaml-converter
-            rm -rf /usr/bin/swift-serialize-diagnostics
-            ln -s $SRC_ROOT/build/swift-linux-armv7/bin/swift-serialize-diagnostics /usr/bin/swift-serialize-diagnostics
-            ./build.sh
-        - name: Archive Swift Build artifacts
+            ./generate-xcode-toolchain.sh
+        - name: Cross compile Swift package
+          run: |
+            export SRC_ROOT=$GITHUB_WORKSPACE
+            ./build-swift-hello.sh
+        - name: Archive swift-hello
           uses: actions/upload-artifact@v3
           with:
-            name: swift-armv7
-            path: ./build/swift-armv7.tar.gz
+            name: swift-hello-crosscompile-macos
+            path: ./build/swift-hello/armv7-unknown-linux-gnueabihf/release/swift-hello
+  
+  crosscompile-linux:
+    name: Crosscompile from Linux
+    runs-on: ubuntu-latest
+    container: colemancda/swift-armv7
+    needs: push_to_registry
+    steps:
+      - name: Check out GitHub repo
+        uses: actions/checkout@v2
+      - name: Swift Version
+        run: swift --version
+      - name: Download Swift runtime
+        run: |
+            export SRC_ROOT=$GITHUB_WORKSPACE
+            export DOWNLOAD_FILE=$SRC_ROOT/build/swift-armv7.tar.gz
+            export TAR_URL=https://github.com/colemancda/swift-armv7/releases/download/0.5.1/swift-armv7.tar.gz
+            mkdir -p $SRC_ROOT/build
+            mkdir -p $SRC_ROOT/build/swift-linux-armv7-install
+            wget -q $TAR_URL -O $DOWNLOAD_FILE
+            cd $SRC_ROOT/build/swift-linux-armv7-install
+            tar -xvf $DOWNLOAD_FILE
+      - name: Cross compile Swift package
+        run: |
+            export SRC_ROOT=$GITHUB_WORKSPACE
+            ./generate-swiftpm-toolchain.sh
+            ./build-swift-hello.sh
+      - name: Archive swift-hello
+        uses: actions/upload-artifact@v3
+        with:
+          name: swift-hello-crosscompile-linux
+          path: ./build/swift-hello/armv7-unknown-linux-gnueabihf/release/swift-hello
+
+  test-swift-hello-armv7:
+        name: Test Swift runtime
+        runs-on: [self-hosted, Linux, ARM]
+        strategy:
+          matrix:
+            os: [macos, linux]
+        container: colemancda/swift-armv7:latest-runtime
+        needs: [push_runtime, crosscompile-linux, crosscompile-macos]
+        steps:
+        - name: Download swift-hello
+          uses: actions/download-artifact@v3
+          with: 
+            name: swift-hello-crosscompile-${{ matrix.os }}
+            path: /tmp/
+        - name: Test
+          run: |
+            chmod +x /tmp/swift-hello
+            /tmp/swift-hello
