@@ -27,21 +27,6 @@ jobs:
     steps:
       - name: Check out GitHub repo
         uses: actions/checkout@v2
-      - name: Download Swift runtime
-        run: |
-            export SRC_ROOT=$GITHUB_WORKSPACE
-            export DOWNLOAD_FILE=$SRC_ROOT/build/swift-armv7.tar.gz
-            export TAR_URL=https://github.com/colemancda/swift-armv7/releases/download/0.5.1/swift-armv7.tar.gz
-            mkdir -p $SRC_ROOT/build
-            mkdir -p $SRC_ROOT/build/swift-linux-armv7-install
-            wget -q $TAR_URL -O $DOWNLOAD_FILE
-            cd $SRC_ROOT/build/swift-linux-armv7-install
-            tar -xvf $DOWNLOAD_FILE
-            rm -rf $DOWNLOAD_FILE
-      - name: Download Debian 11 sysroot
-        run: |
-            export SRC_ROOT=$GITHUB_WORKSPACE
-            ./fetch-binaries.sh
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         with:

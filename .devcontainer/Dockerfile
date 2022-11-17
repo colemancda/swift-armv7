@@ -1,8 +1,9 @@
 FROM debian:bullseye
 
-# [Option] Install zsh
+# Install zsh
 ARG INSTALL_ZSH="true"
-# [Option] Upgrade OS packages to their latest versions
+
+# Upgrade OS packages to their latest versions
 ARG UPGRADE_PACKAGES="true"
 
 # Install needed packages and setup non-root user.
