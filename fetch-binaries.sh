@@ -50,7 +50,7 @@ if [[ $OSTYPE == 'darwin'* ]]; then
 
     # Download Swift Xcode toolchain
     DOWNLOAD_FILE=$PREBUILT_XCTOOLCHAIN
-    SRCURL="https://download.swift.org/swift-5.7.1-release/xcode/${SWIFT_VERSION}/${SWIFT_VERSION}-osx.pkg"
+    SRCURL="https://download.swift.org/swift-5.10-release/xcode/${SWIFT_VERSION}/${SWIFT_VERSION}-osx.pkg"
     if test -f "$DOWNLOAD_FILE"; then
         echo "${SWIFT_VERSION}-osx.pkg exists"
     else
