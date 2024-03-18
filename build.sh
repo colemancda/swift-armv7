@@ -32,7 +32,8 @@ cp -rf $SWIFTPM_DESTINATION_FILE $SWIFT_INSTALL_PREFIX/usr/swiftpm.json
 
 # Build Swift
 ./build-llvm.sh
-./build-swift.sh
+./build-swift-stdlib.sh
+./build-swift-libs.sh
 
 # Archive
 ./build-tar.sh

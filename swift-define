@@ -22,16 +22,10 @@ SWIFT_PACKAGE_BUILDDIR="${SWIFT_PACKAGE_BUILDDIR:=$SWIFT_PACKAGE_SRCDIR/.build}"
 WORKSPACE_DIR=$SRC_ROOT/workspace
 LLVM_SRCDIR=$WORKSPACE_DIR/llvm-project
 SWIFT_SRCDIR=$WORKSPACE_DIR/swift
-SWIFT_BUILDDIR=$SRC_ROOT/build/swift-linux-$SWIFT_TARGET_ARCH
-SWIFT_INSTALL_PREFIX=$SRC_ROOT/build/swift-linux-$SWIFT_TARGET_ARCH-install/
-LIBDISPATCH_SRCDIR=$SRC_ROOT/downloads/swift-corelibs-libdispatch
-LIBDISPATCH_BUILDDIR=$SRC_ROOT/build/libdispatch-linux-$SWIFT_TARGET_ARCH
-FOUNDATION_SRCDIR=$SRC_ROOT/downloads/swift-corelibs-foundation
-FOUNDATION_BUILDDIR=$SRC_ROOT/build/foundation-linux-$SWIFT_TARGET_ARCH
-XCTEST_SRCDIR=$SRC_ROOT/downloads/swift-corelibs-xctest
-XCTEST_BUILDDIR=$SRC_ROOT/build/xctest-linux-$SWIFT_TARGET_ARCH
-SWIFTPM_DESTINATION_FILE=$SRC_ROOT/build/$SWIFT_TARGET_NAME-toolchain.json
-INSTALL_TAR=$SRC_ROOT/build/swift-$SWIFT_TARGET_ARCH.tar.gz
+SWIFT_BUILDDIR=$WORKSPACE_DIR/build/swift-linux-$SWIFT_TARGET_ARCH
+SWIFT_INSTALL_PREFIX=$WORKSPACE_DIR/build/swift-linux-$SWIFT_TARGET_ARCH-install/
+SWIFTPM_DESTINATION_FILE=$WORKSPACE_DIR/build/$SWIFT_TARGET_NAME-toolchain.json
+INSTALL_TAR=$WORKSPACE_DIR/build/swift-$SWIFT_TARGET_ARCH.tar.gz
 PREBUILT_XCTOOLCHAIN=$SRC_ROOT/downloads/${SWIFT_VERSION}-osx.pkg
 
 # Compilation flags
@@ -45,7 +39,6 @@ LLVM_COMPONENTS="IndexStore;clang;clang-resource-headers;compiler-rt;clangd;lld;
 
 SWIFTC_FLAGS="-target ${SWIFT_TARGET_NAME} -use-ld=lld \
 -resource-dir ${STAGING_DIR}/usr/lib/swift \
--resource-dir ${SWIFT_INSTALL_PREFIX}/usr/lib/swift \
 -Xclang-linker -B${STAGING_DIR}/usr/lib \
 -Xclang-linker -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/9 \
 -Xcc -I${STAGING_DIR}/usr/include \
