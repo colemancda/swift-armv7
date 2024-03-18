@@ -34,7 +34,6 @@ export LDFLAGS="${LINK_FLAGS}"
     --extra-cmake-options="${EXTRA_CMAKE_OPTIONS}"
 
 echo "Fix Swift modules"
-cp -rf ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/linux/"$(uname -m)"/* ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/linux/${SWIFT_TARGET_ARCH}/
 rm -rf ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/linux/"$(uname -m)"
 mkdir -p ${SWIFT_INSTALL_PREFIX}/usr/lib/swift_static/linux/${SWIFT_TARGET_ARCH}
 cp -rf ${SWIFT_INSTALL_PREFIX}/usr/lib/swift_static/linux/"$(uname -m)"/* ${SWIFT_INSTALL_PREFIX}/usr/lib/swift_static/linux/${SWIFT_TARGET_ARCH}/

@@ -1,0 +1,12 @@
+diff '--color=auto' -ruN a/utils/swift_build_support/swift_build_support/products/product.py b/utils/swift_build_support/swift_build_support/products/product.py
+--- a/utils/swift_build_support/swift_build_support/products/product.py	2024-03-04 03:05:19.000000000 -0500
++++ b/utils/swift_build_support/swift_build_support/products/product.py	2024-03-08 09:38:20.905117604 -0500
+@@ -370,7 +370,7 @@
+     def get_linux_sysroot(self, platform, arch):
+         if not self.is_cross_compile_target('{}-{}'.format(platform, arch)):
+             return None
+-        sysroot_arch, abi = self.get_linux_target_components(arch)
++        sysroot_arch, _, abi = self.get_linux_target_components(arch)
+         # $ARCH-$PLATFORM-$ABI
+         # E.x.: aarch64-linux-gnu
+         sysroot_dirname = '{}-{}-{}'.format(sysroot_arch, platform, abi)
