@@ -2,9 +2,6 @@
 set -e
 source swift-define
 
-mkdir -p $SRC_ROOT/build
-mkdir -p $SRC_ROOT/downloads
-
 if [[ "$DOWNLOAD_SWIFT_RUNTIME" == "1" ]]; then
 
     # Download prebuilt Swift for Armv7
