@@ -4,21 +4,19 @@ source swift-define
 
 echo "Create LLVM build folder ${LLVM_BUILDDIR}"
 mkdir -p $LLVM_BUILDDIR
+mkdir -p $LLVM_INSTALL_PREFIX
+
+echo "Configure LLVM"
+cd $LLVM_BUILDDIR
+cmake -S $LLVM_SRCDIR/llvm -B $LLVM_BUILDDIR -G Ninja \
+		    -DCMAKE_INSTALL_PREFIX=${LLVM_INSTALL_PREFIX} \
+        -DCMAKE_C_COMPILER=$SWIFT_NATIVE_PATH/clang \
+        -DCMAKE_CXX_COMPILER=$SWIFT_NATIVE_PATH/clang++ \
+        -DLLVM_ENABLE_PROJECTS="llvm" \
+        -DCMAKE_BUILD_TYPE=Release
 
 echo "Build LLVM"
-cd $SWIFT_SRCDIR
-export SKIP_XCODE_VERSION_CHECK=1
-export SWIFT_NATIVE_SWIFT_TOOLS_PATH=$SWIFT_NATIVE_PATH
-export SWIFT_NATIVE_CLANG_TOOLS_PATH=$SWIFT_NATIVE_PATH
-export CC=$SWIFT_NATIVE_PATH/clang
-export CFLAGS="-fPIC"
+(cd $LLVM_BUILDDIR && ninja)
 
-./utils/build-script -RA --build-swift-tools=0 \
-    --skip-early-swift-driver --skip-build-llvm --skip-build-cmark  \
-    --native-swift-tools-path=$SWIFT_NATIVE_PATH \
-    --native-clang-tools-path=$SWIFT_NATIVE_PATH \
-    --swift-install-components='clang-resource-dir-symlink;license;stdlib;sdk-overlay' \
-    --install-swift \
-    --cross-compile-append-host-target-to-destdir=False --build-swift-dynamic-stdlib \
-    --build-dir=$SRC_ROOT/build \
-    --workspace=$SRC_ROOT/downloads \
+echo "Install LLVM"
+(cd $LLVM_BUILDDIR && ninja install)
