@@ -4,6 +4,7 @@ source swift-define
 
 echo "Create Foundation build folder ${FOUNDATION_BUILDDIR}"
 mkdir -p $FOUNDATION_BUILDDIR
+rm -rf $FOUNDATION_INSTALL_PREFIX
 mkdir -p $FOUNDATION_INSTALL_PREFIX
 
 # Workaround Dispatch defined with cmake and module

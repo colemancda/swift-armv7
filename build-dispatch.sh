@@ -4,6 +4,7 @@ source swift-define
 
 echo "Create Dispatch build folder ${SWIFT_BUILDDIR}"
 mkdir -p $LIBDISPATCH_BUILDDIR
+rm -rf $LIBDISPATCH_INSTALL_PREFIX
 mkdir -p $LIBDISPATCH_INSTALL_PREFIX
 
 echo "Configure Dispatch"
@@ -32,5 +33,5 @@ echo "Install Dispatch"
 (cd $LIBDISPATCH_BUILDDIR && ninja install)
 
 echo "Install to Debian sysroot"
-mv ${LIBDISPATCH_INSTALL_PREFIX}/lib/swift/linux/"$(uname -m)" ${LIBDISPATCH_INSTALL_PREFIX}/lib/swift/linux/armv7
+mv ${LIBDISPATCH_INSTALL_PREFIX}/lib/swift/linux/"$(uname -m)"/ ${LIBDISPATCH_INSTALL_PREFIX}/lib/swift/linux/armv7/
 cp -rf ${LIBDISPATCH_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
