@@ -115,16 +115,3 @@ jobs:
           run: |
             chmod +x /tmp/swift-hello
             /tmp/swift-hello
-  
-  build-armv7:
-    name: Build on Linux Armv7
-    runs-on: [self-hosted, Linux, ARM]
-    container: colemancda/swift-armv7:latest-runtime
-    needs: push_runtime
-    steps:
-      - name: Check out GitHub repo
-        uses: actions/checkout@v2
-      - name: Build and run
-        run: |
-          cd swift-hello
-          swift run
