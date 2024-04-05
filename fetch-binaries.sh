@@ -9,7 +9,7 @@ if [[ "$DOWNLOAD_SWIFT_RUNTIME" == "1" ]]; then
 
     # Download prebuilt Swift for Armv7
     DOWNLOAD_FILE=$INSTALL_TAR
-    SRCURL=https://github.com/colemancda/swift-armv7/releases/download/0.5.1/swift-armv7.tar.gz
+    SRCURL=https://github.com/colemancda/swift-armv7/releases/download/0.6.0/swift-armv7.tar.gz
     if test -f "$DOWNLOAD_FILE"; then
         echo "swift-armv7.tar.gz exists"
     else
@@ -30,27 +30,27 @@ if [[ "$DOWNLOAD_SWIFT_RUNTIME" == "1" ]]; then
     fi
 fi
 
-# Download Debian 11 sysroot
-DOWNLOAD_FILE=$SRC_ROOT/downloads/bullseye-armv7.tar
-SRCURL=https://github.com/colemancda/swift-armv7/releases/download/0.4.0/bullseye-armv7.tar
+# Download Debian 12 sysroot
+DOWNLOAD_FILE=$SRC_ROOT/downloads/bookworm-armhf.tar.gz
+SRCURL=https://github.com/colemancda/swift-armv7/releases/download/0.6.0/bookworm-armhf.tar.gz
 if [[ -d "$STAGING_DIR/usr/lib" ]]; then
     echo "Use existing Sysroot"
 else
-    echo "Download bullseye-armv7.tar"
+    echo "Download bookworm-armhf.tar.gz"
     touch $DOWNLOAD_FILE
     wget -q $SRCURL -O $DOWNLOAD_FILE
     mkdir -p $STAGING_DIR
     tar -xf $DOWNLOAD_FILE -C $SRC_ROOT/downloads
     rm -rf $DOWNLOAD_FILE
-    cp -rf $SRC_ROOT/downloads/bullseye-armv7/* $STAGING_DIR/
-    rm -rf $SRC_ROOT/downloads/bullseye-armv7
+    cp -rf $SRC_ROOT/downloads/bookworm-armhf/* $STAGING_DIR/
+    rm -rf $SRC_ROOT/downloads/bookworm-armhf
 fi
 
 if [[ $OSTYPE == 'darwin'* ]]; then
 
     # Download Swift Xcode toolchain
     DOWNLOAD_FILE=$PREBUILT_XCTOOLCHAIN
-    SRCURL="https://download.swift.org/swift-5.7.1-release/xcode/${SWIFT_VERSION}/${SWIFT_VERSION}-osx.pkg"
+    SRCURL="https://download.swift.org/swift-5.10-release/xcode/${SWIFT_VERSION}/${SWIFT_VERSION}-osx.pkg"
     if test -f "$DOWNLOAD_FILE"; then
         echo "${SWIFT_VERSION}-osx.pkg exists"
     else

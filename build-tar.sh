@@ -2,7 +2,15 @@
 set -e
 source swift-define
 
-# Compress
+# Combine build output
 rm -rf $INSTALL_TAR
-cd $SWIFT_INSTALL_PREFIX
+rm -rf $INSTALL_PREFIX
+mkdir -p $INSTALL_PREFIX
+cp -rf $SWIFT_INSTALL_PREFIX/* $INSTALL_PREFIX/
+cp -rf $LIBDISPATCH_INSTALL_PREFIX/* $INSTALL_PREFIX/
+cp -rf $FOUNDATION_INSTALL_PREFIX/* $INSTALL_PREFIX/
+cp -rf $XCTEST_INSTALL_PREFIX/* $INSTALL_PREFIX/
+
+# compress
+cd $SRC_ROOT/build/swift-install
 tar -czvf $INSTALL_TAR .

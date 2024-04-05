@@ -1,5 +1,5 @@
 # Should only run on Armv7 platform
-FROM debian:bullseye
+FROM debian:bookworm
 
 # Install runtime libraries and development headers
 COPY ./runtime/install-dependencies.sh /tmp/

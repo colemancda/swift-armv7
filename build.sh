@@ -20,19 +20,23 @@ fi
 
 # Cleanup previous build
 rm -rf $STAGING_DIR/usr/lib/swift*
-rm -rf $SWIFT_INSTALL_PREFIX
 
-# Create symbolic link
-mkdir -p ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/linux/${SWIFT_TARGET_ARCH}
-ln -s ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/linux/${SWIFT_TARGET_ARCH} ${SWIFT_INSTALL_PREFIX}/usr/lib/swift/linux/"$(uname -m)"
-
-# Generate SwiftPM destination file
-./generate-swiftpm-toolchain.sh
-cp -rf $SWIFTPM_DESTINATION_FILE $SWIFT_INSTALL_PREFIX/usr/swiftpm.json
+# Build LLVM
+if [[ -d "$LLVM_INSTALL_PREFIX" ]]; then
+    echo "Using built LLVM"
+else
+    ./build-llvm.sh
+fi
 
 # Build Swift
-./build-llvm.sh
-./build-swift.sh
+./build-swift-stdlib.sh
+./build-dispatch.sh
+./build-foundation.sh
+./build-xctest.sh
 
 # Archive
 ./build-tar.sh
+
+# Cross compile test package
+./generate-swiftpm-toolchain.sh
+./build-swift-hello.sh

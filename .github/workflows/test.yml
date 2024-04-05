@@ -37,7 +37,7 @@ jobs:
         run: |
             export SRC_ROOT=$GITHUB_WORKSPACE
             export DOWNLOAD_FILE=$SRC_ROOT/build/swift-armv7.tar.gz
-            export TAR_URL=https://github.com/colemancda/swift-armv7/releases/download/0.5.1/swift-armv7.tar.gz
+            export TAR_URL=https://github.com/colemancda/swift-armv7/releases/download/0.6.0/swift-armv7.tar.gz
             mkdir -p $SRC_ROOT/build
             mkdir -p $SRC_ROOT/build/swift-linux-armv7-install
             wget -q $TAR_URL -O $DOWNLOAD_FILE
@@ -73,15 +73,3 @@ jobs:
           run: |
             chmod +x /tmp/swift-hello
             /tmp/swift-hello
-  
-  build-armv7:
-    name: Build on Linux Armv7
-    runs-on: [self-hosted, Linux, ARM]
-    container: colemancda/swift-armv7:latest-runtime
-    steps:
-      - name: Check out GitHub repo
-        uses: actions/checkout@v2
-      - name: Build and run
-        run: |
-          cd swift-hello
-          swift run

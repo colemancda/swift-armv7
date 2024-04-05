@@ -23,7 +23,7 @@ export SWIFT_PACKAGE_SRCDIR=/home/user/Developer/MySwiftPackage
 ```
 ./generate-xcode-toolchain.sh
 export SWIFT_PACKAGE_SRCDIR=/home/user/Developer/MySwiftPackage
-export SWIFT_NATIVE_PATH=/tmp/cross-toolchain/debian-bullseye.sdk
+export SWIFT_NATIVE_PATH=/tmp/cross-toolchain/debian-bookworm.sdk
 ./build-swift-package.sh
 ```
 
