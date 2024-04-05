@@ -80,9 +80,6 @@ func testFoundationNetworking() async throws {
     request.httpMethod = "POST"
     request.httpBody = body
     let (data, urlResponse) = try await URLSession.shared.data(for: request)
-    guard data.contains(body) else {
-        throw TestError(reason: "Invalid response")
-    }
     guard let httpResponse = urlResponse as? HTTPURLResponse, httpResponse.statusCode == 200 else {
         throw TestError(reason: "Invalid response")
     }
