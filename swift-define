@@ -33,6 +33,7 @@ FOUNDATION_BUILDDIR=$SRC_ROOT/build/foundation-linux-$SWIFT_TARGET_ARCH
 FOUNDATION_INSTALL_PREFIX=$SRC_ROOT/build/foundation-linux-$SWIFT_TARGET_ARCH-install/
 XCTEST_SRCDIR=$SRC_ROOT/downloads/swift-corelibs-xctest
 XCTEST_BUILDDIR=$SRC_ROOT/build/xctest-linux-$SWIFT_TARGET_ARCH
+XCTEST_INSTALL_PREFIX=$SRC_ROOT/build/xctest-linux-$SWIFT_TARGET_ARCH-install/
 SWIFTPM_DESTINATION_FILE=$SRC_ROOT/build/$SWIFT_TARGET_NAME-toolchain.json
 INSTALL_PREFIX=$SRC_ROOT/build/swift-install/usr
 INSTALL_TAR=$SRC_ROOT/build/swift-$SWIFT_TARGET_ARCH.tar.gz
