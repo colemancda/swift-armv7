@@ -16,7 +16,7 @@ set -eu
 source swift-define
 
 export PATH="/bin:/usr/bin:$(brew --prefix)/bin"
-VERSION=${VERSION:-5.7.1-RELEASE}
+VERSION=${VERSION:-5.10-RELEASE}
 if [[ -z "${VERSION##*RELEASE*}" ]]; then
   branch=swift-${VERSION%%RELEASE}release
 elif [[ -z "${VERSION##DEVELOPMENT-SNAPSHOT*}" ]]; then
@@ -32,10 +32,10 @@ function usage() {
     echo >&2
     echo >&2 "Complete example:"
     echo >&2 "  # Download the Swift binaries for Debian and macOS"
-    echo >&2 "  curl -o ~/Downloads/swift-${VERSION}-armhf-debian11.04.tar.gz https://github.com/colemancda/swift-armv7/releases/download/0.5.1/swift-armv7.tar.gz"
+    echo >&2 "  curl -o ~/Downloads/swift-${VERSION}-armhf-debian12.tar.gz https://github.com/colemancda/swift-armv7/releases/download/0.6.0/swift-armv7.tar.gz"
     echo >&2 "  curl -o ~/Downloads/swift-${VERSION}-osx.pkg https://swift.org/builds/${branch}/xcode/swift-${VERSION}/swift-${VERSION}-osx.pkg"
     echo >&2 "  # Build the SDK and toolchain from that"
-    echo >&2 "  $0 /tmp/ ~/Downloads/swift-${VERSION}-osx.pkg ~/Downloads/swift-${VERSION}-armhf-debian11.04.tar.gz"
+    echo >&2 "  $0 /tmp/ ~/Downloads/swift-${VERSION}-osx.pkg ~/Downloads/swift-${VERSION}-armhf-debian12.tar.gz"
 }
 
 if [[ $# -ne 3 ]]; then
@@ -107,11 +107,11 @@ test -f "$linux_swift_pkg"
 # config
 blocks_h_url="https://raw.githubusercontent.com/apple/swift-corelibs-libdispatch/main/src/BlocksRuntime/Block.h"
 xc_tc_name="swift-armv7.xctoolchain"
-linux_sdk_name="debian-bullseye.sdk"
+linux_sdk_name="debian-bookworm.sdk"
 cross_tc_basename="cross-toolchain"
 clang_package_url="https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/clang+llvm-13.0.1-x86_64-apple-darwin.tar.xz"
 debian_mirror="http://ftp.us.debian.org/debian"
-packages_file="$debian_mirror/dists/bullseye/main/binary-armhf/Packages.gz"
+packages_file="$debian_mirror/dists/bookworm/main/binary-armhf/Packages.gz"
 pkg_names=( libc6-dev libcurl4 libedit2 libgcc-9-dev libpython3.9 libsqlite3-0 libstdc++-9-dev libxml2 libz3-dev pkg-config tzdata uuid-dev zlib1g-dev python3.9 uuid-dev libicu-dev icu-devtools libbsd-dev libedit-dev libxml2-dev libsqlite3-dev swig libpython3.9-dev libncurses5-dev pkg-config libblocksruntime-dev libcurl4-openssl-dev systemtap-sdt-dev )
 pkgs=()
 
@@ -217,7 +217,7 @@ find "$linux_sdk_name" -type l | while read -r line; do
         ln -s "${fixedlink#./}" "${line#./}"
     fi
 done
-ln -s 5 "$linux_sdk_name/usr/lib/gcc/arm-linux-gnueabihf/9"
+ln -s 5 "$linux_sdk_name/usr/lib/gcc/arm-linux-gnueabihf/12"
 
 tmp=$(mktemp -d "$dest/tmp_pkgs_XXXXXX")
 unpack "$tmp" "$macos_swift_pkg"
@@ -242,6 +242,6 @@ fi
 fix_glibc_modulemap "$cross_tc_basename/$xc_tc_name/usr/lib/swift/linux/$SWIFT_TARGET_ARCH/glibc.modulemap"
 
 echo
-echo "OK, your cross compilation toolchain for Debian 11 armhf is now ready to be used"
+echo "OK, your cross compilation toolchain for Debian 12 armhf is now ready to be used"
 echo " - SDK: $(pwd)/$cross_tc_basename/$linux_sdk_name"
 echo " - toolchain: $(pwd)/$cross_tc_basename/$xc_tc_name"
