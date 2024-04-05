@@ -72,7 +72,7 @@ ENV SRC_ROOT=/usr/src/swift-armv7
 RUN cd $SRC_ROOT && \
     $SRC_ROOT/generate-swiftpm-toolchain.sh
 
-# Fetch Debian 11 armhf sysroot and Swift runtime
+# Fetch Debian 12 armhf sysroot and Swift runtime
 RUN cd $SRC_ROOT && \
     export DOWNLOAD_SWIFT_RUNTIME=1 && \
     $SRC_ROOT/fetch-binaries.sh && \
