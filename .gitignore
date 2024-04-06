@@ -1,10 +1,8 @@
 .DS_Store
 build
 downloads
-bookworm-armhf
 llvm*
 .config
 .build
 .swiftpm
 .vscode
-*-armv7

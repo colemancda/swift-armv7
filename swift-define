@@ -7,7 +7,7 @@ SWIFT_TARGET_NAME=armv7-unknown-linux-gnueabihf
 SRC_ROOT="${SRC_ROOT:=$(pwd)}"
 XCTOOLCHAIN="${XCTOOLCHAIN:=$SRC_ROOT/build/$SWIFT_VERSION-armv7-debian12.xctoolchain}"
 XCTOOLCHAIN_SDK="${XCTOOLCHAIN_SDK:=/tmp/cross-toolchain/debian-bookworm.sdk}"
-STAGING_DIR="${STAGING_DIR:=$SRC_ROOT/bookworm-armhf}"
+STAGING_DIR="${STAGING_DIR:=$SRC_ROOT/downloads/sysroot}"
 if [[ $OSTYPE == 'darwin'* ]]; then
     SWIFT_NATIVE_PATH="${SWIFT_NATIVE_PATH:=$XCTOOLCHAIN/usr/bin}"
 else
