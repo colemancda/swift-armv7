@@ -6,4 +6,3 @@ llvm*
 .build
 .swiftpm
 .vscode
-*-armv7

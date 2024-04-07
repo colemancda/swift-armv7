@@ -4,6 +4,7 @@ source swift-define
 
 echo "Create XCTest build folder ${XCTEST_BUILDDIR}"
 mkdir -p $XCTEST_BUILDDIR
+rm -rf $XCTEST_INSTALL_PREFIX
 mkdir -p $XCTEST_INSTALL_PREFIX
 
 # Workaround Dispatch defined with cmake and module
