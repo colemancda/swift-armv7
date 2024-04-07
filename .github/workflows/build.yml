@@ -1,80 +1,31 @@
 name: Build Swift
-on: [workflow_dispatch]
+on: [push]
 jobs:
 
-    build-swift-armv7:
-        name: Build Swift
-        runs-on: [Linux, X64]
-        container: colemancda/swift-armv7
-        timeout-minutes: 480
-        steps:
-        - name: Checkout
-          uses: actions/checkout@v3
-        - name: Swift Version
-          run: swift --version
-        - name: Build
-          run: |
-            export SRC_ROOT=$GITHUB_WORKSPACE
-            ./build.sh
-        - name: Archive Swift Build artifacts
-          uses: actions/upload-artifact@v3
-          with:
-            name: swift-armv7
-            path: ./build/swift-armv7.tar.gz
-    
-    build-xctoolchain-armv7:
-        name: Build Xcode toolchain
-        runs-on: macos-latest
-        needs: build-swift-armv7
-        steps:
-        - name: Checkout
-          uses: actions/checkout@v3
-        - name: Swift Version
-          run: swift --version
-        - name: Download artifacts
-          uses: actions/download-artifact@v3
-          with: 
-            name: swift-armv7
-            path: ./build/
-        - name: Generate Xcode toolchain
-          run: |
-            export SRC_ROOT=$GITHUB_WORKSPACE
-            ./generate-xcode-toolchain.sh
-        - name: Cross compile Swift package
-          run: |
-            export SRC_ROOT=$GITHUB_WORKSPACE
-            ./build-swift-hello.sh
-        - name: Archive swift-hello
-          uses: actions/upload-artifact@v3
-          with:
-            name: swift-hello
-            path: ./build/swift-hello/armv7-unknown-linux-gnueabihf/release/swift-hello
-
-    test-swift-hello-armv7:
-        name: Test Swift runtime
-        runs-on: [self-hosted, Linux, ARM]
-        container: colemancda/swift-armv7:latest-runtime
-        needs: build-xctoolchain-armv7
-        steps:
-        - name: Download Swift runtime
-          uses: actions/download-artifact@v3
-          with: 
-            name: swift-armv7
-            path: /tmp/
-        - name: Install Swift
-          run: |
-            rm -rf /usr/lib/swift*
-            rm -rf /usr/bin/swift*
-            cd /tmp/
-            tar -xf /tmp/swift-armv7.tar.gz
-            cp -rf /tmp/usr/* /usr/
-            rm -rf /tmp/usr
-        - name: Download swift-hello
-          uses: actions/download-artifact@v3
-          with: 
-            name: swift-hello
-            path: /tmp/
-        - name: Test
-          run: |
-            chmod +x /tmp/swift-hello
-            /tmp/swift-hello
+  build-swift-armv7:
+    name: Build Swift
+    runs-on: ubuntu-20.04
+    container: colemancda/swift-armv7
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Swift Version
+      run: swift --version
+    - name: Download LLVM
+      run: |
+        export SRC_ROOT=$GITHUB_WORKSPACE
+        export LLVM_INSTALL_PREFIX=$SRC_ROOT/build/llvm-install
+        mkdir -p $LLVM_INSTALL_PREFIX
+        cd $LLVM_INSTALL_PREFIX
+        wget -q https://github.com/colemancda/swift-armv7/releases/download/0.6.0/llvm-install.tar.gz
+        tar -xf llvm-install.tar.gz
+        rm -rf llvm-install.tar.gz
+    - name: Build
+      run: |
+        export SRC_ROOT=$GITHUB_WORKSPACE
+        ./build.sh
+    - name: Archive Swift Build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: swift-armv7
+        path: ./build/swift-armv7.tar.gz
