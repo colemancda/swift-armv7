@@ -77,16 +77,8 @@ LIBS="-latomic" cmake -S $SWIFT_SRCDIR -B $SWIFT_BUILDDIR -G Ninja \
 echo "Build Swift StdLib"
 (cd $SWIFT_BUILDDIR && ninja)
 
-# Workaround disabled C++ module
-touch ${SWIFT_BUILDDIR}/lib/swift/linux/libstdcxx.h
-touch ${SWIFT_BUILDDIR}/lib/swift/linux/libstdcxx.modulemap
-
 echo "Install Swift StdLib"
 (cd $SWIFT_BUILDDIR && ninja install)
-
-# Remove disabled C++ module
-rm ${SWIFT_BUILDDIR}/lib/swift/linux/libstdcxx.h
-rm ${SWIFT_BUILDDIR}/lib/swift/linux/libstdcxx.modulemap
 
 echo "Install to Debian sysroot"
 cp -rf ${SWIFT_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
