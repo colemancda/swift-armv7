@@ -33,7 +33,6 @@ printf "      \"-I${STAGING_DIR}/usr/include\",\n" >> ${SWIFTPM_DESTINATION_FILE
 printf "      \"-I${STAGING_DIR}/usr/lib/swift\",\n" >> ${SWIFTPM_DESTINATION_FILE}
 printf "      \"-resource-dir\", \"${STAGING_DIR}/usr/lib/swift\",\n" >> ${SWIFTPM_DESTINATION_FILE}
 printf "      \"-Xclang-linker\", \"-B${STAGING_DIR}/usr/lib\",\n" >> ${SWIFTPM_DESTINATION_FILE}
-printf "      \"-Xfrontend\", \"-cxx-interoperability-mode=default\",\n" >> ${SWIFTPM_DESTINATION_FILE}
 printf "      \"-sdk\", \"${STAGING_DIR}\"\n" >> ${SWIFTPM_DESTINATION_FILE}
 printf "   ],\n" >> ${SWIFTPM_DESTINATION_FILE}
 printf "   \"extra-cpp-flags\":[\n" >> ${SWIFTPM_DESTINATION_FILE}
