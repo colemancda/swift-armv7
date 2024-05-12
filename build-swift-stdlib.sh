@@ -63,9 +63,9 @@ LIBS="-latomic" cmake -S $SWIFT_SRCDIR -B $SWIFT_BUILDDIR -G Ninja \
         -DSWIFT_ENABLE_EXPERIMENTAL_CONCURRENCY=ON \
         -DSWIFT_PATH_TO_STRING_PROCESSING_SOURCE=${STRING_PROCESSING_SRCDIR} \
         -DSWIFT_ENABLE_EXPERIMENTAL_STRING_PROCESSING=ON \
-	    -DSWIFT_ENABLE_EXPERIMENTAL_CXX_INTEROP=OFF \
-	    -DSWIFT_ENABLE_CXX_INTEROP_SWIFT_BRIDGING_HEADER=OFF \
-	    -DSWIFT_BUILD_STDLIB_CXX_MODULE=OFF \
+	    -DSWIFT_ENABLE_EXPERIMENTAL_CXX_INTEROP=ON \
+	    -DSWIFT_ENABLE_CXX_INTEROP_SWIFT_BRIDGING_HEADER=ON \
+	    -DSWIFT_BUILD_STDLIB_CXX_MODULE=ON \
 	    -DSWIFT_INCLUDE_TESTS=OFF \
 	    -DSWIFT_INCLUDE_TEST_BINARIES=OFF \
 	    -DSWIFT_BUILD_TEST_SUPPORT_MODULES=OFF \
@@ -77,16 +77,8 @@ LIBS="-latomic" cmake -S $SWIFT_SRCDIR -B $SWIFT_BUILDDIR -G Ninja \
 echo "Build Swift StdLib"
 (cd $SWIFT_BUILDDIR && ninja)
 
-# Workaround disabled C++ module
-touch ${SWIFT_BUILDDIR}/lib/swift/linux/libstdcxx.h
-touch ${SWIFT_BUILDDIR}/lib/swift/linux/libstdcxx.modulemap
-
 echo "Install Swift StdLib"
 (cd $SWIFT_BUILDDIR && ninja install)
-
-# Remove disabled C++ module
-rm ${SWIFT_BUILDDIR}/lib/swift/linux/libstdcxx.h
-rm ${SWIFT_BUILDDIR}/lib/swift/linux/libstdcxx.modulemap
 
 echo "Install to Debian sysroot"
 cp -rf ${SWIFT_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/

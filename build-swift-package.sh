@@ -10,4 +10,5 @@ $SWIFT_NATIVE_PATH/swift build --build-tests \
     --configuration ${SWIFTPM_CONFIGURATION} \
     --scratch-path ${SWIFT_PACKAGE_BUILDDIR} \
     --destination ${SWIFTPM_DESTINATION_FILE} \
+    -Xswiftc -cxx-interoperability-mode=default \
     -Xswiftc -enable-testing
