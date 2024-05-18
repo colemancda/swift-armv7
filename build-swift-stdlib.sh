@@ -60,6 +60,7 @@ LIBS="-latomic" cmake -S $SWIFT_SRCDIR -B $SWIFT_BUILDDIR -G Ninja \
         -DCMAKE_Swift_FLAGS_RELEASE="" \
         -DCMAKE_Swift_FLAGS_RELWITHDEBINFO="" \
         -DCMAKE_OSX_SYSROOT="" \
+        -DSWIFT_RUNTIME_SWIFT_COMPILE_FLAGS="-Xcc;--gcc-toolchain=$STAGING_DIR/usr;" \
 
 echo "Build Swift StdLib"
 (cd $SWIFT_BUILDDIR && ninja)
