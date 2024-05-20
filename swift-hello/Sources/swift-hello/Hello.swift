@@ -7,6 +7,9 @@ import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
+#if canImport(CxxStdlib)
+import CxxStdlib
+#endif
 
 @main
 struct Hello {
@@ -25,6 +28,9 @@ struct Hello {
         #if canImport(FoundationNetworking) || canImport(Darwin)
         print("FoundationNetworking installed")
         try await testFoundationNetworking()
+        #endif
+        #if canImport(CxxStdlib)
+        print("CxxStdlib installed, C++ interop should be available")
         #endif
     }
 }

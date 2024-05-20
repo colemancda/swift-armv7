@@ -1,0 +1,17 @@
+diff --git a/cmake/modules/SwiftConfigureSDK.cmake b/cmake/modules/SwiftConfigureSDK.cmake
+index 2d4f798bb11..020215b689e 100644
+--- a/cmake/modules/SwiftConfigureSDK.cmake
++++ b/cmake/modules/SwiftConfigureSDK.cmake
+@@ -321,9 +321,9 @@ macro(configure_sdk_unix name architectures)
+   # but add_swift_target_library does not allow passing different values
+   # depending on the architecture, so having a single value is the only
+   # possibility right now.
+-  set(SWIFT_SDK_${prefix}_CXX_OVERLAY_SWIFT_COMPILE_FLAGS
+-      -Xcc --gcc-toolchain=/usr
+-    CACHE STRING "Extra flags for compiling the C++ overlay")
++  #set(SWIFT_SDK_${prefix}_CXX_OVERLAY_SWIFT_COMPILE_FLAGS
++  #    -Xcc --gcc-toolchain=/usr
++  #  CACHE STRING "Extra flags for compiling the C++ overlay")
+ 
+   set(_default_threading_package "pthreads")
+   if("${prefix}" STREQUAL "LINUX")
