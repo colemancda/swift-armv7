@@ -9,9 +9,9 @@ index 2d4f798bb11..020215b689e 100644
 -  set(SWIFT_SDK_${prefix}_CXX_OVERLAY_SWIFT_COMPILE_FLAGS
 -      -Xcc --gcc-toolchain=/usr
 -    CACHE STRING "Extra flags for compiling the C++ overlay")
-+  #set(SWIFT_SDK_${prefix}_CXX_OVERLAY_SWIFT_COMPILE_FLAGS
-+  #    -Xcc --gcc-toolchain=/usr
-+  #  CACHE STRING "Extra flags for compiling the C++ overlay")
++  set(SWIFT_SDK_${prefix}_CXX_OVERLAY_SWIFT_COMPILE_FLAGS
++      -Xcc --gcc-toolchain=${CMAKE_SYSROOT}/usr
++    CACHE STRING "Extra flags for compiling the C++ overlay")
  
    set(_default_threading_package "pthreads")
    if("${prefix}" STREQUAL "LINUX")

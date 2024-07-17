@@ -19,6 +19,7 @@ LIBS="-latomic" cmake -S $SWIFT_SRCDIR -B $SWIFT_BUILDDIR -G Ninja \
         -DCMAKE_CXX_FLAGS="${RUNTIME_FLAGS} ${EXTRA_INCLUDE_FLAGS}" \
         -DCMAKE_C_LINK_FLAGS="${LINK_FLAGS}" \
         -DCMAKE_CXX_LINK_FLAGS="${LINK_FLAGS}" \
+        -DCMAKE_SYSROOT="${STAGING_DIR}" \
         -DSWIFT_USE_LINKER=lld \
         -DLLVM_USE_LINKER=lld \
         -DLLVM_DIR=${LLVM_INSTALL_PREFIX}/lib/cmake/llvm \
@@ -59,8 +60,7 @@ LIBS="-latomic" cmake -S $SWIFT_SRCDIR -B $SWIFT_BUILDDIR -G Ninja \
         -DCMAKE_Swift_FLAGS_DEBUG="" \
         -DCMAKE_Swift_FLAGS_RELEASE="" \
         -DCMAKE_Swift_FLAGS_RELWITHDEBINFO="" \
-        -DCMAKE_OSX_SYSROOT="" \
-        -DSWIFT_RUNTIME_SWIFT_COMPILE_FLAGS="-Xcc;--gcc-toolchain=$STAGING_DIR/usr;" \
+        -DCMAKE_OSX_SYSROOT=""
 
 echo "Build Swift StdLib"
 (cd $SWIFT_BUILDDIR && ninja)
