@@ -1,4 +1,4 @@
-FROM swift:5.10-jammy
+FROM swift:5.10.1-jammy
 
 # Install zsh
 ARG INSTALL_ZSH="true"

@@ -1,4 +1,4 @@
-FROM swift:5.10-jammy
+FROM swift:5.10.1-jammy
 
 # Install needed packages and setup non-root user.
 ARG USERNAME=vscode
