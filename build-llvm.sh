@@ -4,7 +4,6 @@ source swift-define
 
 echo "Create LLVM build folder ${LLVM_BUILDDIR}"
 mkdir -p $LLVM_BUILDDIR
-mkdir -p $LLVM_INSTALL_PREFIX
 
 echo "Configure LLVM"
 cd $LLVM_BUILDDIR
@@ -15,9 +14,3 @@ cmake -S $LLVM_SRCDIR/llvm -B $LLVM_BUILDDIR -G Ninja \
         -DLLVM_TARGETS_TO_BUILD="X86;ARM;AArch64" \
         -DLLVM_ENABLE_PROJECTS="llvm" \
         -DCMAKE_BUILD_TYPE=Release
-
-echo "Build LLVM"
-(cd $LLVM_BUILDDIR && ninja)
-
-echo "Install LLVM"
-(cd $LLVM_BUILDDIR && ninja install)
