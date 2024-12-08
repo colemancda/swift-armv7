@@ -24,7 +24,7 @@ runs:
       run: |
         docker run --rm --user runner --workdir ${{ github.workspace }} -v $HOME:$HOME \
           -e INSTALL_TAR=$(pwd)/${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-install.tar.gz \
-          -e STAGING_DIR=${{ inputs.sysroot-name }} \
+          -e STAGING_DIR=$(pwd)/${{ inputs.sysroot-name }} \
           -e CPP_VERSION=${{ inputs.cpp-version }} \
           xtremekforever/swift-builder:${{ inputs.builder-tag }} \
           /bin/bash ./build.sh
