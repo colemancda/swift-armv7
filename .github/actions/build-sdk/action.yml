@@ -16,7 +16,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - name: Build SDK for Linux
+    - name: Build SDK for Linux
       shell: bash
       run: |
         INSTALLABLE_SDK_PACKAGE=$(pwd)/${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-sdk.tar.gz SYSROOT=${{ inputs.sysroot-name }} \
