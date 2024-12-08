@@ -47,15 +47,9 @@ RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_N
 LINK_FLAGS="--sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME} ${EXTRA_FLAGS} -latomic"
 ASM_FLAGS="--sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME}"
 
-SWIFTC_FLAGS="-target ${SWIFT_TARGET_NAME} -use-ld=lld \
+SWIFTC_FLAGS="-target ${SWIFT_TARGET_NAME} \
+-use-ld=lld \
 -resource-dir ${STAGING_DIR}/usr/lib/swift \
--Xclang-linker -B${STAGING_DIR}/usr/lib \
--Xclang-linker -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/${CPP_VERSION} \
--Xcc -I${STAGING_DIR}/usr/include \
--Xcc -I${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/${CPP_VERSION}/include \
--L${STAGING_DIR}/lib \
--L${STAGING_DIR}/usr/lib \
--L${STAGING_DIR}/usr/lib/swift \
 -L${STAGING_DIR}/usr/lib/swift/linux \
 -L${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/${CPP_VERSION} \
 -sdk ${STAGING_DIR} \
