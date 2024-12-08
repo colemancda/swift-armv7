@@ -26,6 +26,7 @@ case $DISTRIUBTION in
                 zlib1g-dev \
                 libcurl4-openssl-dev \
                 libxml2-dev \
+                libsystemd-dev \
         "
         ;;
     debian:bullseye)
@@ -41,6 +42,7 @@ case $DISTRIUBTION in
                 zlib1g-dev \
                 libcurl4-openssl-dev \
                 libxml2-dev \
+                libsystemd-dev \
         "
         ;;
     "ubuntu:jammy" | "debian:bookworm")
@@ -56,6 +58,7 @@ case $DISTRIUBTION in
                 zlib1g-dev \
                 libcurl4-openssl-dev \
                 libxml2-dev \
+                libsystemd-dev \
         "
         ;;
     "ubuntu:mantic" | "ubuntu:noble")
@@ -71,6 +74,7 @@ case $DISTRIUBTION in
                 zlib1g-dev \
                 libcurl4-openssl-dev \
                 libxml2-dev \
+                libsystemd-dev \
         "
         ;;
     *)
