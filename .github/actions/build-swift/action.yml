@@ -1,0 +1,51 @@
+name: Restore or Build Sysroot
+description: Builds an armv7 sysroot for the provided distribution
+inputs:
+  swift-tag:
+    description: The Swift tag version that is being built
+    required: true
+  sysroot-name:
+    description: The name of the sysroot to use to build Swift
+    required: true
+  cpp-version:
+    description: The version of C++ that the sysroot uses, for finding cross compilation libraries
+    required: true
+  distribution:
+    description: The distribution to build Swift for
+    required: true
+  builder-tag:
+    description: Tag of the swift-builder container to use to build Swift
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Build Swift
+      shell: bash
+      run: |
+        docker run --rm --user runner --workdir ${{ github.workspace }} -v $HOME:$HOME \
+          -e INSTALL_TAR=$(pwd)/${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-install.tar.gz \
+          -e STAGING_DIR=${{ inputs.sysroot-name }} \
+          -e CPP_VERSION=${{ inputs.cpp-version }} \
+          xtremekforever/swift-builder:${{ inputs.builder-tag }} \
+          /bin/bash ./build.sh
+    #- name: Build SDK for Linux
+    #  shell: bash
+    #  run: |
+    #    INSTALLABLE_SDK_PACKAGE=$(pwd)/${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-sdk.tar.gz SYSROOT=${{ inputs.sysroot-name }} \
+    #      ./build-linux-cross-sdk.sh ${{ inputs.swift-tag }} ${{ inputs.distribution }}
+    #- name: Test SDK for Linux
+    #  shell: bash
+    #  env:
+    #    SDK_NAME: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7
+    #  run: |
+    #    sudo cp -rf artifacts/${{ env.SDK_NAME }} /opt
+    #    swift build -c release \
+    #      --package-path swift-hello \
+    #      --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}.json
+    - uses: actions/upload-artifact@v4
+      name: Publish
+      with:
+        name: ${{ inputs.swift-tag }}-${{ inputs.distribution }}
+        path: |
+          ${{ inputs.swift-tag }}*.tar.gz
+          swift-hello/
