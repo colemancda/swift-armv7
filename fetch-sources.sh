@@ -34,7 +34,6 @@ fi
     --skip-repository swift-atomics \
     --skip-repository swift-argument-parser \
     --skip-repository swift-certificates \
-    --skip-repository swift-collections \
     --skip-repository swift-crypto \
     --skip-repository swift-docc \
     --skip-repository swift-docc-render-artifact \

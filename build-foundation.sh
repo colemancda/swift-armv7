@@ -37,6 +37,9 @@ LIBS="-latomic" cmake -S $FOUNDATION_SRCDIR -B $FOUNDATION_BUILDDIR -G Ninja \
         -DCMAKE_Swift_FLAGS_DEBUG="" \
         -DCMAKE_Swift_FLAGS_RELEASE="" \
         -DCMAKE_Swift_FLAGS_RELWITHDEBINFO="" \
+        -D_SwiftFoundation_SourceDIR="$SRC_ROOT/downloads/swift-foundation" \
+        -D_SwiftFoundationICU_SourceDIR="$SRC_ROOT/downloads/swift-foundation-icu" \
+        -D_SwiftCollections_SourceDIR="$SRC_ROOT/downloads/swift-collections" \
 
 echo "Build Foundation"
 (cd $FOUNDATION_BUILDDIR && ninja)
@@ -44,9 +47,16 @@ echo "Build Foundation"
 echo "Install Foundation"
 (cd $FOUNDATION_BUILDDIR && ninja install)
 
+echo "Fix-up archs"
+find ${FOUNDATION_INSTALL_PREFIX}/lib/swift/linux -name "x86_64*.swiftmodule" -execdir mv {} armv7-unknown-linux-gnueabihf.swiftmodule \;
+find ${FOUNDATION_INSTALL_PREFIX}/lib/swift/linux -name "x86_64*.swiftdoc" -execdir mv {} armv7-unknown-linux-gnueabihf.swiftdoc \;
+
 # Restore Dispatch headers
 cp -rf ${LIBDISPATCH_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
 
 echo "Install to Debian sysroot"
-mv ${FOUNDATION_INSTALL_PREFIX}/lib/swift/linux/"$(uname -m)" ${FOUNDATION_INSTALL_PREFIX}/lib/swift/linux/armv7
+FOUNDATION_MODULES_DIR=${FOUNDATION_INSTALL_PREFIX}/lib/swift/linux/"$(uname -m)"
+if [ -d $FOUNDATION_MODULES_DIR ]; then
+    mv ${FOUNDATION_MODULES_DIR} ${FOUNDATION_INSTALL_PREFIX}/lib/swift/linux/armv7
+fi
 cp -rf ${FOUNDATION_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
