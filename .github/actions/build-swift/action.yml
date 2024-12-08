@@ -28,20 +28,20 @@ runs:
           -e CPP_VERSION=${{ inputs.cpp-version }} \
           xtremekforever/swift-builder:${{ inputs.builder-tag }} \
           /bin/bash ./build.sh
-    #- name: Build SDK for Linux
-    #  shell: bash
-    #  run: |
-    #    INSTALLABLE_SDK_PACKAGE=$(pwd)/${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-sdk.tar.gz SYSROOT=${{ inputs.sysroot-name }} \
-    #      ./build-linux-cross-sdk.sh ${{ inputs.swift-tag }} ${{ inputs.distribution }}
-    #- name: Test SDK for Linux
-    #  shell: bash
-    #  env:
-    #    SDK_NAME: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7
-    #  run: |
-    #    sudo cp -rf artifacts/${{ env.SDK_NAME }} /opt
-    #    swift build -c release \
-    #      --package-path swift-hello \
-    #      --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}.json
+    - name: Build SDK for Linux
+      shell: bash
+      run: |
+        INSTALLABLE_SDK_PACKAGE=$(pwd)/${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-sdk.tar.gz SYSROOT=${{ inputs.sysroot-name }} \
+          ./build-linux-cross-sdk.sh ${{ inputs.swift-tag }} ${{ inputs.distribution }}
+    - name: Test SDK for Linux
+      shell: bash
+      env:
+        SDK_NAME: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7
+      run: |
+        sudo cp -rf artifacts/${{ env.SDK_NAME }} /opt
+        swift build -c release \
+          --package-path swift-hello \
+          --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}.json
     - uses: actions/upload-artifact@v4
       name: Publish
       with:
