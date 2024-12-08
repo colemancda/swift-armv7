@@ -13,38 +13,6 @@ if [ -z $SYSROOT ]; then
 fi
 
 case $DISTRIUBTION in
-    ubuntu:focal)
-        INSTALL_DEPS_CMD=" \
-            apt-get update && \
-            apt-get install -y \
-                libc6-dev \
-                libgcc-9-dev \
-                libicu-dev \
-                libstdc++-9-dev \
-                libstdc++6 \
-                linux-libc-dev \
-                zlib1g-dev \
-                libcurl4-openssl-dev \
-                libxml2-dev \
-                libsystemd-dev \
-        "
-        ;;
-    debian:bullseye)
-        INSTALL_DEPS_CMD=" \
-            apt-get update && \
-            apt-get install -y \
-                libc6-dev \
-                libgcc-10-dev \
-                libicu-dev \
-                libstdc++-10-dev \
-                libstdc++6 \
-                linux-libc-dev \
-                zlib1g-dev \
-                libcurl4-openssl-dev \
-                libxml2-dev \
-                libsystemd-dev \
-        "
-        ;;
     "ubuntu:jammy" | "debian:bookworm")
         INSTALL_DEPS_CMD=" \
             apt-get update && \
@@ -82,6 +50,11 @@ case $DISTRIUBTION in
         echo "If you'd like to support it, update this script to add the apt package list for it."
         ;;
 esac
+
+if [ ! -z $EXTRA_PACKAGES ]; then
+    echo "Including extra packages: $EXTRA_PACKAGES"
+    INSTALL_DEPS_CMD="$INSTALL_DEPS_CMD && apt-get install -y $EXTRA_PACKAGES"
+fi
 
 echo "Starting up qemu emulation"
 docker run --privileged --rm tonistiigi/binfmt --install all

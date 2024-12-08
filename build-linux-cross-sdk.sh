@@ -33,6 +33,7 @@ SYSROOT=${SYSROOT:=$SRC_ROOT/sysroot-$DISTRIBUTION}
 # Create SDK directory
 SDK_NAME=${SWIFT_TAG}-${DISTRIBUTION}-${TARGET_ARCH}
 SDK_DIR=$ARTIFACTS_DIR/$SDK_NAME
+SDK_INSTALL_PREFIX=${SDK_INSTALL_PREFIX:=/opt}
 mkdir -p $SDK_DIR
 
 # Install directories
@@ -61,7 +62,7 @@ EOT
 
 # Create destination.json file
 echo "Creating destination.json file for SDK..."
-SDK_INSTALL_DIR="/opt/$SDK_NAME/$DISTRIBUTION"
+SDK_INSTALL_DIR="$SDK_INSTALL_PREFIX/$SDK_NAME/$DISTRIBUTION"
 cat <<EOT > $SDK_DIR/$DISTRIBUTION.json
 {
     "version":1,
