@@ -62,6 +62,13 @@ jobs:
         cpp-version: ${{ env.CPP_VERSION }}
         distribution: ${{ env.DISTRIBUTION }}
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
+    - uses: ./.github/actions/build-sdk
+      name: Build SDK
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        sysroot-name: ${{ env.SYSROOT_NAME }}
+        distribution: ${{ env.DISTRIBUTION }}
+        builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
 
   ubuntu-jammy:
     name: Build for Ubuntu Jammy
@@ -94,6 +101,13 @@ jobs:
         cpp-version: ${{ env.CPP_VERSION }}
         distribution: ${{ env.DISTRIBUTION }}
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
+    - uses: ./.github/actions/build-sdk
+      name: Build SDK
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        sysroot-name: ${{ env.SYSROOT_NAME }}
+        distribution: ${{ env.DISTRIBUTION }}
+        builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
 
   ubuntu-noble:
     name: Build for Ubuntu Noble
@@ -124,5 +138,12 @@ jobs:
         swift-tag: ${{ env.SWIFT_TAG }}
         sysroot-name: ${{ env.SYSROOT_NAME }}
         cpp-version: ${{ env.CPP_VERSION }}
+        distribution: ${{ env.DISTRIBUTION }}
+        builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
+    - uses: ./.github/actions/build-sdk
+      name: Build SDK
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        sysroot-name: ${{ env.SYSROOT_NAME }}
         distribution: ${{ env.DISTRIBUTION }}
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}

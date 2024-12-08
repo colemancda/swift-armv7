@@ -8,7 +8,9 @@ if [[ $OSTYPE == 'darwin'* ]]; then
 fi
 
 # Fetch and patch sources
-./fetch-sources.sh
+if [ -z $SKIP_FETCH_SOURCES ]; then
+    ./fetch-sources.sh
+fi
 ./fetch-binaries.sh
 
 # Generate Xcode toolchain

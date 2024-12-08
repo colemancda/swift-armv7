@@ -26,29 +26,12 @@ runs:
           -e INSTALL_TAR=$(pwd)/${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-install.tar.gz \
           -e STAGING_DIR=$(pwd)/${{ inputs.sysroot-name }} \
           -e CPP_VERSION=${{ inputs.cpp-version }} \
+          -e SKIP_FETCH_SOURCES=1 \
           xtremekforever/swift-builder:${{ inputs.builder-tag }} \
           /bin/bash ./build.sh
-    - name: Build SDK for Linux
-      shell: bash
-      run: |
-        INSTALLABLE_SDK_PACKAGE=$(pwd)/${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-sdk.tar.gz SYSROOT=${{ inputs.sysroot-name }} \
-          ./build-linux-cross-sdk.sh ${{ inputs.swift-tag }} ${{ inputs.distribution }}
-    - name: Test SDK for Linux
-      shell: bash
-      env:
-        SDK_NAME: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7
-      run: |
-        docker run --rm --user runner --workdir ${{ github.workspace }} -v $HOME:$HOME -v ${{ github.workspace }}/artifacts:/opt \
-          xtremekforever/swift-builder:${{ inputs.builder-tag }} \
-          /bin/bash swift build -c release \
-            --package-path swift-hello \
-            --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}.json \
-            -Xswiftc -cxx-interoperability-mode=default \
-            -Xswiftc -enable-testing
     - uses: actions/upload-artifact@v4
       name: Publish
       with:
-        name: ${{ inputs.swift-tag }}-${{ inputs.distribution }}
+        name: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-install
         path: |
-          ${{ inputs.swift-tag }}*.tar.gz
-          swift-hello/
+          ${{ inputs.swift-tag }}*-armv7-install.tar.gz
