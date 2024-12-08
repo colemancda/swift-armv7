@@ -38,10 +38,14 @@ runs:
       env:
         SDK_NAME: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7
       run: |
-        sudo cp -rf artifacts/${{ env.SDK_NAME }} /opt
-        swift build -c release \
-          --package-path swift-hello \
-          --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}.json
+        docker run --rm --user runner --workdir ${{ github.workspace }} -v $HOME:$HOME \
+          xtremekforever/swift-builder:${{ inputs.builder-tag }} \
+          /bin/bash sudo cp -rf artifacts/${{ env.SDK_NAME }} /opt && \
+            swift build -c release \
+              --package-path swift-hello \
+              --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}.json \
+              -Xswiftc -cxx-interoperability-mode=default \
+              -Xswiftc -enable-testing
     - uses: actions/upload-artifact@v4
       name: Publish
       with:
