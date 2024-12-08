@@ -33,8 +33,8 @@ runs:
             --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}.json \
             -Xswiftc -cxx-interoperability-mode=default \
             -Xswiftc -enable-testing
-        - uses: actions/upload-artifact@v4
-    - name: Publish
+    - uses: actions/upload-artifact@v4
+      name: Publish
       with:
         name: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-sdk
         path: |
