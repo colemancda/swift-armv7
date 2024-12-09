@@ -54,7 +54,7 @@ find ${FOUNDATION_INSTALL_PREFIX}/lib/swift/linux -name "x86_64*.swiftdoc" -exec
 # Restore Dispatch headers
 cp -rf ${LIBDISPATCH_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
 
-echo "Install to Debian sysroot"
+echo "Install Foundation into sysroot"
 FOUNDATION_MODULES_DIR=${FOUNDATION_INSTALL_PREFIX}/lib/swift/linux/"$(uname -m)"
 if [ -d $FOUNDATION_MODULES_DIR ]; then
     mv ${FOUNDATION_MODULES_DIR} ${FOUNDATION_INSTALL_PREFIX}/lib/swift/linux/armv7
