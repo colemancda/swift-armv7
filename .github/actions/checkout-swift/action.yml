@@ -20,4 +20,5 @@ runs:
       lookup-only: true
   - if: ${{ steps.cache-workspace.outputs.cache-hit != 'true' }}
     name: Checkout Sources
+    shell: bash
     run: SWIFT_VERSION=${{ inputs.swift-tag }} ./fetch-sources.sh
