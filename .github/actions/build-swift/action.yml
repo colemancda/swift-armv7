@@ -23,6 +23,7 @@ runs:
       shell: bash
       run: |
         docker run --rm --user runner --workdir ${{ github.workspace }} -v $HOME:$HOME \
+          -e SWIFT_VERSION=${{ inputs.swift-tag }} \
           -e INSTALL_TAR=$(pwd)/${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-install.tar.gz \
           -e STAGING_DIR=$(pwd)/${{ inputs.sysroot-name }} \
           -e CPP_VERSION=${{ inputs.cpp-version }} \

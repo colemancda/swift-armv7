@@ -40,6 +40,6 @@ echo "Install XCTest"
 # Restore Dispatch headers
 cp -rf ${LIBDISPATCH_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
 
-echo "Install to Debian sysroot"
+echo "Install XCTest to sysroot"
 mv ${XCTEST_INSTALL_PREFIX}/lib/swift/linux/"$(uname -m)" ${XCTEST_INSTALL_PREFIX}/lib/swift/linux/armv7
 cp -rf ${XCTEST_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
