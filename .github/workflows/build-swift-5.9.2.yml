@@ -16,6 +16,7 @@ jobs:
     name: Fetch Swift Sources
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/checkout-swift
       name: Restore or Checkout
       with:
