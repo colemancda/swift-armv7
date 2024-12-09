@@ -18,8 +18,6 @@ inputs:
     required: true
 runs:
   using: "composite"
-  env:
-    SYSROOT_NAME: sysroot-${{ inputs.distribution }}-armv7
   steps:
   - name: Restore Workspace Dir
     uses: actions/cache/restore@v4
@@ -27,24 +25,13 @@ runs:
       key: ${{ inputs.swift-workspace-cache }}
       path: downloads
       fail-on-cache-miss: true
-  - uses: ./.github/actions/build-sysroot
-    name: Restore or Build Sysroot
+  - uses: ./.github/actions/build-with-sysroot
+    name: Build Swift + SDK using Sysroot
     with:
+      swift-tag: ${{ inputs.swift-tag }}
+      swift-workspace-cache: ${{ inputs.swift-workspace-cache }}
       sysroot-id: sysroot-${{ inputs.distribution }}
-      sysroot-name: ${{ env.SYSROOT_NAME }}
+      sysroot-name: sysroot-${{ inputs.distribution }}-armv7
       distribution: ${{ inputs.distribution }}
-  - uses: ./.github/actions/build-swift
-    name: Build Swift
-    with:
-      swift-tag: ${{ inputs.swift-tag }}
-      sysroot-name: ${{ env.SYSROOT_NAME }}
       cpp-version: ${{ inputs.cpp-version }}
-      distribution: ${{ inputs.distribution }}
-      builder-tag: ${{ inputs.builder-tag }}
-  - uses: ./.github/actions/build-sdk
-    name: Build SDK
-    with:
-      swift-tag: ${{ inputs.swift-tag }}
-      sysroot-name: ${{ env.SYSROOT_NAME }}
-      distribution: ${{ inputs.distribution }}
       builder-tag: ${{ inputs.builder-tag }}

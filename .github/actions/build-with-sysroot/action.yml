@@ -1,0 +1,93 @@
+name: Build Swift with a provided armv7 sysroot for a given sysroot
+description: This contains the functionality to build/restore a sysroot, build Swift, and build an SDK
+inputs:
+  swift-tag:
+    description: The Swift tag version that is being built
+    required: true
+  swift-workspace-cache:
+    description: The name of the Swift workspace directory to restore
+    required: true
+  sysroot-id:
+    description: The sysroot ID to use when caching and publishing
+    required: true
+  sysroot-name:
+    description: The name of the sysroot to use to build Swift
+    required: true
+  distribution:
+    description: The name of the distribution to build for
+    required: true
+  cpp-version:
+    description: The version of C++ that is used by the provided distribution/sysroot
+    required: true
+  builder-tag:
+    description: Tag of the swift-builder container to use to build Swift
+    required: true
+runs:
+  using: "composite"
+  steps:
+  - name: Restore Sysroot
+    id: restore-sysroot
+    uses: actions/cache/restore@v4
+    with:
+      key: ${{ inputs.sysroot-id }}
+      path: ${{ inputs.sysroot-name }}
+  - if: ${{ steps.cache-sysroot.outputs.cache-hit != 'true' }}
+    name: Build
+    shell: bash
+    env:
+      DISTRIBUTION: ${{ inputs.distribution }}
+    run: ./build-sysroot.sh `echo ${DISTRIBUTION/-/:}` ${{ inputs.sysroot-name }}
+  - name: Compress
+    shell: bash
+    run: tar -czf ${{ inputs.sysroot-name }}.tar.gz ${{ inputs.sysroot-name }}
+  - uses: actions/upload-artifact@v4
+    name: Publish
+    with:
+      name: ${{ inputs.sysroot-id }}
+      path: ${{ inputs.sysroot-name }}.tar.gz
+  - name: Cache Sysroot
+    id: cache-sysroot
+    uses: actions/cache/save@v4
+    with:
+      key: ${{ inputs.sysroot-id }}
+      path: ${{ inputs.sysroot-name }}
+  - name: Build Swift
+    shell: bash
+    run: |
+      docker run --rm --user runner --workdir ${{ github.workspace }} -v $HOME:$HOME \
+        -e SWIFT_VERSION=${{ inputs.swift-tag }} \
+        -e INSTALL_TAR=$(pwd)/${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-install.tar.gz \
+        -e STAGING_DIR=$(pwd)/${{ inputs.sysroot-name }} \
+        -e CPP_VERSION=${{ inputs.cpp-version }} \
+        -e SKIP_FETCH_SOURCES=1 \
+        xtremekforever/swift-builder:${{ inputs.builder-tag }} \
+        /bin/bash ./build.sh
+  - uses: actions/upload-artifact@v4
+    name: Publish
+    with:
+      name: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-install
+      path: |
+        ${{ inputs.swift-tag }}*-armv7-install.tar.gz
+  - name: Build SDK for Linux
+    shell: bash
+    run: |
+      INSTALLABLE_SDK_PACKAGE=$(pwd)/${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-sdk.tar.gz SYSROOT=${{ inputs.sysroot-name }} \
+        ./build-linux-cross-sdk.sh ${{ inputs.swift-tag }} ${{ inputs.distribution }}
+  - name: Test SDK for Linux
+    shell: bash
+    env:
+      SDK_NAME: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7
+    run: |
+      docker run --rm --user runner --workdir ${{ github.workspace }} -v $HOME:$HOME -v ${{ github.workspace }}/artifacts:/opt \
+        xtremekforever/swift-builder:${{ inputs.builder-tag }} \
+        swift build -c release \
+          --package-path swift-hello \
+          --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}.json \
+          -Xswiftc -cxx-interoperability-mode=default \
+          -Xswiftc -enable-testing
+  - uses: actions/upload-artifact@v4
+    name: Publish
+    with:
+      name: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-sdk
+      path: |
+        ${{ inputs.swift-tag }}*-armv7-sdk.tar.gz
