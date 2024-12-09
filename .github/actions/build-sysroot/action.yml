@@ -13,8 +13,8 @@ runs:
   using: "composite"
   steps:
     - name: Restore Sysroot
-      id: cache-sysroot
-      uses: actions/cache@v4
+      id: restore-sysroot
+      uses: actions/cache/restore@v4
       with:
         key: ${{ inputs.sysroot-id }}
         path: ${{ inputs.sysroot-name }}
@@ -32,3 +32,9 @@ runs:
       with:
         name: ${{ inputs.sysroot-id }}
         path: ${{ inputs.sysroot-name }}.tar.gz
+    - name: Cache Sysroot
+      id: cache-sysroot
+      uses: actions/cache/save@v4
+      with:
+        key: ${{ inputs.sysroot-id }}
+        path: ${{ inputs.sysroot-name }}
