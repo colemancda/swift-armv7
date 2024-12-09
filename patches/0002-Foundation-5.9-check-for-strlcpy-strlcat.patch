@@ -1,0 +1,63 @@
+diff --git a/CoreFoundation/Base.subproj/CoreFoundation_Prefix.h b/CoreFoundation/Base.subproj/CoreFoundation_Prefix.h
+index bf6f203b..560fb8a2 100644
+--- a/CoreFoundation/Base.subproj/CoreFoundation_Prefix.h
++++ b/CoreFoundation/Base.subproj/CoreFoundation_Prefix.h
+@@ -189,7 +189,8 @@ static dispatch_queue_t __ ## PREFIX ## Queue(void) {			\
+ #define CF_RETAIN_BALANCED_ELSEWHERE(obj, identified_location) do { } while (0)
+ #endif
+ 
+-#if (TARGET_OS_LINUX && !TARGET_OS_ANDROID && !TARGET_OS_CYGWIN) || TARGET_OS_WIN32
++#if !TARGET_OS_MAC
++#ifndef HAVE_STRLCPY
+ CF_INLINE size_t
+ strlcpy(char * dst, const char * src, size_t maxlen) {
+     const size_t srclen = strlen(src);
+@@ -201,7 +202,9 @@ strlcpy(char * dst, const char * src, size_t maxlen) {
+     }
+     return srclen;
+ }
++#endif // !HAVE_STRLCPY
+ 
++#ifndef HAVE_STRLCAT
+ CF_INLINE size_t
+ strlcat(char * dst, const char * src, size_t maxlen) {
+     const size_t srclen = strlen(src);
+@@ -215,7 +218,8 @@ strlcat(char * dst, const char * src, size_t maxlen) {
+     }
+     return dstlen + srclen;
+ }
+-#endif
++#endif // !HAVE_STRLCAT
++#endif // !TARGET_OS_MAC
+ 
+ #if TARGET_OS_WIN32
+ // Compatibility with boolean.h
+diff --git a/CoreFoundation/CMakeLists.txt b/CoreFoundation/CMakeLists.txt
+index beb48d6c..8f714caf 100644
+--- a/CoreFoundation/CMakeLists.txt
++++ b/CoreFoundation/CMakeLists.txt
+@@ -6,6 +6,8 @@ project(CoreFoundation
+   VERSION 1338
+   LANGUAGES ASM C)
+ 
++include(CheckSymbolExists)
++
+ set(CMAKE_C_STANDARD 99)
+ set(CMAKE_C_STANDARD_REQUIRED YES)
+ 
+@@ -62,6 +64,15 @@ if(NOT "${CMAKE_C_SIMULATE_ID}" STREQUAL "MSVC")
+   add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=implicit-function-declaration>)
+ endif()
+ 
++check_symbol_exists("strlcat" "string.h" HAVE_STRLCAT)
++check_symbol_exists("strlcpy" "string.h" HAVE_STRLCPY)
++if(HAVE_STRLCAT)
++  add_compile_definitions($<$<COMPILE_LANGUAGE:C>:HAVE_STRLCAT>)
++endif()
++if(HAVE_STRLCPY)
++  add_compile_definitions($<$<COMPILE_LANGUAGE:C>:HAVE_STRLCPY>)
++endif()
++
+ if(CF_DEPLOYMENT_SWIFT)
+   add_compile_options($<$<COMPILE_LANGUAGE:C>:$<$<STREQUAL:${CMAKE_C_SIMULATE_ID},MSVC>:/clang:>-fcf-runtime-abi=swift>)
+ endif()
