@@ -31,7 +31,7 @@ runs:
     with:
       key: ${{ inputs.sysroot-id }}
       path: ${{ inputs.sysroot-name }}
-  - if: ${{ steps.cache-sysroot.outputs.cache-hit != 'true' }}
+  - if: ${{ steps.restore-sysroot.outputs.cache-hit != 'true' }}
     name: Build
     shell: bash
     env:

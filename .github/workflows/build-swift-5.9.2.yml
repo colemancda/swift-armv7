@@ -30,6 +30,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/build-for-distribution
+      name: Build & Publish Swift for Distribution
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
@@ -44,6 +45,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/build-for-distribution
+      name: Build & Publish Swift for Distribution
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
