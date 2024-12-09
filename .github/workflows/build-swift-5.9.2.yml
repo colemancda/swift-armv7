@@ -52,3 +52,18 @@ jobs:
         distribution: ${{ github.job }}
         cpp-version: 10
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
+
+  ubuntu-noble:
+    name: Build for Ubuntu Noble
+    runs-on: ubuntu-latest
+    needs: [fetch-sources]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./.github/actions/build-for-distribution
+      name: Build & Publish Swift for Distribution
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
+        distribution: ${{ github.job }}
+        cpp-version: 13
+        builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
