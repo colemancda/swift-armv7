@@ -33,4 +33,4 @@ RUN apt-get -y update &&    \
 
 ARG USER=builduser
 ARG UID=1000
-RUN useradd ${USER} -u ${UID}
+RUN useradd ${USER} -u ${UID} && mkdir /home/${USER} && chown ${USER}:${USER} /home/${USER}
