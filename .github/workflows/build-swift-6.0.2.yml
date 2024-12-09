@@ -1,18 +1,18 @@
 # This workflow will build a Swift project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
 
-name: Build Swift 5.10.1
+name: Build Swift 6.0.2
 
 on:
   push:
-    branches: [ "feature/swift-5.10.1**" ]
+    branches: [ "feature/swift-6.0**" ]
   pull_request:
     branches: [ "main" ]
   
 env:
-  SWIFT_TAG: swift-5.10.1-RELEASE
-  SWIFT_WORKSPACE_CACHE: swift-5.10.1-workspace
-  SWIFT_BUILDER_TAG: 5.10.1-gh-runner
+  SWIFT_TAG: swift-6.0.2-RELEASE
+  SWIFT_WORKSPACE_CACHE: swift-6.0.2-workspace
+  SWIFT_BUILDER_TAG: 6.0.2-gh-runner
 
 jobs:
   fetch-sources:
