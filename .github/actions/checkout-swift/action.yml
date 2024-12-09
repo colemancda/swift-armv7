@@ -1,0 +1,23 @@
+name: Checkout Swift sources
+description: Checks out the provided Swift version and performs a cache/restore
+inputs:
+  swift-tag:
+    description: The Swift tag version that is being built
+    required: true
+  swift-workspace-cache:
+    description: The name of the Swift workspace directory to cache/restore
+    required: true
+runs:
+  using: "composite"
+  steps:
+  - uses: actions/checkout@v4
+  - name: Cache Workspace Dir
+    id: cache-workspace
+    uses: actions/cache@v4
+    with:
+      key: ${{ inputs.swift-workspace-cache }}
+      path: downloads
+      lookup-only: true
+  - if: ${{ steps.cache-workspace.outputs.cache-hit != 'true' }}
+    name: Checkout Sources
+    run: SWIFT_VERSION=${{ inputs.swift-tag }} ./fetch-sources.sh
