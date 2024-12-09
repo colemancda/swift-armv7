@@ -50,7 +50,6 @@ fi
     --skip-repository swift-nio-ssl \
     --skip-repository swift-numerics \
     --skip-repository swift-stress-tester \
-    --skip-repository swift-syntax \
     --skip-repository swift-system \
     --skip-repository swift-tools-support-core \
     --skip-repository swift-xcode-playground-support \
