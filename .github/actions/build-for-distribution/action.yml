@@ -1,0 +1,50 @@
+name: Build Swift for a given armv7 distribution
+description: This wraps all the functionality of other actions to build Swift for a given distribution
+inputs:
+  swift-tag:
+    description: The Swift tag version that is being built
+    required: true
+  swift-workspace-cache:
+    description: The name of the Swift workspace directory to restore
+    required: true
+  distribution:
+    description: The name of the distribution to build for
+    required: true
+  cpp-version:
+    description: The version of C++ that is used by the provided distribution/sysroot
+    required: true
+  builder-tag:
+    description: Tag of the swift-builder container to use to build Swift
+    required: true
+runs:
+  using: "composite"
+  env:
+    SYSROOT_NAME: sysroot-${{ inputs.distribution }}-armv7
+  steps:
+  - name: Restore Workspace Dir
+    uses: actions/cache/restore@v4
+    with:
+      key: ${{ inputs.swift-workspace-cache }}
+      path: downloads
+      fail-on-cache-miss: true
+  - uses: ./.github/actions/build-sysroot
+    name: Restore or Build Sysroot
+    with:
+      sysroot-id: sysroot-${{ inputs.distribution }}
+      sysroot-name: ${{ env.SYSROOT_NAME }}
+      distribution: ${{ inputs.distribution }}
+  - uses: ./.github/actions/build-swift
+    name: Build Swift
+    with:
+      swift-tag: ${{ inputs.swift-tag }}
+      sysroot-name: ${{ env.SYSROOT_NAME }}
+      cpp-version: ${{ inputs.cpp-version }}
+      distribution: ${{ inputs.distribution }}
+      builder-tag: ${{ inputs.builder-tag }}
+  - uses: ./.github/actions/build-sdk
+    name: Build SDK
+    with:
+      swift-tag: ${{ inputs.swift-tag }}
+      sysroot-name: ${{ env.SYSROOT_NAME }}
+      distribution: ${{ inputs.distribution }}
+      builder-tag: ${{ inputs.builder-tag }}
