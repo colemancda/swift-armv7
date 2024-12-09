@@ -5,9 +5,10 @@ SWIFT_TARGET_NAME=armv7-unknown-linux-gnueabihf
 
 # Configurable
 SRC_ROOT="${SRC_ROOT:=$(pwd)}"
+CPP_VERSION=${CPP_VERSION:=12}
 XCTOOLCHAIN="${XCTOOLCHAIN:=$SRC_ROOT/build/$SWIFT_VERSION-armv7-debian12.xctoolchain}"
 XCTOOLCHAIN_SDK="${XCTOOLCHAIN_SDK:=/tmp/cross-toolchain/debian-bookworm.sdk}"
-STAGING_DIR="${STAGING_DIR:=$SRC_ROOT/downloads/sysroot}"
+STAGING_DIR="${STAGING_DIR:=$SRC_ROOT/sysroot}"
 if [[ $OSTYPE == 'darwin'* ]]; then
     SWIFT_NATIVE_PATH="${SWIFT_NATIVE_PATH:=$XCTOOLCHAIN/usr/bin}"
 else
@@ -21,7 +22,6 @@ SWIFT_PACKAGE_BUILDDIR="${SWIFT_PACKAGE_BUILDDIR:=$SWIFT_PACKAGE_SRCDIR/.build}"
 # Build Paths
 LLVM_SRCDIR=$SRC_ROOT/downloads/llvm-project
 LLVM_BUILDDIR=$SRC_ROOT/build/llvm-linux-$SWIFT_TARGET_ARCH
-LLVM_INSTALL_PREFIX=$SRC_ROOT/build/llvm-install
 SWIFT_SRCDIR=$SRC_ROOT/downloads/swift
 SWIFT_BUILDDIR=$SRC_ROOT/build/swift-linux-$SWIFT_TARGET_ARCH
 SWIFT_INSTALL_PREFIX=$SRC_ROOT/build/swift-linux-$SWIFT_TARGET_ARCH-install
@@ -37,26 +37,20 @@ XCTEST_BUILDDIR=$SRC_ROOT/build/xctest-linux-$SWIFT_TARGET_ARCH
 XCTEST_INSTALL_PREFIX=$SRC_ROOT/build/xctest-linux-$SWIFT_TARGET_ARCH-install
 SWIFTPM_DESTINATION_FILE=$SRC_ROOT/build/$SWIFT_TARGET_NAME-toolchain.json
 INSTALL_PREFIX=$SRC_ROOT/build/swift-install/usr
-INSTALL_TAR=$SRC_ROOT/build/swift-$SWIFT_TARGET_ARCH-$SWIFT_VERSION.tar.gz
+INSTALL_TAR=${INSTALL_TAR:=$SRC_ROOT/build/swift-$SWIFT_TARGET_ARCH-$SWIFT_VERSION.tar.gz}
 PREBUILT_XCTOOLCHAIN=$SRC_ROOT/downloads/${SWIFT_VERSION}-osx.pkg
 
 # Compilation flags
-EXTRA_INCLUDE_FLAGS="-I${STAGING_DIR}/usr/include -I${STAGING_DIR}/usr/include/c++/12 -I${STAGING_DIR}/usr/include/arm-linux-gnueabihf/c++/12"
+EXTRA_INCLUDE_FLAGS="-I${STAGING_DIR}/usr/include -I${STAGING_DIR}/usr/include/c++/${CPP_VERSION} -I${STAGING_DIR}/usr/include/arm-linux-gnueabihf/c++/${CPP_VERSION}"
 EXTRA_FLAGS="-march=armv7-a -mthumb -mfpu=neon -mfloat-abi=hard"
-RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME} ${EXTRA_FLAGS} -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/12"
+RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME} ${EXTRA_FLAGS} -B${STAGING_DIR}/usr/lib -B${STAGING_DIR}/lib -B${STAGING_DIR}/usr/lib/arm-linux-gnueabihf -B${STAGING_DIR}/lib/arm-linux-gnueabihf -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/${CPP_VERSION}"
 LINK_FLAGS="--sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME} ${EXTRA_FLAGS} -latomic"
 ASM_FLAGS="--sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME}"
 
-SWIFTC_FLAGS="-target ${SWIFT_TARGET_NAME} -use-ld=lld \
+SWIFTC_FLAGS="-target ${SWIFT_TARGET_NAME} \
+-use-ld=lld \
 -resource-dir ${STAGING_DIR}/usr/lib/swift \
--Xclang-linker -B${STAGING_DIR}/usr/lib \
--Xclang-linker -B${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/12 \
--Xcc -I${STAGING_DIR}/usr/include \
--Xcc -I${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/12/include \
--L${STAGING_DIR}/lib \
--L${STAGING_DIR}/usr/lib \
--L${STAGING_DIR}/usr/lib/swift \
 -L${STAGING_DIR}/usr/lib/swift/linux \
--L${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/12 \
+-L${STAGING_DIR}/usr/lib/gcc/arm-linux-gnueabihf/${CPP_VERSION} \
 -sdk ${STAGING_DIR} \
 "

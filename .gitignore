@@ -3,6 +3,8 @@ build
 downloads
 llvm*
 .config
-.build
+.build*
 .swiftpm
 .vscode
+sysroot*/
+artifacts/

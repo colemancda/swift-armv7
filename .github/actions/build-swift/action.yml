@@ -1,0 +1,37 @@
+name: Build Swift for armv7
+description: Builds Swift for armv7 using the available build- scripts in the parent repo.
+inputs:
+  swift-tag:
+    description: The Swift tag version that is being built
+    required: true
+  sysroot-name:
+    description: The name of the sysroot to use to build Swift
+    required: true
+  cpp-version:
+    description: The version of C++ that the sysroot uses, for finding cross compilation libraries
+    required: true
+  distribution:
+    description: The distribution to build Swift for
+    required: true
+  builder-tag:
+    description: Tag of the swift-builder container to use to build Swift
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Build Swift
+      shell: bash
+      run: |
+        docker run --rm --user runner --workdir ${{ github.workspace }} -v $HOME:$HOME \
+          -e INSTALL_TAR=$(pwd)/${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-install.tar.gz \
+          -e STAGING_DIR=$(pwd)/${{ inputs.sysroot-name }} \
+          -e CPP_VERSION=${{ inputs.cpp-version }} \
+          -e SKIP_FETCH_SOURCES=1 \
+          xtremekforever/swift-builder:${{ inputs.builder-tag }} \
+          /bin/bash ./build.sh
+    - uses: actions/upload-artifact@v4
+      name: Publish
+      with:
+        name: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-install
+        path: |
+          ${{ inputs.swift-tag }}*-armv7-install.tar.gz
