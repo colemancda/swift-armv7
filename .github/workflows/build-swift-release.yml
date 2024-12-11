@@ -1,15 +1,13 @@
-name: Build Swift 5.9.2
+name: Build Swift Release
 
 on:
-  push:
-    branches: [ "main", "feature/swift-5.9.2**" ]
-  pull_request:
-    branches: [ "main" ]
-  
+  release:
+    types: [published]
+
 env:
-  SWIFT_TAG: swift-5.9.2-RELEASE
-  SWIFT_WORKSPACE_CACHE: swift-5.9.2-workspace
-  SWIFT_BUILDER_TAG: 5.9.2-gh-runner
+  SWIFT_TAG: swift-${{ github.event.release.tag_name }}-RELEASE
+  SWIFT_WORKSPACE_CACHE: swift-${{ github.event.release.tag_name }}-workspace
+  SWIFT_BUILDER_TAG: ${{ github.event.release.tag_name }}-gh-runner
 
 jobs:
   fetch-sources:
@@ -18,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/checkout-swift
-      name: Restore or Checkout
+      name: "Restore or Checkout: ${{ env.SWIFT_TAG }}"
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
@@ -30,7 +28,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/build-for-distribution
-      name: Build & Publish Swift for Distribution
+      name: "Build & Publish Swift: ${{ env.SWIFT_TAG }}"
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
@@ -44,7 +42,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/build-for-distribution
-      name: Build & Publish Swift for Distribution
+      name: "Build & Publish Swift: ${{ env.SWIFT_TAG }}"
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
@@ -58,7 +56,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/build-for-distribution
-      name: Build & Publish Swift for Distribution
+      name: "Build & Publish Swift: ${{ env.SWIFT_TAG }}"
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
@@ -72,7 +70,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/build-for-distribution
-      name: Build & Publish Swift for Distribution
+      name: "Build & Publish Swift: ${{ env.SWIFT_TAG }}"
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
@@ -86,7 +84,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/build-for-distribution
-      name: Build & Publish Swift for Distribution
+      name: "Build & Publish Swift: ${{ env.SWIFT_TAG }}"
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
