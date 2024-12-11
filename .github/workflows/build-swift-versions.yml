@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/checkout-swift
-      name: Restore or Checkout
+      name: Fetch Swift Sources
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
@@ -41,7 +41,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/checkout-swift
-      name: Restore or Checkout
+      name: Fetch Swift Sources
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
@@ -64,7 +64,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/checkout-swift
-      name: Restore or Checkout
+      name: Fetch Swift Sources
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
