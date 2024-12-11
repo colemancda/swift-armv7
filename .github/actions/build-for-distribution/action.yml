@@ -10,9 +10,6 @@ inputs:
   distribution:
     description: The name of the distribution to build for
     required: true
-  cpp-version:
-    description: The version of C++ that is used by the provided distribution/sysroot
-    required: true
   builder-tag:
     description: Tag of the swift-builder container to use to build Swift
     required: true
@@ -33,5 +30,4 @@ runs:
       sysroot-id: sysroot-${{ inputs.distribution }}
       sysroot-name: sysroot-${{ inputs.distribution }}-armv7
       distribution: ${{ inputs.distribution }}
-      cpp-version: ${{ inputs.cpp-version }}
       builder-tag: ${{ inputs.builder-tag }}

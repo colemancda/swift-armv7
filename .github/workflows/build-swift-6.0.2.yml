@@ -38,7 +38,6 @@ jobs:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
         distribution: ${{ github.job }}
-        cpp-version: 10
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
 
   debian-bookworm:
@@ -53,7 +52,6 @@ jobs:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
         distribution: ${{ github.job }}
-        cpp-version: 12
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
 
   ubuntu-focal:
@@ -68,7 +66,6 @@ jobs:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
         distribution: ${{ github.job }}
-        cpp-version: 9
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
 
   ubuntu-jammy:
@@ -83,7 +80,6 @@ jobs:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
         distribution: ${{ github.job }}
-        cpp-version: 10
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
 
   ubuntu-noble:
@@ -98,5 +94,4 @@ jobs:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
         distribution: ${{ github.job }}
-        cpp-version: 13
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}

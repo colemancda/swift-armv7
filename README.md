@@ -23,10 +23,9 @@ working installation of Docker with [multi-platform support](https://docs.docker
 ./build-sysroot.sh ubuntu:noble
 ```
 
-Then, provide the `CPP_VERSION` and `STAGING_DIR` env variables to the build script:
+Then, provide the `STAGING_DIR` env variable to the build script:
 
 ```bash
-export CPP_VERSION=13
 export STAGING_DIR=$(pwd)/sysroot-ubuntu-noble
 ./build.sh
 ```

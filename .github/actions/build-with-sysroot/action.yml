@@ -16,9 +16,6 @@ inputs:
   distribution:
     description: The name of the distribution to build for
     required: true
-  cpp-version:
-    description: The version of C++ that is used by the provided distribution/sysroot
-    required: true
   builder-tag:
     description: Tag of the swift-builder container to use to build Swift
     required: true
@@ -58,7 +55,6 @@ runs:
         -e SWIFT_VERSION=${{ inputs.swift-tag }} \
         -e INSTALL_TAR=$(pwd)/${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7-install.tar.gz \
         -e STAGING_DIR=$(pwd)/${{ inputs.sysroot-name }} \
-        -e CPP_VERSION=${{ inputs.cpp-version }} \
         -e SKIP_FETCH_SOURCES=1 \
         xtremekforever/swift-builder:${{ inputs.builder-tag }} \
         /bin/bash ./build.sh
