@@ -26,6 +26,20 @@ jobs:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
 
+  debian-bullseye:
+    name: Build for Debian Bullseye
+    runs-on: ubuntu-latest
+    needs: [fetch-sources]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./.github/actions/build-for-distribution
+      name: Build & Publish Swift for Distribution
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
+        distribution: ${{ github.job }}
+        builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
+
   debian-bookworm:
     name: Build for Debian Bookworm
     runs-on: ubuntu-latest
