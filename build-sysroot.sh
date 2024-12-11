@@ -13,6 +13,38 @@ if [ -z $SYSROOT ]; then
 fi
 
 case $DISTRIUBTION in
+    ubuntu:focal)
+        INSTALL_DEPS_CMD=" \
+            apt-get update && \
+            apt-get install -y \
+                libc6-dev \
+                libgcc-9-dev \
+                libicu-dev \
+                libstdc++-9-dev \
+                libstdc++6 \
+                linux-libc-dev \
+                zlib1g-dev \
+                libcurl4-openssl-dev \
+                libxml2-dev \
+                libsystemd-dev \
+        "
+        ;;
+    "debian:bullseye")
+        INSTALL_DEPS_CMD=" \
+            apt-get update && \
+            apt-get install -y \
+                libc6-dev \
+                libgcc-10-dev \
+                libicu-dev \
+                libstdc++-10-dev \
+                libstdc++6 \
+                linux-libc-dev \
+                zlib1g-dev \
+                libcurl4-openssl-dev \
+                libxml2-dev \
+                libsystemd-dev \
+        "
+        ;;
     "ubuntu:jammy" | "debian:bookworm")
         INSTALL_DEPS_CMD=" \
             apt-get update && \
@@ -48,6 +80,7 @@ case $DISTRIUBTION in
     *)
         echo "Unsupported distribution $DISTRIBUTION!"
         echo "If you'd like to support it, update this script to add the apt package list for it."
+        exit
         ;;
 esac
 
@@ -73,6 +106,18 @@ mkdir -p $SYSROOT/usr
 docker cp $CONTAINER_NAME:/lib $SYSROOT/lib
 docker cp $CONTAINER_NAME:/usr/lib $SYSROOT/usr/lib
 docker cp $CONTAINER_NAME:/usr/include $SYSROOT/usr/include
+
+# Find broken links, re-copy
+cd $SYSROOT
+BROKEN_LINKS=$(find . -xtype l)
+while IFS= read -r link; do
+    # Ignore empty links
+    if [ -z "${link}" ]; then continue; fi
+
+    echo "Replacing broken symlink: $link"
+    link=$(echo $link | sed '0,/./ s/.//')
+    docker cp -L $CONTAINER_NAME:$link $(dirname .$link)
+done <<< "$BROKEN_LINKS"
 
 echo "Cleaning up"
 docker rm $CONTAINER_NAME

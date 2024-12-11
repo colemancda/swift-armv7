@@ -30,20 +30,11 @@ if [[ "$DOWNLOAD_SWIFT_RUNTIME" == "1" ]]; then
     fi
 fi
 
-# Download Debian 12 sysroot
 if [[ -d "$STAGING_DIR/usr/lib" ]]; then
     echo "Use existing Sysroot"
 else
-    DOWNLOAD_FILE=$SRC_ROOT/downloads/bookworm-armhf.tar.gz
-    SRCURL=https://github.com/colemancda/swift-armv7/releases/download/0.6.0/bookworm-armhf.tar.gz
-    echo "Download bookworm-armhf.tar.gz"
-    touch $DOWNLOAD_FILE
-    wget -q $SRCURL -O $DOWNLOAD_FILE
-    mkdir -p $STAGING_DIR
-    tar -xf $DOWNLOAD_FILE -C $SRC_ROOT/downloads
-    rm -rf $DOWNLOAD_FILE
-    cp -rf $SRC_ROOT/downloads/bookworm-armhf/* $STAGING_DIR/
-    rm -rf $SRC_ROOT/downloads/bookworm-armhf
+    # Build Debian 12 sysroot
+    ./build-sysroot.sh debian:bookworm
 fi
 
 if [[ $OSTYPE == 'darwin'* ]]; then

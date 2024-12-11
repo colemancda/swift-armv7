@@ -3,7 +3,6 @@ set -e
 source swift-define
 
 mkdir -p ./downloads
-mkdir -p ./build
 
 # Fetch sources
 cd ./downloads
@@ -50,7 +49,6 @@ fi
     --skip-repository swift-nio-ssl \
     --skip-repository swift-numerics \
     --skip-repository swift-stress-tester \
-    --skip-repository swift-syntax \
     --skip-repository swift-system \
     --skip-repository swift-tools-support-core \
     --skip-repository swift-xcode-playground-support \
@@ -64,3 +62,11 @@ fi
 # Apply patches
 echo "Apply CXX interop patch"
 patch -d . -p1 <$SRC_ROOT/patches/0001-Swift-fix-find-libstdc++-for-cxx-interop.patch
+
+# Only applies to Swift 5.9
+if [[ $SWIFT_VERSION == *"5.9"* ]]; then
+    echo "Apply Foundation strlcpy/strlcat patch for Swift 5.9"
+    cd ../swift-corelibs-foundation
+    git stash
+    patch -d . -p1 <$SRC_ROOT/patches/0002-Foundation-5.9-check-for-strlcpy-strlcat.patch
+fi

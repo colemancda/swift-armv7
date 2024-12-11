@@ -1,0 +1,77 @@
+name: Build Swift Versions
+
+on:
+  push:
+    branches: [ "main", "feature/**" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  DISTRIBUTION: debian-bookworm
+
+jobs:
+  swift-5-9-2:
+    env:
+      SWIFT_TAG: swift-5.9.2-RELEASE
+      SWIFT_WORKSPACE_CACHE: swift-5.9.2-workspace
+      SWIFT_BUILDER_TAG: 5.9.2-gh-runner
+    name: Build Swift 5.9.2
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./.github/actions/checkout-swift
+      name: Fetch Swift Sources
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
+    - uses: ./.github/actions/build-for-distribution
+      name: Build & Publish Swift
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
+        distribution: ${{ env.DISTRIBUTION }}
+        builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
+
+  swift-5-10-1:
+    env:
+      SWIFT_TAG: swift-5.10.1-RELEASE
+      SWIFT_WORKSPACE_CACHE: swift-5.10.1-workspace
+      SWIFT_BUILDER_TAG: 5.10.1-gh-runner
+    name: Build Swift 5.10.1
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./.github/actions/checkout-swift
+      name: Fetch Swift Sources
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
+    - uses: ./.github/actions/build-for-distribution
+      name: Build & Publish Swift
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
+        distribution: ${{ env.DISTRIBUTION }}
+        builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
+
+  swift-6-0-2:
+    env:
+      SWIFT_TAG: swift-6.0.2-RELEASE
+      SWIFT_WORKSPACE_CACHE: swift-6.0.2-workspace
+      SWIFT_BUILDER_TAG: 6.0.2-gh-runner
+    name: Build Swift 6.0.2
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./.github/actions/checkout-swift
+      name: Fetch Swift Sources
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
+    - uses: ./.github/actions/build-for-distribution
+      name: Build & Publish Swift
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
+        distribution: ${{ env.DISTRIBUTION }}
+        builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
