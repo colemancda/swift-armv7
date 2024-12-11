@@ -111,6 +111,9 @@ docker cp $CONTAINER_NAME:/usr/include $SYSROOT/usr/include
 cd $SYSROOT
 BROKEN_LINKS=$(find . -xtype l)
 while IFS= read -r link; do
+    # Ignore empty links
+    if [ -z "${link}" ]; then continue; fi
+
     echo "Replacing broken symlink: $link"
     link=$(echo $link | sed '0,/./ s/.//')
     docker cp -L $CONTAINER_NAME:$link $(dirname .$link)
