@@ -39,11 +39,13 @@ runs:
     run: tar -czf ${{ inputs.sysroot-name }}.tar.gz ${{ inputs.sysroot-name }}
   - uses: actions/upload-artifact@v4
     name: Publish
+    if: steps.restore-sysroot.outputs.cache-hit != 'true'
     with:
       name: ${{ inputs.sysroot-id }}
       path: ${{ inputs.sysroot-name }}.tar.gz
   - name: Cache Sysroot
     id: cache-sysroot
+    if: steps.restore-sysroot.outputs.cache-hit != 'true'
     uses: actions/cache/save@v4
     with:
       key: ${{ inputs.sysroot-id }}
