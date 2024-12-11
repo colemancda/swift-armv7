@@ -3,7 +3,6 @@ set -e
 source swift-define
 
 mkdir -p ./downloads
-mkdir -p ./build
 
 # Fetch sources
 cd ./downloads
@@ -68,5 +67,6 @@ patch -d . -p1 <$SRC_ROOT/patches/0001-Swift-fix-find-libstdc++-for-cxx-interop.
 if [[ $SWIFT_VERSION == *"5.9"* ]]; then
     echo "Apply Foundation strlcpy/strlcat patch for Swift 5.9"
     cd ../swift-corelibs-foundation
+    git stash
     patch -d . -p1 <$SRC_ROOT/patches/0002-Foundation-5.9-check-for-strlcpy-strlcat.patch
 fi
