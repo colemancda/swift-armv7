@@ -6,14 +6,12 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  DISTRIBUTION: debian-bookworm
-
 jobs:
   swift-5-9-2:
     env:
       SWIFT_TAG: swift-5.9.2-RELEASE
       SWIFT_WORKSPACE_CACHE: swift-5.9.2-workspace
+      DISTRIBUTION: debian-bullseye
       SWIFT_BUILDER_TAG: 5.9.2-gh-runner
     name: Build Swift 5.9.2
     runs-on: ubuntu-latest
@@ -36,6 +34,7 @@ jobs:
     env:
       SWIFT_TAG: swift-5.10.1-RELEASE
       SWIFT_WORKSPACE_CACHE: swift-5.10.1-workspace
+      DISTRIBUTION: debian-bookworm
       SWIFT_BUILDER_TAG: 5.10.1-gh-runner
     name: Build Swift 5.10.1
     runs-on: ubuntu-latest
@@ -58,6 +57,7 @@ jobs:
     env:
       SWIFT_TAG: swift-6.0.2-RELEASE
       SWIFT_WORKSPACE_CACHE: swift-6.0.2-workspace
+      DISTRIBUTION: ubuntu-noble
       SWIFT_BUILDER_TAG: 6.0.2-gh-runner
     name: Build Swift 6.0.2
     runs-on: ubuntu-latest
