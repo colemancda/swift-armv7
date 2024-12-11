@@ -24,13 +24,11 @@ jobs:
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
-    - uses: ./.github/actions/build-with-sysroot
-      name: Build Swift + SDK using Sysroot
+    - uses: ./.github/actions/build-for-distribution
+      name: Build & Publish Swift
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
-        sysroot-id: sysroot-${{ env.DISTRIBUTION }}
-        sysroot-name: sysroot-${{ env.DISTRIBUTION }}-armv7
         distribution: ${{ env.DISTRIBUTION }}
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
 
@@ -48,13 +46,11 @@ jobs:
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
-    - uses: ./.github/actions/build-with-sysroot
-      name: Build Swift + SDK using Sysroot
+    - uses: ./.github/actions/build-for-distribution
+      name: Build & Publish Swift
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
-        sysroot-id: sysroot-${{ env.DISTRIBUTION }}
-        sysroot-name: sysroot-${{ env.DISTRIBUTION }}-armv7
         distribution: ${{ env.DISTRIBUTION }}
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
 
@@ -72,12 +68,10 @@ jobs:
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
-    - uses: ./.github/actions/build-with-sysroot
-      name: Build Swift + SDK using Sysroot
+    - uses: ./.github/actions/build-for-distribution
+      name: Build & Publish Swift
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
-        sysroot-id: sysroot-${{ env.DISTRIBUTION }}
-        sysroot-name: sysroot-${{ env.DISTRIBUTION }}-armv7
         distribution: ${{ env.DISTRIBUTION }}
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
