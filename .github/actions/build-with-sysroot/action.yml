@@ -37,12 +37,6 @@ runs:
   - name: Compress
     shell: bash
     run: tar -czf ${{ inputs.sysroot-name }}.tar.gz ${{ inputs.sysroot-name }}
-  - uses: actions/upload-artifact@v4
-    name: Publish
-    if: steps.restore-sysroot.outputs.cache-hit != 'true'
-    with:
-      name: ${{ inputs.sysroot-id }}
-      path: ${{ inputs.sysroot-name }}.tar.gz
   - name: Cache Sysroot
     id: cache-sysroot
     if: steps.restore-sysroot.outputs.cache-hit != 'true'
@@ -82,5 +76,6 @@ runs:
     with:
       name: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-armv7
       path: |
+        ${{ inputs.sysroot-name }}.tar.gz
         ${{ inputs.swift-tag }}*-armv7-install.tar.gz
         ${{ inputs.swift-tag }}*-armv7-sdk.tar.gz
