@@ -28,7 +28,6 @@ jobs:
       name: Build & Publish Swift
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
-        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
         distribution: ${{ env.DISTRIBUTION }}
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
 
@@ -50,7 +49,6 @@ jobs:
       name: Build & Publish Swift
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
-        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
         distribution: ${{ env.DISTRIBUTION }}
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
 
@@ -72,6 +70,5 @@ jobs:
       name: Build & Publish Swift
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
-        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
         distribution: ${{ env.DISTRIBUTION }}
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
