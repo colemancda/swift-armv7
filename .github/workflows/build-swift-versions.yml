@@ -54,12 +54,12 @@ jobs:
         distribution: ${{ env.DISTRIBUTION }}
         builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
 
-  swift-6-0-2:
+  swift-6-0-3:
     env:
-      SWIFT_TAG: swift-6.0.2-RELEASE
-      SWIFT_WORKSPACE_CACHE: swift-6.0.2-workspace
+      SWIFT_TAG: swift-6.0.3-RELEASE
+      SWIFT_WORKSPACE_CACHE: swift-6.0.3-workspace
       SWIFT_BUILDER_TAG: 6.0.2-gh-runner
-    name: Build Swift 6.0.2
+    name: Build Swift 6.0.3
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
