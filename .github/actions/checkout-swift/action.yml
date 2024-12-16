@@ -10,14 +10,18 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - name: Cache Workspace Dir
-    id: cache-workspace
-    uses: actions/cache@v4
+  - name: Restore Workspace Dir
+    id: restore-workspace
+    uses: actions/cache/restore@v4
     with:
       key: ${{ inputs.swift-workspace-cache }}
       path: downloads
-      lookup-only: true
-  - if: ${{ steps.cache-workspace.outputs.cache-hit != 'true' }}
+  - if: ${{ steps.restore-workspace.outputs.cache-hit != 'true' }}
     name: Checkout Sources
     shell: bash
     run: SWIFT_VERSION=${{ inputs.swift-tag }} ./fetch-sources.sh
+  - if: ${{ steps.restore-workspace.outputs.cache-hit != 'true' }}
+    uses: actions/cache/save@v4
+    with:
+      key: ${{ inputs.swift-workspace-cache }}
+      path: downloads

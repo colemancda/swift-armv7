@@ -17,6 +17,7 @@ runs:
   using: "composite"
   steps:
   - name: Restore Workspace Dir
+    if: ${{ inputs.swift-workspace-cache != '' }}
     uses: actions/cache/restore@v4
     with:
       key: ${{ inputs.swift-workspace-cache }}
