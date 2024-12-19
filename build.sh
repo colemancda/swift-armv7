@@ -31,7 +31,7 @@ rm -rf $STAGING_DIR/usr/lib/swift*
 ./build-dispatch.sh
 ./build-foundation.sh
 ./build-xctest.sh
-if [[ $SWIFT_VERSION == *"6.0"* ]]; then
+if [[ $SWIFT_VERSION == *"6."* ]]; then
     ./build-swift-testing.sh
 fi
 
