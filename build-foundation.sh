@@ -37,6 +37,7 @@ LIBS="-latomic" cmake -S $FOUNDATION_SRCDIR -B $FOUNDATION_BUILDDIR -G Ninja \
         -DCMAKE_Swift_FLAGS_DEBUG="" \
         -DCMAKE_Swift_FLAGS_RELEASE="" \
         -DCMAKE_Swift_FLAGS_RELWITHDEBINFO="" \
+        -DSwiftFoundation_MACRO="${SWIFT_NATIVE_PATH}../lib/host/plugins/libFoundationMacros.so" \
         -D_SwiftFoundation_SourceDIR="$SRC_ROOT/downloads/swift-foundation" \
         -D_SwiftFoundationICU_SourceDIR="$SRC_ROOT/downloads/swift-foundation-icu" \
         -D_SwiftCollections_SourceDIR="$SRC_ROOT/downloads/swift-collections" \
