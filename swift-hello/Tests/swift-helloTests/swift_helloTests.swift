@@ -1,7 +1,10 @@
-import Testing
 import XCTest
 
 import class Foundation.Bundle
+
+#if canImport(Testing)
+    import Testing
+#endif
 
 final class swift_helloTests: XCTestCase {
     func testExample() throws {
@@ -48,7 +51,9 @@ final class swift_helloTests: XCTestCase {
     }
 }
 
-@Test
-func swiftTesting() {
-    #expect(true)
-}
+#if canImport(Testing)
+    @Test
+    func swiftTesting() {
+        #expect(true)
+    }
+#endif
