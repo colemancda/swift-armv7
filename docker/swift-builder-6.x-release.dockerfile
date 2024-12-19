@@ -1,4 +1,5 @@
-FROM swift:6.0.2-noble
+ARG SWIFT_RELEASE_VERSION=6.0.3
+FROM swift:${SWIFT_RELEASE_VERSION}-noble
 
 RUN apt-get -y update &&    \
     apt-get -q install -y   \
