@@ -1,4 +1,5 @@
-FROM swift:5.9.2-jammy
+ARG SWIFT_RELEASE_VERSION=5.10.1
+FROM swift:${SWIFT_RELEASE_VERSION}-jammy
 
 RUN apt-get -y update &&    \
     apt-get -y install      \
