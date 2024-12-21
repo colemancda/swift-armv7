@@ -7,7 +7,7 @@ on:
 env:
   SWIFT_TAG: swift-${{ github.event.release.tag_name }}-RELEASE
   SWIFT_WORKSPACE_CACHE: swift-${{ github.event.release.tag_name }}-workspace
-  SWIFT_BUILDER_TAG: 6.0.2-gh-runner
+  SWIFT_BUILDER_TAG: ${{ github.event.release.tag_name }}-gh-runner
 
 jobs:
   fetch-sources:
