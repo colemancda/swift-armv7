@@ -6,13 +6,11 @@ if [ -z $SWIFT_VERSION ]; then
 fi
 
 export DOCKER_TAG=${DOCKER_TAG:=xtremekforever/swift-builder:${SWIFT_VERSION}-gh-runner}
-export BUILD_USER=runner
-export BUILD_USER_ID=1001
 
 SCRIPT_DIR=$(dirname "$0")
 source ${SCRIPT_DIR}/swift-builder-common
 
-./build-container.sh
+USER=runner UID=1001 ./build-container.sh
 
 if [ ! -z $PUSH ]; then
     echo "Pushing ${DOCKER_TAG} now..."
