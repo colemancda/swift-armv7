@@ -1,0 +1,39 @@
+name: Build Swift Latest
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  DISTRIBUTION: debian-bookworm
+
+jobs:
+  build-latest:
+    strategy:
+      matrix:
+        version: ["6.0.3"]
+    env:
+      SWIFT_VERSION: ${{ matrix.version }}
+      SWIFT_TAG: swift-${{ matrix.version }}-RELEASE
+    name: Build Swift
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./.github/actions/checkout-swift
+      name: Fetch Swift Sources
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        swift-workspace-cache: swift-${{ matrix.version }}-workspace
+    - name: Generate Builder Container
+      shell: bash
+      run: |
+        source ./swift-builder/swift-builder-common
+        ./swift-builder/build-container.sh
+    - uses: ./.github/actions/build-for-distribution
+      name: Build & Publish Swift
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        distribution: ${{ env.DISTRIBUTION }}
+        builder-tag: ${{ env.SWIFT_VERSION }}
