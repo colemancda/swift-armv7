@@ -1,13 +1,18 @@
 name: Build Swift Release
 
 on:
+  push:
+    branches: [ "feature/**" ]
   release:
     types: [published]
 
 env:
-  SWIFT_TAG: swift-${{ github.event.release.tag_name }}-RELEASE
-  SWIFT_WORKSPACE_CACHE: swift-${{ github.event.release.tag_name }}-workspace
-  SWIFT_BUILDER_TAG: ${{ github.event.release.tag_name }}-gh-runner
+  SWIFT_VERSION: 6.0.3
+  SWIFT_TAG: swift-6.0.3-RELEASE
+  SWIFT_WORKSPACE_CACHE: swift-6.0.3-workspace
+  #SWIFT_VERSION: ${{ github.event.release.tag_name }}
+  #SWIFT_TAG: swift-${{ github.event.release.tag_name }}-RELEASE
+  #SWIFT_WORKSPACE_CACHE: swift-${{ github.event.release.tag_name }}-workspace
 
 jobs:
   fetch-sources:
@@ -21,72 +26,24 @@ jobs:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
 
-  debian-bullseye:
-    name: Build for Debian Bullseye
+  build-for-distribution:
+    strategy:
+      matrix:
+        distribution: ["debian-bullseye", "debian-bookworm", "ubuntu-focal", "ubuntu-jammy", "ubuntu-noble"]
+    name: Build Swift for Distribution
     runs-on: ubuntu-latest
     needs: [fetch-sources]
     steps:
     - uses: actions/checkout@v4
+    - name: Generate Builder Container
+      shell: bash
+      run: |
+        source ./swift-builder/swift-builder-common
+        ./swift-builder/build-container.sh
     - uses: ./.github/actions/build-for-distribution
       name: "Build & Publish Swift: ${{ env.SWIFT_TAG }}"
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
-        distribution: ${{ github.job }}
-        builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
-
-  debian-bookworm:
-    name: Build for Debian Bookworm
-    runs-on: ubuntu-latest
-    needs: [fetch-sources]
-    steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/build-for-distribution
-      name: "Build & Publish Swift: ${{ env.SWIFT_TAG }}"
-      with:
-        swift-tag: ${{ env.SWIFT_TAG }}
-        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
-        distribution: ${{ github.job }}
-        builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
-
-  ubuntu-focal:
-    name: Build for Ubuntu Focal
-    runs-on: ubuntu-latest
-    needs: [fetch-sources]
-    steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/build-for-distribution
-      name: "Build & Publish Swift: ${{ env.SWIFT_TAG }}"
-      with:
-        swift-tag: ${{ env.SWIFT_TAG }}
-        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
-        distribution: ${{ github.job }}
-        builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
-
-  ubuntu-jammy:
-    name: Build for Ubuntu Jammy
-    runs-on: ubuntu-latest
-    needs: [fetch-sources]
-    steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/build-for-distribution
-      name: "Build & Publish Swift: ${{ env.SWIFT_TAG }}"
-      with:
-        swift-tag: ${{ env.SWIFT_TAG }}
-        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
-        distribution: ${{ github.job }}
-        builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
-
-  ubuntu-noble:
-    name: Build for Ubuntu Noble
-    runs-on: ubuntu-latest
-    needs: [fetch-sources]
-    steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/build-for-distribution
-      name: "Build & Publish Swift: ${{ env.SWIFT_TAG }}"
-      with:
-        swift-tag: ${{ env.SWIFT_TAG }}
-        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
-        distribution: ${{ github.job }}
-        builder-tag: ${{ env.SWIFT_BUILDER_TAG }}
+        distribution: ${{ matrix.distribution }}
+        builder-tag: ${{ env.SWIFT_VERSION }}
