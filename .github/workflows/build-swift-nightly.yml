@@ -1,0 +1,32 @@
+name: Build Swift Nightly
+
+on:
+  push:
+    branches: [ "feature/swift-6.1" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  DISTRIBUTION: debian-bookworm
+
+jobs:
+  nightly:
+    env:
+      SWIFT_BRANCH: swift-6.1-branch
+      SWIFT_PLATFORM: ubuntu2204
+      SWIFT_WORKSPACE_CACHE: swift-nightly-workspace
+    name: Build Swift Nigtly
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Get Latest Nightly Version
+      shell: bash
+      run: |
+        export $(curl https://download.swift.org/${{ env.SWIFT_BRANCH }}/${{ env.SWIFT_PLATFORM }}/latest-build.yml | grep 'dir:' | sed 's/:[^:\/\/]/=/g')
+        echo "Swift ${{ env.SWIFT_BRANCH }} Latest Tag: $dir"
+        echo "SWIFT_TAG=$(echo $dir)" >> $GITHUB_ENV
+    - uses: ./.github/actions/checkout-swift
+      name: Fetch Swift Sources
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
