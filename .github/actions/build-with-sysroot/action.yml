@@ -19,11 +19,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-    name: Build
+  - name: Build
     shell: bash
     env:
       DISTRIBUTION: ${{ inputs.distribution }}
-    run: ./build-sysroot.sh `echo ${DISTRIBUTION/-/:}` ${{ inputs.sysroot-name }}
+    run: ./build-sysroot.sh $(echo ${DISTRIBUTION/-/:}) ${{ inputs.sysroot-name }}
   - name: Compress
     shell: bash
     run: tar -czf ${{ inputs.sysroot-name }}.tar.gz ${{ inputs.sysroot-name }}
