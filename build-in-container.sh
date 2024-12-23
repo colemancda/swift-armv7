@@ -10,7 +10,7 @@ source ./swift-builder/swift-builder-common
 echo "Building Swift ${SWIFT_TAG} using ${DOCKER_TAG}..."
 docker run \
     --rm -ti \
-    --user ${BUILD_USER}:${BUILD_USER} \
+    --user ${USER}:${USER} \
     --volume $(pwd):/src \
     --workdir /src \
     -e SWIFT_VERSION=${SWIFT_TAG} \
