@@ -28,7 +28,6 @@ runs:
     with:
       swift-tag: ${{ inputs.swift-tag }}
       swift-workspace-cache: ${{ inputs.swift-workspace-cache }}
-      sysroot-id: sysroot-${{ inputs.distribution }}
       sysroot-name: sysroot-${{ inputs.distribution }}-armv7
       distribution: ${{ inputs.distribution }}
       builder-tag: ${{ inputs.builder-tag }}
