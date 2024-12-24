@@ -1,16 +1,12 @@
 name: Build Swift Release
 
 on:
-  push:
-    branches: [ "feature/**" ]
   release:
     types: [published]
 
 env:
-  SWIFT_VERSION: 6.0.1
-  SWIFT_TAG: swift-6.0.1-RELEASE
-  #SWIFT_VERSION: ${{ github.event.release.tag_name }}
-  #SWIFT_TAG: swift-${{ github.event.release.tag_name }}-RELEASE
+  SWIFT_VERSION: ${{ github.event.release.tag_name }}
+  SWIFT_TAG: swift-${{ github.event.release.tag_name }}-RELEASE
   SWIFT_WORKSPACE_CACHE: swift-workspace
 
 jobs:
@@ -20,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/checkout-swift
-      name: "Restore or Checkout: ${{ env.SWIFT_TAG }}"
+      name: "Restore or Checkout ${{ env.SWIFT_VERSION }}"
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
@@ -46,7 +42,7 @@ jobs:
         source ./swift-builder/swift-builder-common
         ./swift-builder/build-container.sh
     - uses: ./.github/actions/build-for-distribution
-      name: "Build & Publish Swift: ${{ env.SWIFT_VERSION }}"
+      name: "Build & Publish Swift ${{ env.SWIFT_VERSION }}"
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
