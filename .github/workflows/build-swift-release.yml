@@ -7,8 +7,8 @@ on:
     types: [published]
 
 env:
-  SWIFT_VERSION: 6.0.3
-  SWIFT_TAG: swift-6.0.3-RELEASE
+  SWIFT_VERSION: 6.0
+  SWIFT_TAG: swift-6.0-RELEASE
   #SWIFT_VERSION: ${{ github.event.release.tag_name }}
   #SWIFT_TAG: swift-${{ github.event.release.tag_name }}-RELEASE
   SWIFT_WORKSPACE_CACHE: swift-workspace
@@ -46,9 +46,17 @@ jobs:
         source ./swift-builder/swift-builder-common
         ./swift-builder/build-container.sh
     - uses: ./.github/actions/build-for-distribution
-      name: "Build & Publish Swift: ${{ env.SWIFT_TAG }}"
+      name: "Build & Publish Swift: ${{ env.SWIFT_VERSION }}"
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
         swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
         distribution: ${{ matrix.distribution }}
         builder-tag: ${{ env.SWIFT_VERSION }}
+    - name: Update Release ${{ env.SWIFT_VERSION }}
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ env.SWIFT_VERSION }}
+        commit: ${{ github.sha }}
+        artifactErrorsFailBuild: true
+        artifacts: "*.tar.gz"
+        body: "See the [README](https://github.com/xtremekforever/swift-armv7#continuous-integration) for more information on build artifacts."
