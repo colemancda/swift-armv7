@@ -3,7 +3,7 @@ name: Build Swift Nightly
 on:
   pull_request:
   schedule:
-    - cron: '0 21 * * *'
+    - cron: '0 9 * * *'
 
 env:
   DISTRIBUTION: debian-bookworm
