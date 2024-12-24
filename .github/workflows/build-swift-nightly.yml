@@ -1,10 +1,9 @@
 name: Build Swift Nightly
 
 on:
-  push:
-    branches: [ "feature/swift-6.1" ]
   pull_request:
-    branches: [ "main" ]
+  schedule:
+    - cron: '0 21 * * *'
 
 env:
   DISTRIBUTION: debian-bookworm
