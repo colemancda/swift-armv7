@@ -14,5 +14,7 @@ docker run \
     --volume $(pwd):/src \
     --workdir /src \
     -e SWIFT_VERSION=${SWIFT_TAG} \
-    ${DOCKER_REPO}swift-builder:${SWIFT_VERSION} \
+    -e STAGING_DIR=${STAGING_DIR} \
+    -e INSTALL_TAR=${INSTALL_TAG} \
+    ${DOCKER_TAG} \
     ./build.sh
