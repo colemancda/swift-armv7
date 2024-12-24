@@ -9,10 +9,9 @@ on:
 env:
   SWIFT_VERSION: 6.0.3
   SWIFT_TAG: swift-6.0.3-RELEASE
-  SWIFT_WORKSPACE_CACHE: swift-6.0.3-workspace
   #SWIFT_VERSION: ${{ github.event.release.tag_name }}
   #SWIFT_TAG: swift-${{ github.event.release.tag_name }}-RELEASE
-  #SWIFT_WORKSPACE_CACHE: swift-${{ github.event.release.tag_name }}-workspace
+  SWIFT_WORKSPACE_CACHE: swift-workspace
 
 jobs:
   fetch-sources:

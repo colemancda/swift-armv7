@@ -4,9 +4,6 @@ inputs:
   swift-tag:
     description: The Swift tag version that is being built
     required: true
-  swift-workspace-cache:
-    description: The name of the Swift workspace directory to restore
-    required: true
   sysroot-name:
     description: The name of the sysroot to use to build Swift
     required: true

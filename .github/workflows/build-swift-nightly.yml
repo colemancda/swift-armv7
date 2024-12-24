@@ -18,6 +18,7 @@ jobs:
       SWIFT_BRANCH: ${{ matrix.branch }}
       SWIFT_PLATFORM: ubuntu2204
       SWIFT_VERSION: ${{ matrix.branch }}
+      SWIFT_WORKSPACE_CACHE: swift-workspace
     name: Build Swift Nigtly
     runs-on: ubuntu-latest
     steps:
@@ -32,7 +33,7 @@ jobs:
       name: Fetch Swift Sources
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
-        swift-workspace-cache: ${{ env.SWIFT_BRANCH }}-workspace
+        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
     - name: Build Swift Nightly Container
       shell: bash
       run: |

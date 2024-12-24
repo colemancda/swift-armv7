@@ -25,7 +25,7 @@ jobs:
       name: Fetch Swift Sources
       with:
         swift-tag: ${{ env.SWIFT_TAG }}
-        swift-workspace-cache: swift-${{ matrix.version }}-workspace
+        swift-workspace-cache: swift-workspace
     - name: Generate Builder Container
       shell: bash
       run: |
