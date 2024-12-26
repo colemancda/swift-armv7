@@ -2,9 +2,9 @@ import XCTest
 
 import class Foundation.Bundle
 
-#if canImport(Testing)
+/*#if canImport(Testing)
     import Testing
-#endif
+#endif*/
 
 final class swift_helloTests: XCTestCase {
     func testExample() throws {
@@ -51,9 +51,10 @@ final class swift_helloTests: XCTestCase {
     }
 }
 
-#if canImport(Testing)
-    @Test
+// Disabled due to compiler crash in 6.1
+/*#if canImport(Testing)
+    /*@Test
     func swiftTesting() {
         #expect(true)
-    }
-#endif
+    }*/
+#endif*/

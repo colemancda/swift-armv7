@@ -9,7 +9,7 @@ echo "Building container for Swift $SWIFT_VERSION, branch $SWIFT_BRANCH, tag $SW
 docker build \
     --build-arg SWIFT_VERSION=${SWIFT_TAG} \
     --build-arg SWIFT_BRANCH=${SWIFT_BRANCH} \
-    --build-arg USER=${BUILD_USER} \
-    --build-arg UID=${BUILD_USER_ID} \
+    --build-arg USER=${USER} \
+    --build-arg UID=${UID} \
     -t ${DOCKER_TAG} \
     ${SCRIPT_DIR}

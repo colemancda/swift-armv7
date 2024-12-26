@@ -1,0 +1,47 @@
+name: Build Swift Nightly
+
+on:
+  pull_request:
+  schedule:
+    - cron: '0 9 * * *'
+
+env:
+  DISTRIBUTION: debian-bookworm
+
+jobs:
+  nightly:
+    strategy:
+      matrix:
+        branch: ["swift-6.1-branch", "development"]
+    env:
+      SWIFT_TAG:
+      SWIFT_BRANCH: ${{ matrix.branch }}
+      SWIFT_PLATFORM: ubuntu2204
+      SWIFT_VERSION: ${{ matrix.branch }}
+      SWIFT_WORKSPACE_CACHE: swift-workspace
+    name: Build Swift Nigtly
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Get Latest Nightly Version
+      shell: bash
+      run: |
+        export $(curl https://download.swift.org/${{ env.SWIFT_BRANCH }}/${{ env.SWIFT_PLATFORM }}/latest-build.yml | grep 'dir:' | sed 's/:[^:\/\/]/=/g')
+        echo "Latest Tag on ${{ env.SWIFT_BRANCH }} Branch: $dir"
+        echo "SWIFT_TAG=$(echo $dir)" >> $GITHUB_ENV
+    - uses: ./.github/actions/checkout-swift
+      name: Fetch Swift Sources
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        swift-workspace-cache: ${{ env.SWIFT_WORKSPACE_CACHE }}
+    - name: Build Swift Nightly Container
+      shell: bash
+      run: |
+        source ./swift-builder/swift-builder-common
+        ./swift-builder/build-container.sh
+    - uses: ./.github/actions/build-for-distribution
+      name: Build & Publish Swift
+      with:
+        swift-tag: ${{ env.SWIFT_TAG }}
+        distribution: ${{ env.DISTRIBUTION }}
+        builder-tag: ${{ env.SWIFT_VERSION }}

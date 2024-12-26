@@ -4,12 +4,6 @@ inputs:
   swift-tag:
     description: The Swift tag version that is being built
     required: true
-  swift-workspace-cache:
-    description: The name of the Swift workspace directory to restore
-    required: true
-  sysroot-id:
-    description: The sysroot ID to use when caching and publishing
-    required: true
   sysroot-name:
     description: The name of the sysroot to use to build Swift
     required: true
@@ -22,28 +16,14 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - name: Restore Sysroot
-    id: restore-sysroot
-    uses: actions/cache/restore@v4
-    with:
-      key: ${{ inputs.sysroot-id }}
-      path: ${{ inputs.sysroot-name }}
-  - if: ${{ steps.restore-sysroot.outputs.cache-hit != 'true' }}
-    name: Build
+  - name: Build
     shell: bash
     env:
       DISTRIBUTION: ${{ inputs.distribution }}
-    run: ./build-sysroot.sh `echo ${DISTRIBUTION/-/:}` ${{ inputs.sysroot-name }}
+    run: ./build-sysroot.sh $(echo ${DISTRIBUTION/-/:}) ${{ inputs.sysroot-name }}
   - name: Compress
     shell: bash
     run: tar -czf ${{ inputs.sysroot-name }}.tar.gz ${{ inputs.sysroot-name }}
-  - name: Cache Sysroot
-    id: cache-sysroot
-    if: steps.restore-sysroot.outputs.cache-hit != 'true'
-    uses: actions/cache/save@v4
-    with:
-      key: ${{ inputs.sysroot-id }}
-      path: ${{ inputs.sysroot-name }}
   - name: Build Swift
     shell: bash
     run: |
