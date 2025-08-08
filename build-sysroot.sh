@@ -17,72 +17,23 @@ DISTRIBUTION="$DISTRIBUTION_NAME:$DISTRIUBTION_VERSION"
 
 case $DISTRIUBTION_VERSION in
     "focal")
-        INSTALL_DEPS_CMD=" \
-            apt-get update && \
-            apt-get install -y \
-                libc6-dev \
-                libgcc-9-dev \
-                libicu-dev \
-                libstdc++-9-dev \
-                libstdc++6 \
-                linux-libc-dev \
-                zlib1g-dev \
-                libcurl4-openssl-dev \
-                libxml2-dev \
-                libsystemd-dev \
-        "
+        INSTALL_GCC_VERSION=9
         ;;
     "bullseye")
-        RASPIOS_VERSION="2024-10-22"
-        RASPIOS_URL=https://downloads.raspberrypi.com/raspios_oldstable_lite_armhf/images/raspios_oldstable_lite_armhf-2024-10-28
-        INSTALL_DEPS_CMD=" \
-            apt-get update && \
-            apt-get install -y \
-                libc6-dev \
-                libgcc-10-dev \
-                libicu-dev \
-                libstdc++-10-dev \
-                libstdc++6 \
-                linux-libc-dev \
-                zlib1g-dev \
-                libcurl4-openssl-dev \
-                libxml2-dev \
-                libsystemd-dev \
-        "
+        RASPIOS_VERSION="2025-05-06"
+        RASPIOS_URL=https://downloads.raspberrypi.com/raspios_oldstable_lite_armhf/images/raspios_oldstable_lite_armhf-2025-05-07
+        INSTALL_GCC_VERSION=10
         ;;
     "jammy" | "bookworm")
-        RASPIOS_VERSION="2024-11-19"
+        RASPIOS_VERSION="2025-05-13"
         RASPIOS_URL=https://downloads.raspberrypi.com/raspios_lite_armhf/images/raspios_lite_armhf-$RASPIOS_VERSION
-        INSTALL_DEPS_CMD=" \
-            apt-get update && \
-            apt-get install -y \
-                libc6-dev \
-                libgcc-12-dev \
-                libicu-dev \
-                libstdc++-12-dev \
-                libstdc++6 \
-                linux-libc-dev \
-                zlib1g-dev \
-                libcurl4-openssl-dev \
-                libxml2-dev \
-                libsystemd-dev \
-        "
+        INSTALL_GCC_VERSION=12
         ;;
     "mantic" | "noble")
-        INSTALL_DEPS_CMD=" \
-            apt-get update && \
-            apt-get install -y \
-                libc6-dev \
-                libgcc-13-dev \
-                libicu-dev \
-                libstdc++-13-dev \
-                libstdc++6 \
-                linux-libc-dev \
-                zlib1g-dev \
-                libcurl4-openssl-dev \
-                libxml2-dev \
-                libsystemd-dev \
-        "
+        INSTALL_GCC_VERSION=13
+        ;;
+    "trixie")
+        INSTALL_GCC_VERSION=14
         ;;
     *)
         echo "Unsupported distribution $DISTRIBUTION!"
@@ -90,6 +41,21 @@ case $DISTRIUBTION_VERSION in
         exit
         ;;
 esac
+
+INSTALL_DEPS_CMD=" \
+    apt-get update && \
+    apt-get install -y \
+        libc6-dev \
+        libgcc-$INSTALL_GCC_VERSION-dev \
+        libicu-dev \
+        libstdc++-$INSTALL_GCC_VERSION-dev \
+        libstdc++6 \
+        linux-libc-dev \
+        zlib1g-dev \
+        libcurl4-openssl-dev \
+        libxml2-dev \
+        libsystemd-dev \
+"
 
 if [[ $DISTRIBUTION_NAME = "raspios" ]]; then
     INSTALL_DEPS_CMD="$INSTALL_DEPS_CMD symlinks"
