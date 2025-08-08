@@ -43,7 +43,6 @@ case $DISTRIUBTION_VERSION in
 esac
 
 INSTALL_DEPS_CMD=" \
-    apt-get update && \
     apt-get install -y \
         libc6-dev \
         libgcc-$INSTALL_GCC_VERSION-dev \
@@ -95,6 +94,9 @@ if [[ $DISTRIBUTION_NAME = "raspios" ]]; then
     sudo mount --bind /sys sysroot/sys
 
     echo "Starting chroot to update dependencies & fix symlinks..."
+    sudo cp /usr/bin/qemu-arm-static sysroot/usr/bin
+
+    echo "Removing unneeded packages..."
     REMOVE_DEPS_CMD="apt-get remove -y --purge \
         apparmor \
         bluez \
@@ -109,8 +111,12 @@ if [[ $DISTRIBUTION_NAME = "raspios" ]]; then
         rpi* \
         libqt5core5a \
     "
-    sudo cp /usr/bin/qemu-arm-static sysroot/usr/bin
-    sudo chroot sysroot qemu-arm-static /bin/bash -c "$REMOVE_DEPS_CMD && $INSTALL_DEPS_CMD && apt-get autoremove -y"
+    sudo chroot sysroot qemu-arm-static /bin/bash -c "$REMOVE_DEPS_CMD && apt-get autoremove -y"
+    echo "Upgrading system packages..."
+    sudo chroot sysroot qemu-arm-static /bin/bash -c "apt-get update && apt-get full-upgrade -y -o Dpkg::Options::=\"--force-confnew\""
+    echo "Installing needed dependencies..."
+    sudo chroot sysroot qemu-arm-static /bin/bash -c "$INSTALL_DEPS_CMD"
+    echo "Fixing broken symlinks..."
     sudo chroot sysroot qemu-arm-static /bin/bash -c "apt list --installed && symlinks -cr /usr/include && symlinks -cr /usr/lib"
 
     echo "Copying files from sysroot to $SYSROOT..."
@@ -146,7 +152,7 @@ else
         --platform linux/armhf \
         --name $CONTAINER_NAME \
         $DISTRIBUTION \
-        /bin/bash -c "$INSTALL_DEPS_CMD"
+        /bin/bash -c "apt-get update && $INSTALL_DEPS_CMD"
 
     echo "Extracting sysroot folders to $SYSROOT"
     rm -rf $SYSROOT
