@@ -18,9 +18,11 @@ The following Linux distributions are currently supported:
 - Raspberry Pi OS (armv6 & armv7)
    - 11: Bullseye
    - 12: Bookworm
+   - 13: Trixie
 - Debian (armv7 only)
    - 11: Bullseye
    - 12: Bookworm
+   - 13: Trixie
 - Ubuntu (armv7 only)
    - 20.04: Focal
    - 22.04: Jammy
