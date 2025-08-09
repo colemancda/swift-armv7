@@ -25,6 +25,10 @@ on:
           - ubuntu-noble
           - debian-bullseye
           - debian-bookworm
+          - debian-trixie
+          - raspios-bullseye
+          - raspios-bookworm
+          - raspios-trixie
 
 jobs:
   nightly:

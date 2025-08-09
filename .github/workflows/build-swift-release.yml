@@ -28,6 +28,7 @@ jobs:
         distribution: [
           "debian-bullseye",
           "debian-bookworm",
+          "debian-trixie",
           "ubuntu-focal",
           "ubuntu-jammy",
           "ubuntu-noble"
@@ -65,7 +66,8 @@ jobs:
       matrix:
         distribution-version: [
           "bullseye",
-          "bookworm"
+          "bookworm",
+          "trixie"
         ]
         swift-target-arch: ["armv6", "armv7"]
     name: Build for RaspiOS
