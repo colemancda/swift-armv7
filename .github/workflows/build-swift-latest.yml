@@ -15,7 +15,7 @@ jobs:
         distribution: ["debian-trixie"]
         include:
           - swift-target-arch: "armv6"
-            distribution: "raspios-bookworm"
+            distribution: "raspios-trixie"
     env:
       SWIFT_VERSION: "6.1.2"
       SWIFT_TAG: swift-6.1.2-RELEASE
