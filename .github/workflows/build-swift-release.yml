@@ -2,11 +2,11 @@ name: Build Swift Release
 
 on:
   push:
-    branches: [ "release/6.1.2" ]
+    branches: [ "release/6.2.3" ]
 
 env:
-  SWIFT_VERSION: "6.1.2"
-  SWIFT_TAG: swift-6.1.2-RELEASE
+  SWIFT_VERSION: "6.2.3"
+  SWIFT_TAG: swift-6.2.3-RELEASE
   SWIFT_WORKSPACE_CACHE: swift-workspace
 
 jobs:
@@ -28,12 +28,15 @@ jobs:
         distribution: [
           "debian-bullseye",
           "debian-bookworm",
+          "debian-trixie",
           "ubuntu-focal",
           "ubuntu-jammy",
           "ubuntu-noble"
         ]
     name: Build for armv7
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs: [fetch-sources]
     steps:
     - uses: actions/checkout@v4
@@ -57,7 +60,18 @@ jobs:
         commit: ${{ github.sha }}
         artifactErrorsFailBuild: true
         artifacts: "*.tar.gz"
-        body: "See the [README](https://github.com/xtremekforever/swift-armv7#continuous-integration) for more information on build artifacts."
+        body: |
+          Contains Swift 6.2.x built for various distributions 🎉 The following modules are included for **armv6** / **armv7**:
+
+          - Essential Modules: `Swift`, `Glibc`, `Dispatch`, `Concurrency`, `Synchronization`
+          - Foundation: `Foundation`, `Essentials`, `Internalization`, `Networking`, `XML`, `Collections`
+          - C++ Interop: `Cxx`, `CxxStdlib`
+          - Testing: `XCTest`, `Testing`
+          - Optional Modules: `BlocksRuntime`, `Distributed`, `Differentiation`, `Observation`, `StringProcessing`, `RegexBuilder`, `RegexParser`, `RemoteMirror`, `SwiftOnoneSupport`
+
+          Also contains all the same modules for static linking with `--static-swift-stdlib`.
+
+          See the [README](https://github.com/swift-embedded-linux/armhf-debian?tab=readme-ov-file#continuous-integration--artifacts) for more information on build artifacts.
 
   build-for-raspios:
     strategy:
@@ -65,11 +79,14 @@ jobs:
       matrix:
         distribution-version: [
           "bullseye",
-          "bookworm"
+          "bookworm",
+          "trixie"
         ]
         swift-target-arch: ["armv6", "armv7"]
     name: Build for RaspiOS
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs: [fetch-sources]
     steps:
     - uses: actions/checkout@v4
@@ -95,4 +112,15 @@ jobs:
         commit: ${{ github.sha }}
         artifactErrorsFailBuild: false
         artifacts: "*.tar.gz"
-        body: "See the [README](https://github.com/xtremekforever/swift-armv7#continuous-integration) for more information on build artifacts."
+        body: |
+          Contains Swift 6.2.x built for various distributions 🎉 The following modules are included for **armv6** / **armv7**:
+
+          - Essential Modules: `Swift`, `Glibc`, `Dispatch`, `Concurrency`, `Synchronization`
+          - Foundation: `Foundation`, `Essentials`, `Internalization`, `Networking`, `XML`, `Collections`
+          - C++ Interop: `Cxx`, `CxxStdlib`
+          - Testing: `XCTest`, `Testing`
+          - Optional Modules: `BlocksRuntime`, `Distributed`, `Differentiation`, `Observation`, `StringProcessing`, `RegexBuilder`, `RegexParser`, `RemoteMirror`, `SwiftOnoneSupport`
+
+          Also contains all the same modules for static linking with `--static-swift-stdlib`.
+
+          See the [README](https://github.com/swift-embedded-linux/armhf-debian?tab=readme-ov-file#continuous-integration--artifacts) for more information on build artifacts.

@@ -8,7 +8,7 @@ if [ $STATIC_SWIFT_STDLIB ]; then
     STATIC="Static"
 else
     # Only build tests when not building statically
-    PARAMS="--build-tests -Xswiftc -enable-testing"
+    PARAMS="--build-tests"
 fi
 
 echo "Cross compile Swift package $PARAMS"
@@ -19,5 +19,4 @@ $SWIFT_NATIVE_PATH/swift build \
     --configuration ${SWIFTPM_CONFIGURATION} \
     --scratch-path ${SWIFT_PACKAGE_BUILDDIR}${STATIC_SUFFIX} \
     --destination ${SWIFTPM_DESTINATION_FILE} \
-    -Xswiftc -cxx-interoperability-mode=default \
     $PARAMS

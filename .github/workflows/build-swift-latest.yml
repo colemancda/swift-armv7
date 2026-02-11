@@ -2,9 +2,10 @@ name: Build Swift Latest
 
 on:
   push:
-    branches: [ "main", "feature/**" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build-latest:
@@ -12,13 +13,13 @@ jobs:
       fail-fast: false
       matrix:
         swift-target-arch: ["armv7"]
-        distribution: ["debian-bookworm"]
+        distribution: ["debian-trixie"]
         include:
           - swift-target-arch: "armv6"
-            distribution: "raspios-bookworm"
+            distribution: "raspios-trixie"
     env:
-      SWIFT_VERSION: "6.1.2"
-      SWIFT_TAG: swift-6.1.2-RELEASE
+      SWIFT_VERSION: "6.2.3"
+      SWIFT_TAG: swift-6.2.3-RELEASE
     name: Build Swift
     runs-on: ubuntu-latest
     steps:

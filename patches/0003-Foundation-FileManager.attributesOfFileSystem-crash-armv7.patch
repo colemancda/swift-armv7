@@ -1,0 +1,30 @@
+From 4d072beec765f2972fe9af6a807967519f8e8c03 Mon Sep 17 00:00:00 2001
+From: "Jesse L. Zamora" <xtremekforever@gmail.com>
+Date: Fri, 6 Feb 2026 11:14:33 -0500
+Subject: [PATCH] Fix for FileManager.attributesOfFileSystem crash on armv7
+
+---
+ .../FileManager/FileManager+Files.swift                     | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Sources/FoundationEssentials/FileManager/FileManager+Files.swift b/Sources/FoundationEssentials/FileManager/FileManager+Files.swift
+index b2666cc..d127923 100644
+--- a/Sources/FoundationEssentials/FileManager/FileManager+Files.swift
++++ b/Sources/FoundationEssentials/FileManager/FileManager+Files.swift
+@@ -741,10 +741,10 @@ extension _FileManagerImpl {
+             let blockSize = UInt64(result.f_bsize)
+             #else
+             let fsNumber = result.f_fsid
+-            let blockSize = UInt(result.f_frsize)
++            let blockSize = UInt64(result.f_frsize)
+             #endif
+-            var totalSizeBytes = result.f_blocks * blockSize
+-            var availSizeBytes = result.f_bavail * blockSize
++            var totalSizeBytes = UInt64(result.f_blocks) * blockSize
++            var availSizeBytes = UInt64(result.f_bavail) * blockSize
+             var totalFiles = result.f_files
+             var availFiles = result.f_ffree
+             
+-- 
+2.52.0
+

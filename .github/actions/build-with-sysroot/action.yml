@@ -70,9 +70,7 @@ runs:
         xtremekforever/swift-builder:${{ inputs.builder-tag }} \
         swift build -c release \
           --package-path swift-hello \
-          --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}.json \
-          -Xswiftc -cxx-interoperability-mode=default \
-          -Xswiftc -enable-testing
+          --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}.json
       cp ${{ github.workspace }}/swift-hello/.build/release/swift-hello ${{ github.workspace }}/artifacts/swift-hello
   - name: Test Static SDK for Linux
     shell: bash
@@ -84,7 +82,6 @@ runs:
         swift build -c release \
           --package-path swift-hello \
           --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}-static.json \
-          -Xswiftc -cxx-interoperability-mode=default \
           --static-swift-stdlib
       cp ${{ github.workspace }}/swift-hello/.build/release/swift-hello ${{ github.workspace }}/artifacts/swift-hello-static
   - uses: actions/upload-artifact@v4

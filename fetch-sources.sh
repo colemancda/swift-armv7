@@ -2,14 +2,13 @@
 set -e
 source swift-define
 
-mkdir -p ./downloads
+DOWNLOAD_DIR=$(pwd)/downloads
+
+mkdir -p $DOWNLOAD_DIR
 
 # Fetch sources
-cd ./downloads
+cd $DOWNLOAD_DIR
 if [[ -d "$SWIFT_SRCDIR" ]]; then
-    cd swift-corelibs-foundation
-    git stash
-
     echo "$SWIFT_SRCDIR exists"
     cd $SWIFT_SRCDIR
     git stash
@@ -64,11 +63,19 @@ fi
     --skip-repository zlib \
 
 # Apply patches
-echo "Apply CXX interop patch"
-patch -d . -p1 <$SRC_ROOT/patches/0002-Add-arm-to-float16support-for-missing-symbol.patch
+echo "Apply Float16Support patch"
+patch -d . -p1 --forward <$SRC_ROOT/patches/0002-Add-arm-to-float16support-for-missing-symbol.patch || true
 
 if [[ $SWIFT_VERSION == *"5.9"* ]] || [[ $SWIFT_VERSION == *"5.10-"* ]]; then
     echo "Apply Foundation strlcpy/strlcat patch"
     cd ../swift-corelibs-foundation
+    git stash
     patch -d . -p1 <$SRC_ROOT/patches/0002-Foundation-check-for-strlcpy-strlcat.patch
+fi
+
+if [[ $SWIFT_VERSION == *"6."* ]] && [ -d $DOWNLOAD_DIR/swift-foundation ]; then
+    echo "Apply Foundation FileManager.attributesOfFileSystem patch"
+    cd ../swift-foundation
+    git stash
+    patch -d . -p1 <$SRC_ROOT/patches/0003-Foundation-FileManager.attributesOfFileSystem-crash-armv7.patch
 fi
