@@ -31,6 +31,7 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && \
     uuid-dev                \
     zip                     \
     wget                    \
+    qemu-user               \
     && rm -r /var/lib/apt/lists/*
 
 # Get latest cmake

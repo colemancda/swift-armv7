@@ -2,11 +2,11 @@ name: Build Swift Release
 
 on:
   push:
-    branches: [ "release/6.2.3" ]
+    branches: [ "release/6.2.4" ]
 
 env:
-  SWIFT_VERSION: "6.2.3"
-  SWIFT_TAG: swift-6.2.3-RELEASE
+  SWIFT_VERSION: "6.2.4"
+  SWIFT_TAG: swift-6.2.4-RELEASE
   SWIFT_WORKSPACE_CACHE: swift-workspace
 
 jobs:
@@ -71,6 +71,8 @@ jobs:
 
           Also contains all the same modules for static linking with `--static-swift-stdlib`.
 
+          NOTE: This release also contains support fixes for large filesystems and files on armhf (#10 and #12).
+
           See the [README](https://github.com/swift-embedded-linux/armhf-debian?tab=readme-ov-file#continuous-integration--artifacts) for more information on build artifacts.
 
   build-for-raspios:
@@ -122,5 +124,7 @@ jobs:
           - Optional Modules: `BlocksRuntime`, `Distributed`, `Differentiation`, `Observation`, `StringProcessing`, `RegexBuilder`, `RegexParser`, `RemoteMirror`, `SwiftOnoneSupport`
 
           Also contains all the same modules for static linking with `--static-swift-stdlib`.
+
+          NOTE: This release also contains support fixes for large filesystems and files on armhf (#10 and #12).
 
           See the [README](https://github.com/swift-embedded-linux/armhf-debian?tab=readme-ov-file#continuous-integration--artifacts) for more information on build artifacts.

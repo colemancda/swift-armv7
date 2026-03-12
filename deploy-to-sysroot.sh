@@ -17,7 +17,7 @@ cp -rf ${LIBDISPATCH_STATIC_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
 echo "Install Foundation Static to sysroot"
 cp -rf ${FOUNDATION_STATIC_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
 
-if [ -d SWIFT_TESTING_INSTALL_PREFIX ]; then
+if [ -d $SWIFT_TESTING_INSTALL_PREFIX ]; then
     echo "Install Testing to sysroot"
     cp -rf ${SWIFT_TESTING_INSTALL_PREFIX}/* ${STAGING_DIR}/usr/
 fi

@@ -61,29 +61,13 @@ runs:
       SYSROOT=${{ inputs.sysroot-name }} \
       TARGET_ARCH=${{ inputs.swift-target-arch }} \
         ./build-linux-cross-sdk.sh ${{ inputs.swift-tag }} ${{ inputs.distribution }}
-  - name: Test SDK for Linux
+  - name: Copy Artifacts
     shell: bash
-    env:
-      SDK_NAME: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-${{ inputs.swift-target-arch }}
     run: |
-      docker run --rm --user runner --workdir ${{ github.workspace }} -v $HOME:$HOME -v ${{ github.workspace }}/artifacts:/opt \
-        xtremekforever/swift-builder:${{ inputs.builder-tag }} \
-        swift build -c release \
-          --package-path swift-hello \
-          --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}.json
-      cp ${{ github.workspace }}/swift-hello/.build/release/swift-hello ${{ github.workspace }}/artifacts/swift-hello
-  - name: Test Static SDK for Linux
-    shell: bash
-    env:
-      SDK_NAME: ${{ inputs.swift-tag }}-${{ inputs.distribution }}-${{ inputs.swift-target-arch }}
-    run: |
-      docker run --rm --user runner --workdir ${{ github.workspace }} -v $HOME:$HOME -v ${{ github.workspace }}/artifacts:/opt \
-        xtremekforever/swift-builder:${{ inputs.builder-tag }} \
-        swift build -c release \
-          --package-path swift-hello \
-          --destination /opt/${{ env.SDK_NAME }}/${{ inputs.distribution }}-static.json \
-          --static-swift-stdlib
-      cp ${{ github.workspace }}/swift-hello/.build/release/swift-hello ${{ github.workspace }}/artifacts/swift-hello-static
+      mkdir -p artifacts
+      cp build/swift-hello-${{ inputs.swift-target-arch }}/release/swift-hello artifacts/
+      cp build/swift-hello-${{ inputs.swift-target-arch }}/release/*.xctest artifacts/
+      cp build/swift-hello-${{ inputs.swift-target-arch }}-static/release/swift-hello artifacts/swift-hello-static
   - uses: actions/upload-artifact@v4
     name: Publish
     with:
@@ -93,3 +77,23 @@ runs:
         ${{ inputs.swift-tag }}*-${{ inputs.swift-target-arch }}-install.tar.gz
         ${{ inputs.swift-tag }}*-${{ inputs.swift-target-arch }}-sdk.tar.gz
         artifacts/swift-hello*
+  - name: Install Host Dependencies
+    shell: bash
+    run: |
+      sudo apt-get update
+      sudo apt-get install -y qemu-user
+  - name: Run Test Binaries
+    shell: bash
+    run: |
+      SWIFT_VERSION=${{ inputs.swift-tag }} \
+      STAGING_DIR=$(pwd)/${{ inputs.sysroot-name }} \
+      SWIFT_TARGET_ARCH=${{ inputs.swift-target-arch }} \
+        ./run-swift-hello.sh
+  - name: Run Static Test Binaries
+    shell: bash
+    run: |
+      STATIC_SWIFT_STDLIB=1 \
+      SWIFT_VERSION=${{ inputs.swift-tag }} \
+      STAGING_DIR=$(pwd)/${{ inputs.sysroot-name }} \
+      SWIFT_TARGET_ARCH=${{ inputs.swift-target-arch }} \
+        ./run-swift-hello.sh

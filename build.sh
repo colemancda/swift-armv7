@@ -23,8 +23,8 @@ fi
 # Cleanup previous build
 rm -rf $STAGING_DIR/usr/lib/swift*
 
-# Build LLVM
-./build-llvm.sh
+# Configure LLVM
+./configure-llvm.sh
 
 # This is required for cross-compiling dispatch, foundation, etc
 ./create-cmake-toolchain.sh
