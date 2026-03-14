@@ -32,9 +32,8 @@ import Foundation
         defer {
             try? fileHandle.close()
         }
-        let data = Data(count: Int(Int32.max >> 1) - 1)  // as many bytes as we can fit in Data
-        try fileHandle.write(contentsOf: data)  // write once to get to 1GB
-        try fileHandle.write(contentsOf: data)  // write twice to get to 2GB
+        let fileSizeInBytes: UInt64 = 2 * 1024 * 1024 * 1024  // 2GB
+        fileHandle.truncateFile(atOffset: fileSizeInBytes)
         try fileHandle.write(contentsOf: "This should go beyond 2GB".data(using: .utf8)!)  // write a little more to go beyond 2GB
 
         // Print info for verification
