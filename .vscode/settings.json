@@ -1,1 +1,7 @@
-{}
+{
+     "files.watcherExclude": {
+        "**/build/**": true,
+        "**/downloads/**": true,
+        "**/sysroot*/**": true
+    }
+}

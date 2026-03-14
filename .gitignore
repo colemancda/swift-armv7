@@ -5,6 +5,6 @@ llvm*
 .config
 .build*
 .swiftpm
-.vscode
+.vscode/launch.json
 sysroot*/
 artifacts/
