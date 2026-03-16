@@ -8,3 +8,4 @@ llvm*
 .vscode/launch.json
 sysroot*/
 artifacts/
+*.core

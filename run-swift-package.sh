@@ -6,6 +6,8 @@ source swift-define
 # NOTE: Run this directly on the host instead of through the builder container for best results.
 # I've seen that we get unexpected instruction errors inside of Docker when running qemu-arm.
 
+ulimit -c unlimited
+
 EXECUTABLE=$1
 EXECUTABLE_ARGS=${@:2}
 
