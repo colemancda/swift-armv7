@@ -31,10 +31,12 @@ if [[ "$DOWNLOAD_SWIFT_RUNTIME" == "1" ]]; then
 fi
 
 if [[ -d "$STAGING_DIR/usr/lib" ]]; then
-    echo "Use existing Sysroot"
+    echo "Use sysroot at: $STAGING_DIR"
 else
     # Build Debian 12 sysroot
-    ./build-sysroot.sh debian bookworm
+    echo "Could not find a sysroot at $STAGING_DIR!"
+    echo "Please run './build-sysroot.sh <distro> <version>' to generate the sysroot, then pass that to STAGING_DIR and try again."
+    exit -1
 fi
 
 if [[ $OSTYPE == 'darwin'* ]]; then
