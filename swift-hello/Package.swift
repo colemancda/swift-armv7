@@ -15,7 +15,8 @@ let package = Package(
             name: "swift-hello",
             dependencies: [],
             swiftSettings: [
-                .interoperabilityMode(.Cxx)
+                // NOTE: .Cxx interop is broken again for tests in Swift 6.3. Disabling until we have a solution.
+                //.interoperabilityMode(.Cxx)
             ]
         ),
         .testTarget(
