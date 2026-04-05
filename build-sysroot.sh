@@ -13,6 +13,11 @@ if [ -z $SYSROOT ]; then
 fi
 SYSROOT=$(pwd)/$SYSROOT
 
+# These are only for armhf Debian sysroots. Expand to support more architectures if needed.
+MULTILIB_DIR=arm-linux-gnueabihf
+MULTILIB_LIBRARIES=(libc.so.6 libm.so.6 libpthread.so.0)
+MUTLILIB_LD=ld-linux-armhf.so.3
+
 DISTRIBUTION="$DISTRIBUTION_NAME:$DISTRIUBTION_VERSION"
 
 case $DISTRIUBTION_VERSION in
@@ -101,7 +106,7 @@ else
     echo "Starting up qemu emulation"
     docker run --privileged --rm tonistiigi/binfmt --install all
 
-    CONTAINER_NAME=swift-armhf-sysroot
+    CONTAINER_NAME=swift-armhf-sysroot-$DISTRIBUTION_VERSION
 
     echo "Building $DISTRIBUTION distribution for sysroot"
     docker rm --force $CONTAINER_NAME
@@ -113,8 +118,12 @@ else
 
     echo "Extracting sysroot folders to $SYSROOT"
     rm -rf $SYSROOT
-    mkdir -p $SYSROOT/usr
-    docker cp $CONTAINER_NAME:/lib $SYSROOT/lib
+    mkdir -p $SYSROOT/lib $SYSROOT/lib/$MULTILIB_DIR $SYSROOT/usr
+    docker cp $CONTAINER_NAME:/lib/$MULTILIB_DIR/$MUTLILIB_LD $SYSROOT/lib/$MULTILIB_DIR/$MUTLILIB_LD
+    docker cp $CONTAINER_NAME:/lib/$MUTLILIB_LD $SYSROOT/lib/$MUTLILIB_LD
+    for lib in "${MULTILIB_LIBRARIES[@]}"; do
+        docker cp $CONTAINER_NAME:/lib/$MULTILIB_DIR/$lib $SYSROOT/lib/$MULTILIB_DIR/$lib
+    done
     docker cp $CONTAINER_NAME:/usr/include $SYSROOT/usr/include
     docker cp $CONTAINER_NAME:/usr/lib $SYSROOT/usr/lib
 
