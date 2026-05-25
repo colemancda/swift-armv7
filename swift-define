@@ -1,5 +1,5 @@
 # Version
-SWIFT_VERSION=${SWIFT_VERSION:=swift-6.2.4-RELEASE}
+SWIFT_VERSION=${SWIFT_VERSION:=swift-6.3.2-RELEASE}
 SWIFT_TARGET_ARCH=${SWIFT_TARGET_ARCH:=armv7}
 
 case ${SWIFT_TARGET_ARCH} in
@@ -82,9 +82,13 @@ RUNTIME_FLAGS="-w -fuse-ld=lld --sysroot=${STAGING_DIR} --gcc-install-dir=${GCC_
 LINK_FLAGS="--sysroot=${STAGING_DIR} --gcc-install-dir=${GCC_INSTALL_DIR} -target ${SWIFT_TARGET_NAME} ${EXTRA_FLAGS}"
 ASM_FLAGS="--sysroot=${STAGING_DIR} -target ${SWIFT_TARGET_NAME}"
 
+for extra_flag in ${EXTRA_FLAGS}; do
+    SWIFTC_EXTRA_FLAGS+="-Xcc ${extra_flag} "
+done
+
 SWIFTC_FLAGS="-target ${SWIFT_TARGET_NAME} \
 -use-ld=lld \
 -sdk ${STAGING_DIR} \
 -resource-dir ${SWIFT_BUILDDIR}/lib/swift \
--Xcc -D_FILE_OFFSET_BITS=64 \
+${SWIFTC_EXTRA_FLAGS} \
 "

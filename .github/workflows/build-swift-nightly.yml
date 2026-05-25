@@ -13,7 +13,7 @@ on:
           - swift-6.0-branch
           - swift-6.1-branch
           - swift-6.2-branch
-          - swift-6.3-branch
+          - swift-6.3.2-branch
           - development
       distribution:
         description: 'Distribution'

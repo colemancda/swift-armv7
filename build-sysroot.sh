@@ -106,10 +106,10 @@ else
     echo "Building $DISTRIBUTION distribution for sysroot"
     docker rm --force $CONTAINER_NAME
     docker run \
-        --platform linux/armhf \
-        --name $CONTAINER_NAME \
-        $DISTRIBUTION \
-        /bin/bash -c "apt-get update && $INSTALL_DEPS_CMD"
+       --platform linux/armhf \
+       --name $CONTAINER_NAME \
+       $DISTRIBUTION \
+       /bin/bash -c "apt-get update && $INSTALL_DEPS_CMD"
 
     echo "Extracting sysroot folders to $SYSROOT"
     rm -rf $SYSROOT
@@ -120,14 +120,20 @@ else
 
     # Find broken links, re-copy
     cd $SYSROOT
-    BROKEN_LINKS=$(find . -xtype l)
+    pwd
+    if [[ $OSTYPE == 'darwin'* ]]; then
+        BROKEN_LINKS=$(find . -type l)
+    else
+        BROKEN_LINKS=$(find . -xtype l)
+    fi
     while IFS= read -r link; do
         # Ignore empty links
         if [ -z "${link}" ]; then continue; fi
 
-        echo "Replacing broken symlink: $link"
-        link=$(echo $link | sed '0,/./ s/.//')
-        docker cp -L $CONTAINER_NAME:$link $(dirname .$link)
+        link=$(echo $link | sed '1,/./ s/.//')
+        newdest=$(dirname .$link)
+        echo "Replacing broken symlink: $link, new dest: $newdest"
+        docker cp -L $CONTAINER_NAME:$link $newdest
     done <<< "$BROKEN_LINKS"
 
     echo "Cleaning up"
