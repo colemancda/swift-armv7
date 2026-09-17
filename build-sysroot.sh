@@ -5,17 +5,17 @@ set -e
 SRC_ROOT=$(pwd)
 
 DISTRIBUTION_NAME=$1
-DISTRIUBTION_VERSION=$2
+DISTRIBUTION_VERSION=$2
 SYSROOT=$3
 
 if [ -z $SYSROOT ]; then
-    SYSROOT=sysroot-$DISTRIBUTION_NAME-$DISTRIUBTION_VERSION
+    SYSROOT=sysroot-$DISTRIBUTION_NAME-$DISTRIBUTION_VERSION
 fi
 SYSROOT=$(pwd)/$SYSROOT
 
-DISTRIBUTION="$DISTRIBUTION_NAME:$DISTRIUBTION_VERSION"
+DISTRIBUTION="$DISTRIBUTION_NAME:$DISTRIBUTION_VERSION"
 
-case $DISTRIUBTION_VERSION in
+case $DISTRIBUTION_VERSION in
     "focal")
         INSTALL_GCC_VERSION=9
         ;;
@@ -72,10 +72,10 @@ if [[ $DISTRIBUTION_NAME = "raspios" ]]; then
     mkdir artifacts && true
     cd artifacts
 
-    SYSROOT_BUILD_DIR=sysroot-$DISTRIUBTION_VERSION
+    SYSROOT_BUILD_DIR=sysroot-$DISTRIBUTION_VERSION
 
-    echo "Building raspios sysroot for $DISTRIUBTION_VERSION..."
-    sudo debootstrap --arch armhf $DISTRIUBTION_VERSION $SYSROOT_BUILD_DIR http://raspbian.raspberrypi.com/raspbian/
+    echo "Building raspios sysroot for $DISTRIBUTION_VERSION..."
+    sudo debootstrap --arch armhf $DISTRIBUTION_VERSION $SYSROOT_BUILD_DIR http://raspbian.raspberrypi.com/raspbian/
 
     echo "Setting up chroot for raspios sysroot..."
     sudo mount --bind /dev $SYSROOT_BUILD_DIR/dev
