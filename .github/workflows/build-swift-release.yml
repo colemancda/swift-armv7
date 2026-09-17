@@ -2,11 +2,11 @@ name: Build Swift Release
 
 on:
   push:
-    branches: [ "release/6.3.3" ]
+    branches: [ "release/6.4.0" ]
 
 env:
-  SWIFT_VERSION: "6.3.3"
-  SWIFT_TAG: swift-6.3.3-RELEASE
+  SWIFT_VERSION: "6.4.0"
+  SWIFT_TAG: swift-6.4.0-RELEASE
   SWIFT_WORKSPACE_CACHE: swift-workspace
 
 jobs:
@@ -31,7 +31,8 @@ jobs:
           "debian-trixie",
           "ubuntu-focal",
           "ubuntu-jammy",
-          "ubuntu-noble"
+          "ubuntu-noble",
+          "ubuntu-resolute",
         ]
     name: Build for armv7
     runs-on: ubuntu-latest
@@ -61,17 +62,17 @@ jobs:
         artifactErrorsFailBuild: true
         artifacts: "*.tar.gz"
         body: |
-          Contains Swift 6.3.x built for various distributions 🎉 The following modules are included for **armv6** / **armv7**:
+          Contains Swift 6.4.x built for various distributions 🎉 The following modules are included for **armv6** / **armv7**:
 
-          - Essential Modules: `Swift`, `Glibc`, `Dispatch`, `Concurrency`, `Synchronization`
-          - Foundation: `Foundation`, `Essentials`, `Internalization`, `Networking`, `XML`, `Collections`
+          - Essential Modules: `Swift`, `Glibc`, `Dispatch`, `Synchronization`, `Concurrency`, `Volatile`
+          - Foundation: `Foundation`, `FoundationEssentials`, `FoundationInternationalization`, `FoundationNetworking`, `FoundationXML`, `FoundationCollections`
           - C++ Interop: `Cxx`, `CxxStdlib`
-          - Testing: `XCTest`, `Testing`
+          - Testing: `XCTest`, `Testing`, `TestDiscovery`, `TestingInterop`, `TestingFoundation`
           - Optional Modules: `BlocksRuntime`, `Distributed`, `Differentiation`, `Observation`, `StringProcessing`, `RegexBuilder`, `RegexParser`, `RemoteMirror`, `SwiftOnoneSupport`
 
           Also contains all the same modules for static linking with `--static-swift-stdlib`.
 
-          NOTE: This release also contains support fixes for large filesystems and files on armhf (#10 and #12).
+          > NOTE: To compile with the included destination.json SDKs, you must use `--build-system native` with SwiftPM.
 
           See the [README](https://github.com/swift-embedded-linux/armhf-debian?tab=readme-ov-file#continuous-integration--artifacts) for more information on build artifacts.
 
@@ -115,16 +116,16 @@ jobs:
         artifactErrorsFailBuild: false
         artifacts: "*.tar.gz"
         body: |
-          Contains Swift 6.3.x built for various distributions 🎉 The following modules are included for **armv6** / **armv7**:
+          Contains Swift 6.4.x built for various distributions 🎉 The following modules are included for **armv6** / **armv7**:
 
-          - Essential Modules: `Swift`, `Glibc`, `Dispatch`, `Concurrency`, `Synchronization`
-          - Foundation: `Foundation`, `Essentials`, `Internalization`, `Networking`, `XML`, `Collections`
+          - Essential Modules: `Swift`, `Glibc`, `Dispatch`, `Synchronization`, `Concurrency`, `Volatile`
+          - Foundation: `Foundation`, `FoundationEssentials`, `FoundationInternationalization`, `FoundationNetworking`, `FoundationXML`, `FoundationCollections`
           - C++ Interop: `Cxx`, `CxxStdlib`
-          - Testing: `XCTest`, `Testing`
+          - Testing: `XCTest`, `Testing`, `TestDiscovery`, `TestingInterop`, `TestingFoundation`
           - Optional Modules: `BlocksRuntime`, `Distributed`, `Differentiation`, `Observation`, `StringProcessing`, `RegexBuilder`, `RegexParser`, `RemoteMirror`, `SwiftOnoneSupport`
 
           Also contains all the same modules for static linking with `--static-swift-stdlib`.
 
-          NOTE: This release also contains support fixes for large filesystems and files on armhf (#10 and #12).
+          > NOTE: To compile with the included destination.json SDKs, you must use `--build-system native` with SwiftPM.
 
           See the [README](https://github.com/swift-embedded-linux/armhf-debian?tab=readme-ov-file#continuous-integration--artifacts) for more information on build artifacts.
