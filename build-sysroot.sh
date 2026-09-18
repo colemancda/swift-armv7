@@ -21,6 +21,15 @@ case $DISTRIBUTION_VERSION in
         ;;
     "bullseye")
         INSTALL_GCC_VERSION=10
+
+        # Use snapshot for Debian 11 since it is EOL
+        INSTALL_DEPS_CMD=" \
+            printf '%s\\n' \
+                'deb [check-valid-until=no] http://snapshot.debian.org/archive/debian/20260824T000000Z/ bullseye main' \
+                'deb [check-valid-until=no] http://snapshot.debian.org/archive/debian-security/20260824T000000Z/ bullseye-security main' \
+                'deb [check-valid-until=no] http://snapshot.debian.org/archive/debian/20260824T000000Z/ bullseye-updates main' \
+                > /etc/apt/sources.list && \
+            "
         ;;
     "jammy" | "bookworm")
         INSTALL_GCC_VERSION=12
@@ -42,6 +51,8 @@ case $DISTRIBUTION_VERSION in
 esac
 
 INSTALL_DEPS_CMD=" \
+    $INSTALL_DEPS_CMD
+    apt-get update -y && \
     apt-get install -y \
         libc6-dev \
         libgcc-$INSTALL_GCC_VERSION-dev \
@@ -112,7 +123,7 @@ else
        --platform linux/armhf \
        --name $CONTAINER_NAME \
        $DISTRIBUTION \
-       /bin/bash -c "apt-get update && $INSTALL_DEPS_CMD"
+       /bin/bash -c "$INSTALL_DEPS_CMD"
 
     echo "Extracting sysroot folders to $SYSROOT"
     rm -rf $SYSROOT
