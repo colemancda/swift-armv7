@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z $SWIFT_VERSION ]; then
-    echo "You must provide a Swift version (such as 6.4.0) to this script!"
+    echo "You must provide a Swift version (such as 6.4.1) to this script!"
     exit -1
 fi
 
