@@ -35,7 +35,7 @@ jobs:
           "ubuntu-resolute",
         ]
     name: Build for armv7
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     needs: [fetch-sources]
@@ -87,7 +87,7 @@ jobs:
         ]
         swift-target-arch: ["armv6", "armv7"]
     name: Build for RaspiOS
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     needs: [fetch-sources]

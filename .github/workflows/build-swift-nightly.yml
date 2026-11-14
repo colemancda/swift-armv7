@@ -42,7 +42,7 @@ jobs:
       SWIFT_VERSION: ${{ inputs.branch }}
       SWIFT_WORKSPACE_CACHE: swift-workspace
     name: Build Swift Nigtly - ${{ inputs.branch }} / ${{ inputs.distribution }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v4
     - name: Get Latest Nightly Version
