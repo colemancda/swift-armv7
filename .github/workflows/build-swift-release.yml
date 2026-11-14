@@ -2,11 +2,11 @@ name: Build Swift Release
 
 on:
   push:
-    branches: [ "release/6.4.1" ]
+    branches: [ "release/6.4.2" ]
 
 env:
-  SWIFT_VERSION: "6.4.1"
-  SWIFT_TAG: swift-6.4.1-RELEASE
+  SWIFT_VERSION: "6.4.2"
+  SWIFT_TAG: swift-6.4.2-RELEASE
   SWIFT_WORKSPACE_CACHE: swift-workspace
 
 jobs:
