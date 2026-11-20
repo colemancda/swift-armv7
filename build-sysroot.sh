@@ -78,21 +78,47 @@ fi
 # This is for supporting armv6
 if [[ $DISTRIBUTION_NAME = "raspios" ]]; then
     echo "Installing host dependencies..."
-    sudo apt update && sudo apt install qemu-user-static debootstrap
+    sudo apt-get update
+    # Older hosts have a separate static package. On Ubuntu 26.04 (and
+    # Debian 13), qemu-user itself is static and drops the -static suffix.
+    if LC_ALL=C apt-cache policy qemu-user-static | grep -Eq 'Candidate: [^ (]'; then
+        sudo apt-get install -y qemu-user-static binfmt-support debootstrap
+        QEMU_ARM=/usr/bin/qemu-arm-static
+    else
+        sudo apt-get install -y qemu-user qemu-user-binfmt debootstrap
+        QEMU_ARM=/usr/bin/qemu-arm
+    fi
+    # Also handle transitional qemu-user-static packages without the old name.
+    if [ ! -x "$QEMU_ARM" ] && [ -x /usr/bin/qemu-arm ]; then
+        QEMU_ARM=/usr/bin/qemu-arm
+    fi
+    if [ ! -x "$QEMU_ARM" ]; then
+        echo "ARM user-mode emulator not found: $QEMU_ARM" >&2
+        exit 1
+    fi
 
-    mkdir artifacts && true
+    mkdir -p artifacts
     cd artifacts
 
     SYSROOT_BUILD_DIR=sysroot-$DISTRIBUTION_VERSION
 
     echo "Building raspios sysroot for $DISTRIBUTION_VERSION..."
-    sudo debootstrap --arch armhf $DISTRIBUTION_VERSION $SYSROOT_BUILD_DIR http://raspbian.raspberrypi.com/raspbian/
+    sudo debootstrap --foreign --arch armhf "$DISTRIBUTION_VERSION" "$SYSROOT_BUILD_DIR" http://raspbian.raspberrypi.com/raspbian/
 
     echo "Setting up chroot for raspios sysroot..."
+    # Keep the installed filename: older binfmt registrations refer to
+    # qemu-arm-static, while newer ones refer to qemu-arm.
+    sudo cp "$QEMU_ARM" "$SYSROOT_BUILD_DIR/usr/bin/"
+    if ! sudo chroot "$SYSROOT_BUILD_DIR" /bin/true; then
+        echo "Cannot execute ARM binaries in the chroot. Ensure the qemu-arm binfmt_misc registration is enabled on the host." >&2
+        echo "On systemd hosts, try: sudo systemctl restart systemd-binfmt" >&2
+        exit 1
+    fi
+    sudo chroot "$SYSROOT_BUILD_DIR" /debootstrap/debootstrap --second-stage
+
     sudo mount --bind /dev $SYSROOT_BUILD_DIR/dev
     sudo mount --bind /proc $SYSROOT_BUILD_DIR/proc
     sudo mount --bind /sys $SYSROOT_BUILD_DIR/sys
-    sudo cp /usr/bin/qemu-arm-static $SYSROOT_BUILD_DIR/usr/bin
 
     echo "Installing needed dependencies..."
     sudo chroot $SYSROOT_BUILD_DIR /bin/bash -c "$INSTALL_DEPS_CMD"

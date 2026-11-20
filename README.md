@@ -87,6 +87,18 @@ Things such as `STAGING_DIR`, `SWIFT_VERSION`, and `SWIFT_TARGET_ARCH` can also 
 STAGING_DIR=sysroot-raspios-bookworm SWIFT_VERSION=6.0 SWIFT_TARGET_ARCH=armv6 ./build-in-container.sh
 ```
 
+For Raspberry Pi OS sysroots, run `./build-sysroot.sh raspios bookworm` on
+a Debian/Ubuntu Linux host with sudo access. The script installs debootstrap
+and host-side ARM emulation packages automatically. On Ubuntu 26.04, it uses
+`qemu-user` (which provides the static `/usr/bin/qemu-arm` binary) and
+`qemu-user-binfmt` instead of the removed `qemu-user-static` package.
+Older hosts continue to use `/usr/bin/qemu-arm-static`. The script runs
+debootstrap in two stages, copying the emulator into the chroot before
+running the ARM second stage. ARM binfmt_misc registration must be enabled
+on the host; if the chroot execution check fails on a systemd host, try
+`sudo systemctl restart systemd-binfmt` and check that
+`/proc/sys/fs/binfmt_misc/qemu-arm` is enabled.
+
 ### Build Swift Runtime on Host
 
 To build the Swift runtime on the host, you must have a matching version of Swift installed. It is recommended to use [swiftly](https://github.com/swiftlang/swiftly) to make this simpler.
