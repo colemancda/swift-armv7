@@ -18,8 +18,8 @@ jobs:
           - swift-target-arch: "armv6"
             distribution: "raspios-trixie"
     env:
-      SWIFT_VERSION: "6.4.2"
-      SWIFT_TAG: swift-6.4.2-RELEASE
+      SWIFT_VERSION: "6.4.3"
+      SWIFT_TAG: swift-6.4.3-RELEASE
     name: Build Swift
     runs-on: ubuntu-24.04
     steps:
