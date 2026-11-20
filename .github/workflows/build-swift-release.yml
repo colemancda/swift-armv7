@@ -26,7 +26,6 @@ jobs:
       fail-fast: false
       matrix:
         distribution: [
-          "debian-bullseye",
           "debian-bookworm",
           "debian-trixie",
           "ubuntu-focal",
@@ -81,7 +80,6 @@ jobs:
       fail-fast: false
       matrix:
         distribution-version: [
-          "bullseye",
           "bookworm",
           "trixie"
         ]
